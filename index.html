@@ -1,1 +1,273 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>數位敘事 Longform Demo</title>
+  <meta name="description" content="單頁滑動式數位敘事網站，依序呈現文字與遊戲互動段落。" />
+  <style>
+    :root {
+      --bg: #0f1115;
+      --bg-soft: #171a21;
+      --text: #f5f7ff;
+      --muted: #b9c0d4;
+      --accent: #7aa2ff;
+      --border: rgba(255, 255, 255, 0.12);
+      --shadow: 0 14px 40px rgba(0, 0, 0, 0.28);
+      --section-pad-x: clamp(1rem, 4vw, 4rem);
+      --section-pad-y: clamp(2rem, 7vh, 5rem);
+      --read-width: min(68ch, 92vw);
+      --radius: clamp(12px, 2vw, 22px);
+      --ease: 420ms cubic-bezier(.2, .7, .2, 1);
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      line-height: 1.7;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 900px at 80% -10%, #22335f55 0%, transparent 50%),
+        radial-gradient(900px 700px at -10% 10%, #324a7650 0%, transparent 45%),
+        var(--bg);
+      min-width: 320px;
+      overflow-x: hidden;
+    }
+
+    main {
+      width: 100%;
+    }
+
+    section {
+      min-height: 100svh;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: var(--section-pad-y) var(--section-pad-x);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    .panel {
+      width: min(1200px, 100%);
+      margin-inline: auto;
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity var(--ease), transform var(--ease);
+    }
+
+    .panel.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero .panel {
+      width: min(960px, 100%);
+      text-align: center;
+      display: grid;
+      gap: clamp(0.8rem, 2vh, 1.4rem);
+      justify-items: center;
+    }
+
+    .kicker {
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: clamp(0.72rem, 0.5rem + 0.6vw, 0.95rem);
+      color: var(--accent);
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 4.6rem);
+      line-height: 1.15;
+      letter-spacing: 0.01em;
+      text-wrap: balance;
+    }
+
+    h2 {
+      font-size: clamp(1.2rem, 1rem + 1.2vw, 2.1rem);
+      line-height: 1.35;
+      margin-bottom: clamp(1rem, 2vh, 1.4rem);
+      text-wrap: balance;
+    }
+
+    p {
+      font-size: clamp(1rem, 0.92rem + 0.38vw, 1.22rem);
+      color: var(--muted);
+    }
+
+    .scroll-hint {
+      margin-top: clamp(0.8rem, 2vh, 1.3rem);
+      font-size: 0.95rem;
+      color: #d5ddf5;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      letter-spacing: 0.02em;
+    }
+
+    .scroll-hint::after {
+      content: "";
+      width: 1px;
+      height: 2.6rem;
+      background: linear-gradient(to bottom, #d5ddf5, transparent);
+      animation: hint 1.8s ease-in-out infinite;
+      transform-origin: top;
+    }
+
+    @keyframes hint {
+      0%, 100% { transform: scaleY(0.25); opacity: 0.35; }
+      50% { transform: scaleY(1); opacity: 1; }
+    }
+
+    .text-section .panel {
+      width: var(--read-width);
+      display: grid;
+      gap: 1rem;
+    }
+
+    .game-section .panel {
+      display: grid;
+      gap: clamp(0.8rem, 2vh, 1.2rem);
+    }
+
+    .game-note {
+      max-width: min(70ch, 100%);
+      color: #d0d8ee;
+      font-size: clamp(0.95rem, 0.9rem + 0.24vw, 1.08rem);
+    }
+
+    .game-frame {
+      width: 100%;
+      margin-inline: auto;
+      height: clamp(300px, 76vh, 900px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--bg-soft);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      display: grid;
+      place-items: stretch;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #111;
+    }
+
+    @media (max-width: 767px) {
+      .game-frame {
+        height: clamp(280px, 64vh, 620px);
+      }
+
+      section {
+        padding-top: clamp(1.8rem, 7vh, 3.2rem);
+        padding-bottom: clamp(1.8rem, 8vh, 3.6rem);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="panel">
+        <span class="kicker">Digital Narrative</span>
+        <h1>互動敘事旅程</h1>
+        <p>結合段落文字與遊戲互動，透過垂直滑動展開一段完整的數位敘事體驗。</p>
+        <div class="scroll-hint">向下滑動開始</div>
+      </div>
+    </section>
+
+    <section class="text-section">
+      <article class="panel">
+        <h2>文字一｜旅程的開端</h2>
+        <p>這是一段示意文案，用來填滿第一個敘事段落。你可以在這裡放入背景脈絡、人物登場，或是引導讀者理解即將進入的互動場景。段落長度可依需求增減，版面會自動維持舒適閱讀寬度。</p>
+        <p>Longform 形式適合讓讀者在捲動時逐步接收資訊，先閱讀、再互動，形成節奏明確的敘事流。後續你可以把這些文字替換成正式內容，保留整體架構即可快速上線。</p>
+      </article>
+    </section>
+
+    <section class="game-section">
+      <div class="panel">
+        <h2>遊戲一</h2>
+        <p class="game-note">在第一段互動中，讀者可以透過即時操作理解核心概念。下方 iframe 會載入 <code>games/game1/index.html</code>。</p>
+        <div class="game-frame">
+          <iframe src="games/game1/index.html" title="遊戲一"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="text-section">
+      <article class="panel">
+        <h2>文字二｜轉折與選擇</h2>
+        <p>第二段示意文案可用來承接上一個遊戲結果，描述角色處境或系統變化。你可以加入提問、對照、關鍵數據，讓讀者在心理上完成從體驗到反思的轉換。</p>
+        <p>若內容較長，建議維持 2-4 段為一個 section，讓單次閱讀量不會過載，同時保留滑動敘事的節奏感。</p>
+      </article>
+    </section>
+
+    <section class="game-section">
+      <div class="panel">
+        <h2>遊戲二</h2>
+        <p class="game-note">第二個遊戲區塊可放入更進階的互動挑戰，延伸故事衝突。下方 iframe 會載入 <code>games/game2/index.html</code>。</p>
+        <div class="game-frame">
+          <iframe src="games/game2/index.html" title="遊戲二"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="text-section">
+      <article class="panel">
+        <h2>文字三｜理解加深</h2>
+        <p>第三段示意文案可加入更多觀點：例如角色動機、世界規則，或讀者剛才互動後帶來的影響。這裡也是建立情緒層次的好位置，讓最後一段遊戲更有投入感。</p>
+        <p>你可以視專案需求加上圖片、數據圖、或引言區塊；既有版型會保持同樣的視覺語言，避免敘事中斷。</p>
+      </article>
+    </section>
+
+    <section class="game-section">
+      <div class="panel">
+        <h2>遊戲三</h2>
+        <p class="game-note">第三個互動作為敘事高潮或收束，整合前面資訊。下方 iframe 會載入 <code>games/game3/index.html</code>。</p>
+        <div class="game-frame">
+          <iframe src="games/game3/index.html" title="遊戲三"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="text-section">
+      <article class="panel">
+        <h2>文字四｜結語與延伸</h2>
+        <p>最後一段示意文案可作為總結，回收前面鋪陳的主題，也可以提供延伸閱讀、下一章節連結，或行動提示。若需要，你還能在此加入製作團隊資訊與資料來源。</p>
+        <p>至此，整個單頁 longform 架構已完整：標題、文字、遊戲交錯呈現，並兼顧桌機與行動裝置的瀏覽體驗。</p>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const panels = document.querySelectorAll('.panel');
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+          }
+        });
+      }, {
+        threshold: 0.2,
+      });
+
+      panels.forEach((panel) => io.observe(panel));
+    })();
+  </script>
+</body>
+</html>
