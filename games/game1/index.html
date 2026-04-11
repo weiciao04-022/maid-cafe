@@ -59,7 +59,7 @@
     document.querySelectorAll('button').forEach((btn) => {
       btn.addEventListener('click', () => {
         if (btn.dataset.answer === '2') {
-          msg.textContent = '主人，可以繼續往下滑了。';
+          msg.textContent = '答對了！已解鎖下一段內容。';
           window.parent.postMessage({ type: 'game-complete', game: 1 }, '*');
         } else {
           msg.textContent = '再試一次，主人♡';
