@@ -7,15 +7,15 @@
   <meta name="description" content="女僕咖啡廳主題 longform 網頁，完成每段小遊戲後才能繼續閱讀。" />
   <style>
     :root {
-      --bg: #fff5fb;
+      --bg: #1d1f28;
       --bg-soft: #fff;
-      --text: #593a46;
-      --muted: #87616f;
-      --accent: #f47bb1;
-      --line: rgba(238, 149, 186, 0.28);
-      --gold: #e6c36a;
-      --rose: #f7a9c8;
-      --rose-soft: #ffd9ea;
+      --text: #fff8ff;
+      --muted: #ffe8f2;
+      --accent: #ff8fbe;
+      --line: rgba(255, 219, 230, 0.35);
+      --gold: #f1d89a;
+      --rose: #ff9ec8;
+      --rose-soft: #ffdced;
       --shadow: 0 18px 40px rgba(181, 101, 136, 0.2);
       --radius: 24px;
     }
@@ -27,10 +27,13 @@
       font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(1200px 520px at 50% -12%, #ffe4f2 0%, transparent 62%),
-        radial-gradient(760px 360px at 10% 14%, #ffd6e9c9 0%, transparent 58%),
-        radial-gradient(760px 360px at 90% 14%, #ffd6e9c9 0%, transparent 58%),
-        linear-gradient(180deg, #fff9fd 0%, #fff2f8 48%, #ffeff7 100%),
+        repeating-linear-gradient(135deg, #1b1e27 0 14px, #2a2e3a 14px 28px),
+        repeating-linear-gradient(45deg, #1b1e27 0 14px, #2a2e3a 14px 28px),
+        repeating-linear-gradient(90deg, transparent 0 90px, #f8ebdd 90px 98px, transparent 98px 188px),
+        repeating-linear-gradient(0deg, transparent 0 90px, #f8ebdd 90px 98px, transparent 98px 188px),
+        radial-gradient(circle at 30% 30%, #a40f18 0 22%, transparent 22%),
+        radial-gradient(circle at 70% 70%, #a40f18 0 22%, transparent 22%),
+        linear-gradient(180deg, #7e0d13 0%, #8d0f16 100%),
         var(--bg);
       overflow-x: hidden;
       position: relative;
@@ -39,7 +42,7 @@
     section {
       min-height: auto;
       display: block;
-      padding: clamp(1.1rem, 2.6vw, 2.2rem) clamp(1rem, 4vw, 3rem);
+      padding: clamp(1.1rem, 2.6vw, 2.2rem) clamp(1.3rem, 8vw, 7rem);
       position: relative;
       z-index: 2;
     }
@@ -47,11 +50,13 @@
     .hero-card,
     .text-card,
     .quiz-card {
-      width: min(760px, 92vw);
-      background: transparent;
-      border: 0;
-      box-shadow: none;
-      padding: clamp(1.2rem, 3vw, 2rem) clamp(0.25rem, 1vw, 0.75rem);
+      width: min(980px, 100%);
+      background: rgba(0, 0, 0, 0.44);
+      border: 1px solid rgba(255, 221, 232, 0.25);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+      border-radius: 14px;
+      backdrop-filter: blur(1px);
+      padding: clamp(1.2rem, 3vw, 2rem) clamp(1rem, 2vw, 1.4rem);
       display: grid;
       gap: 0.9rem;
       margin-inline: auto;
@@ -66,17 +71,17 @@
       text-align: center;
     }
 
-    h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.2; text-align: center; }
-    h2 { font-size: clamp(1.4rem, 3vw, 2.1rem); margin-bottom: 0.3rem; text-align: center; }
+    h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.2; text-align: center; color: #fff; }
+    h2 { font-size: clamp(1.4rem, 3vw, 2.1rem); margin-bottom: 0.3rem; text-align: center; color: #fff; }
     p { color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.2rem); line-height: 1.75; }
 
-    .lock-tip { color: #b64c78; font-size: 0.95rem; font-weight: 600; text-align: center; }
+    .lock-tip { color: #ffd6e7; font-size: 0.95rem; font-weight: 600; text-align: center; }
 
     .question {
       font-size: clamp(2rem, 8vw, 4.5rem);
       line-height: 1.1;
       font-weight: 900;
-      color: #c7497f;
+      color: #ff9dca;
       text-align: center;
       margin: 0.3rem 0;
     }
@@ -97,7 +102,7 @@
     .options button {
       border: 0;
       border-radius: 14px;
-      background: #ff79a9;
+      background: #ff8fbe;
       color: white;
       font-size: 1.2rem;
       padding: 0.9rem 0.7rem;
@@ -115,7 +120,7 @@
     .status {
       min-height: 1.8rem;
       text-align: center;
-      color: #92506b;
+      color: #ffeaf3;
       font-weight: 700;
     }
 
@@ -172,33 +177,12 @@
       width: 18px;
       border-radius: 999px;
       background: linear-gradient(180deg, #f8de97 0%, var(--gold) 48%, #f8de97 100%);
-      opacity: 0.7;
+      opacity: 0.88;
       box-shadow: 0 0 0 4px #fff6df55;
     }
 
     .bg-decoration::before { left: 2%; }
     .bg-decoration::after { right: 2%; }
-
-    .motif {
-      position: absolute;
-      font-size: clamp(1rem, 1.8vw, 1.8rem);
-      opacity: 0.4;
-      animation: float 10s ease-in-out infinite;
-    }
-
-    .motif.m1 { top: 8%; left: 9%; color: #f3a8c7; }
-    .motif.m2 { top: 10%; right: 10%; color: #f3a8c7; animation-delay: 1s; }
-    .motif.m3 { top: 24%; left: 14%; color: #e8c266; font-size: clamp(1.2rem, 2vw, 2.1rem); animation-delay: 2s; }
-    .motif.m4 { top: 26%; right: 14%; color: #e8c266; font-size: clamp(1.2rem, 2vw, 2.1rem); animation-delay: 3s; }
-    .motif.m5 { bottom: 14%; left: 11%; color: #f09cc0; animation-delay: 1.5s; }
-    .motif.m6 { bottom: 16%; right: 11%; color: #f09cc0; animation-delay: 2.8s; }
-    .motif.m7 { top: 6%; left: 50%; transform: translateX(-50%); color: #f7b3ce; font-size: clamp(1.4rem, 2.4vw, 2.4rem); animation-delay: 2.2s; }
-    .motif.m8 { top: 13%; left: 50%; transform: translateX(-50%); color: #e9ca79; font-size: clamp(1rem, 1.8vw, 1.8rem); animation-delay: 0.6s; }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
 
     @media (max-width: 720px) {
       .options { grid-template-columns: 1fr; }
@@ -211,14 +195,6 @@
   <div class="bg-decoration" aria-hidden="true">
     <div class="lace-top"></div>
     <div class="lace-bottom"></div>
-    <span class="motif m1">🌸</span>
-    <span class="motif m2">🌸</span>
-    <span class="motif m3">✦</span>
-    <span class="motif m4">✦</span>
-    <span class="motif m5">🌹</span>
-    <span class="motif m6">🌹</span>
-    <span class="motif m7">🪷</span>
-    <span class="motif m8">❀</span>
   </div>
   <main>
     <section>
