@@ -3,270 +3,461 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>數位敘事 Longform Demo</title>
-  <meta name="description" content="單頁滑動式數位敘事網站，依序呈現文字與遊戲互動段落。" />
+  <title>女僕咖啡廳互動故事</title>
+  <meta name="description" content="女僕咖啡廳主題 longform 網頁，完成每段小遊戲後才能繼續閱讀。" />
   <style>
     :root {
-      --bg: #0f1115;
-      --bg-soft: #171a21;
-      --text: #f5f7ff;
-      --muted: #b9c0d4;
-      --accent: #7aa2ff;
-      --border: rgba(255, 255, 255, 0.12);
-      --shadow: 0 14px 40px rgba(0, 0, 0, 0.28);
-      --section-pad-x: clamp(1rem, 4vw, 4rem);
-      --section-pad-y: clamp(2rem, 7vh, 5rem);
-      --read-width: min(68ch, 92vw);
-      --radius: clamp(12px, 2vw, 22px);
-      --ease: 420ms cubic-bezier(.2, .7, .2, 1);
+      --bg: #1d1f28;
+      --bg-soft: #fff;
+      --text: #fff8ff;
+      --muted: #ffe8f2;
+      --accent: #ff8fbe;
+      --line: rgba(255, 219, 230, 0.35);
+      --gold: #f1d89a;
+      --rose: #ff9ec8;
+      --rose-soft: #ffdced;
+      --shadow: 0 18px 40px rgba(181, 101, 136, 0.2);
+      --radius: 24px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; }
 
     body {
-      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      line-height: 1.7;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(1200px 900px at 80% -10%, #22335f55 0%, transparent 50%),
-        radial-gradient(900px 700px at -10% 10%, #324a7650 0%, transparent 45%),
+        repeating-linear-gradient(135deg, #1b1e27 0 14px, #2a2e3a 14px 28px),
+        repeating-linear-gradient(45deg, #1b1e27 0 14px, #2a2e3a 14px 28px),
+        repeating-linear-gradient(90deg, transparent 0 90px, #f8ebdd 90px 98px, transparent 98px 188px),
+        repeating-linear-gradient(0deg, transparent 0 90px, #f8ebdd 90px 98px, transparent 98px 188px),
+        radial-gradient(circle at 30% 30%, #a40f18 0 22%, transparent 22%),
+        radial-gradient(circle at 70% 70%, #a40f18 0 22%, transparent 22%),
+        linear-gradient(180deg, #7e0d13 0%, #8d0f16 100%),
         var(--bg);
-      min-width: 320px;
       overflow-x: hidden;
-    }
-
-    main {
-      width: 100%;
-    }
-
-    section {
-      min-height: 100svh;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: var(--section-pad-y) var(--section-pad-x);
-      border-bottom: 1px solid var(--border);
       position: relative;
     }
 
-    .panel {
-      width: min(1200px, 100%);
-      margin-inline: auto;
-      opacity: 0;
-      transform: translateY(26px);
-      transition: opacity var(--ease), transform var(--ease);
-    }
-
-    .panel.in-view {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .hero .panel {
-      width: min(960px, 100%);
-      text-align: center;
-      display: grid;
-      gap: clamp(0.8rem, 2vh, 1.4rem);
-      justify-items: center;
-    }
-
-    .kicker {
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      font-size: clamp(0.72rem, 0.5rem + 0.6vw, 0.95rem);
-      color: var(--accent);
-    }
-
-    h1 {
-      font-size: clamp(2rem, 5vw, 4.6rem);
-      line-height: 1.15;
-      letter-spacing: 0.01em;
-      text-wrap: balance;
-    }
-
-    h2 {
-      font-size: clamp(1.2rem, 1rem + 1.2vw, 2.1rem);
-      line-height: 1.35;
-      margin-bottom: clamp(1rem, 2vh, 1.4rem);
-      text-wrap: balance;
-    }
-
-    p {
-      font-size: clamp(1rem, 0.92rem + 0.38vw, 1.22rem);
-      color: var(--muted);
-    }
-
-    .scroll-hint {
-      margin-top: clamp(0.8rem, 2vh, 1.3rem);
-      font-size: 0.95rem;
-      color: #d5ddf5;
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.35rem;
-      letter-spacing: 0.02em;
-    }
-
-    .scroll-hint::after {
-      content: "";
-      width: 1px;
-      height: 2.6rem;
-      background: linear-gradient(to bottom, #d5ddf5, transparent);
-      animation: hint 1.8s ease-in-out infinite;
-      transform-origin: top;
-    }
-
-    @keyframes hint {
-      0%, 100% { transform: scaleY(0.25); opacity: 0.35; }
-      50% { transform: scaleY(1); opacity: 1; }
-    }
-
-    .text-section .panel {
-      width: var(--read-width);
-      display: grid;
-      gap: 1rem;
-    }
-
-    .game-section .panel {
-      display: grid;
-      gap: clamp(0.8rem, 2vh, 1.2rem);
-    }
-
-    .game-note {
-      max-width: min(70ch, 100%);
-      color: #d0d8ee;
-      font-size: clamp(0.95rem, 0.9rem + 0.24vw, 1.08rem);
-    }
-
-    .game-frame {
-      width: 100%;
-      margin-inline: auto;
-      height: clamp(300px, 76vh, 900px);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      background: var(--bg-soft);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      display: grid;
-      place-items: stretch;
-    }
-
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
+    section {
+      min-height: auto;
       display: block;
-      background: #111;
+      padding: clamp(1.1rem, 2.6vw, 2.2rem) clamp(1.3rem, 8vw, 7rem);
+      position: relative;
+      z-index: 2;
     }
 
-    @media (max-width: 767px) {
-      .game-frame {
-        height: clamp(280px, 64vh, 620px);
-      }
+    .hero-card,
+    .text-card,
+    .quiz-card {
+      width: min(980px, 100%);
+      background: rgba(0, 0, 0, 0.44);
+      border: 1px solid rgba(255, 221, 232, 0.25);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+      border-radius: 14px;
+      backdrop-filter: blur(1px);
+      padding: clamp(1.2rem, 3vw, 2rem) clamp(1rem, 2vw, 1.4rem);
+      display: grid;
+      gap: 0.9rem;
+      margin-inline: auto;
+    }
 
-      section {
-        padding-top: clamp(1.8rem, 7vh, 3.2rem);
-        padding-bottom: clamp(1.8rem, 8vh, 3.6rem);
-      }
+    .badge {
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-transform: uppercase;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.2; text-align: center; color: #fff; }
+    h2 { font-size: clamp(1.4rem, 3vw, 2.1rem); margin-bottom: 0.3rem; text-align: center; color: #fff; }
+    p { color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.2rem); line-height: 1.75; }
+
+    .lock-tip { color: #ffd6e7; font-size: 0.95rem; font-weight: 600; text-align: center; }
+
+    .question {
+      font-size: clamp(2rem, 8vw, 4.5rem);
+      line-height: 1.1;
+      font-weight: 900;
+      color: #ff9dca;
+      text-align: center;
+      margin: 0.3rem 0;
+    }
+
+    .quiz-card {
+      padding-top: clamp(1.4rem, 3vw, 2.3rem);
+      padding-bottom: clamp(1.4rem, 3vw, 2.3rem);
+      border-top: 1px dashed var(--line);
+      border-bottom: 1px dashed var(--line);
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+    }
+
+    .options button {
+      border: 0;
+      border-radius: 14px;
+      background: #ff8fbe;
+      color: white;
+      font-size: 1.2rem;
+      padding: 0.9rem 0.7rem;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .options button:hover { filter: brightness(1.05); }
+    .options button:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      filter: grayscale(0.1);
+    }
+
+    .status {
+      min-height: 1.8rem;
+      text-align: center;
+      color: #ffeaf3;
+      font-weight: 700;
+    }
+
+    .gate {
+      position: fixed;
+      left: 50%;
+      bottom: 1rem;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.96);
+      border: 2px solid #f3bfd6;
+      border-radius: 999px;
+      padding: 0.5rem 1rem;
+      font-size: 0.92rem;
+      color: #9b4a6d;
+      box-shadow: 0 8px 20px rgba(255, 111, 163, 0.25);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+      z-index: 60;
+    }
+
+    .gate.show { opacity: 1; }
+
+    .bg-decoration {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .lace-top,
+    .lace-bottom {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 68px;
+      background:
+        radial-gradient(circle at 16px 0, #ffe0ef 16px, transparent 17px) repeat-x,
+        linear-gradient(180deg, transparent 0 42%, #ffeaf4 42% 100%);
+      background-size: 32px 32px, 100% 100%;
+      opacity: 0.88;
+    }
+
+    .lace-top { top: 0; }
+    .lace-bottom { bottom: 0; transform: scaleY(-1); }
+
+    .bg-decoration::before,
+    .bg-decoration::after {
+      content: "";
+      position: absolute;
+      top: 4%;
+      bottom: 4%;
+      width: 18px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #f8de97 0%, var(--gold) 48%, #f8de97 100%);
+      opacity: 0.88;
+      box-shadow: 0 0 0 4px #fff6df55;
+    }
+
+    .bg-decoration::before { left: 2%; }
+    .bg-decoration::after { right: 2%; }
+
+    @media (max-width: 720px) {
+      .options { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+  <div class="bg-decoration" aria-hidden="true">
+    <div class="lace-top"></div>
+    <div class="lace-bottom"></div>
+  </div>
   <main>
-    <section class="hero">
-      <div class="panel">
-        <span class="kicker">Digital Narrative</span>
-        <h1>互動敘事旅程</h1>
-        <p>結合段落文字與遊戲互動，透過垂直滑動展開一段完整的數位敘事體驗。</p>
-        <div class="scroll-hint">向下滑動開始</div>
+    <section>
+      <div class="hero-card">
+        <span class="badge">Maid Cafe Story</span>
+        <h1>歡迎回家，主人 ♡</h1>
+        <p>請先完成每一段的互動問答，再往下閱讀故事。今天的特製甜點，需要你一步步解鎖！</p>
       </div>
     </section>
 
-    <section class="text-section">
-      <article class="panel">
-        <h2>文字一｜旅程的開端</h2>
-        <p>這是一段示意文案，用來填滿第一個敘事段落。你可以在這裡放入背景脈絡、人物登場，或是引導讀者理解即將進入的互動場景。段落長度可依需求增減，版面會自動維持舒適閱讀寬度。</p>
-        <p>Longform 形式適合讓讀者在捲動時逐步接收資訊，先閱讀、再互動，形成節奏明確的敘事流。後續你可以把這些文字替換成正式內容，保留整體架構即可快速上線。</p>
+    <section>
+      <article class="text-card">
+
+        <p>在採訪結束時，我問她，還會想繼續做下去嗎。
+她想了一下，沒有立刻回答。
+「會吧。」她最後說。
+不是因為沒有問題，而是因為這份工作，仍然承載著她一開始的想像。
+在舞台上，她還是可以成為那個角色。說出固定的台詞，讓人短暫忘記現實，帶著笑離開。
+某種程度上，這確實是一種「另類的偶像夢」。
+只是這個夢，不是被聚光燈照亮的那一面。
+而是必須同時承受光與影，才能成立。</p>
       </article>
     </section>
 
-    <section class="game-section">
-      <div class="panel">
-        <h2>遊戲一</h2>
-        <p class="game-note">在第一段互動中，讀者可以透過即時操作理解核心概念。下方 iframe 會載入 <code>games/game1/index.html</code>。</p>
-        <div class="game-frame">
-          <iframe src="games/game1/index.html" title="遊戲一"></iframe>
+    <section>
+      <article class="text-card">
+        <h2>面向一</h2>
+
+        <p>在採訪結束時，我問她，還會想繼續做下去嗎。
+她想了一下，沒有立刻回答。
+「會吧。」她最後說。
+不是因為沒有問題，而是因為這份工作，仍然承載著她一開始的想像。
+在舞台上，她還是可以成為那個角色。說出固定的台詞，讓人短暫忘記現實，帶著笑離開。
+某種程度上，這確實是一種「另類的偶像夢」。
+只是這個夢，不是被聚光燈照亮的那一面。
+而是必須同時承受光與影，才能成立。</p>
+      </article>
+    </section>
+
+    <section id="game-1" data-game-order="1">
+      <div class="quiz-card">
+        <h2>請選出正確答案</h2>
+        <div class="question">1 + 1 = ?</div>
+        <div class="options">
+          <button data-game="1" data-answer="1">1</button>
+          <button data-game="1" data-answer="2">2</button>
+          <button data-game="1" data-answer="3">3</button>
         </div>
+        <div class="status" id="status-1" aria-live="polite"></div>
+        <p class="lock-tip">完成這題後才可繼續往下滑閱讀後續內容。</p>
       </div>
     </section>
 
-    <section class="text-section">
-      <article class="panel">
-        <h2>文字二｜轉折與選擇</h2>
-        <p>第二段示意文案可用來承接上一個遊戲結果，描述角色處境或系統變化。你可以加入提問、對照、關鍵數據，讓讀者在心理上完成從體驗到反思的轉換。</p>
-        <p>若內容較長，建議維持 2-4 段為一個 section，讓單次閱讀量不會過載，同時保留滑動敘事的節奏感。</p>
+
+    <section>
+      <article class="text-card">
+        <h2>面向二</h2>
+
+        <p>在採訪結束時，我問她，還會想繼續做下去嗎。
+她想了一下，沒有立刻回答。
+「會吧。」她最後說。
+不是因為沒有問題，而是因為這份工作，仍然承載著她一開始的想像。
+在舞台上，她還是可以成為那個角色。說出固定的台詞，讓人短暫忘記現實，帶著笑離開。
+某種程度上，這確實是一種「另類的偶像夢」。
+只是這個夢，不是被聚光燈照亮的那一面。
+而是必須同時承受光與影，才能成立。</p>
       </article>
     </section>
 
-    <section class="game-section">
-      <div class="panel">
-        <h2>遊戲二</h2>
-        <p class="game-note">第二個遊戲區塊可放入更進階的互動挑戰，延伸故事衝突。下方 iframe 會載入 <code>games/game2/index.html</code>。</p>
-        <div class="game-frame">
-          <iframe src="games/game2/index.html" title="遊戲二"></iframe>
+    <section id="game-2" data-game-order="2">
+      <div class="quiz-card">
+        <h2>請選出正確答案</h2>
+        <div class="question">2 + 2 = ?</div>
+        <div class="options">
+          <button data-game="2" data-answer="3">3</button>
+          <button data-game="2" data-answer="4">4</button>
+          <button data-game="2" data-answer="5">5</button>
         </div>
+        <div class="status" id="status-2" aria-live="polite"></div>
+        <p class="lock-tip">請先完成這題，故事才會繼續。</p>
       </div>
     </section>
 
-    <section class="text-section">
-      <article class="panel">
-        <h2>文字三｜理解加深</h2>
-        <p>第三段示意文案可加入更多觀點：例如角色動機、世界規則，或讀者剛才互動後帶來的影響。這裡也是建立情緒層次的好位置，讓最後一段遊戲更有投入感。</p>
-        <p>你可以視專案需求加上圖片、數據圖、或引言區塊；既有版型會保持同樣的視覺語言，避免敘事中斷。</p>
+    <section>
+      <article class="text-card">
+        <h2>面向三</h2>
+
+        <p>在採訪結束時，我問她，還會想繼續做下去嗎。
+她想了一下，沒有立刻回答。
+「會吧。」她最後說。
+不是因為沒有問題，而是因為這份工作，仍然承載著她一開始的想像。
+在舞台上，她還是可以成為那個角色。說出固定的台詞，讓人短暫忘記現實，帶著笑離開。
+某種程度上，這確實是一種「另類的偶像夢」。
+只是這個夢，不是被聚光燈照亮的那一面。
+而是必須同時承受光與影，才能成立。</p>
       </article>
     </section>
 
-    <section class="game-section">
-      <div class="panel">
-        <h2>遊戲三</h2>
-        <p class="game-note">第三個互動作為敘事高潮或收束，整合前面資訊。下方 iframe 會載入 <code>games/game3/index.html</code>。</p>
-        <div class="game-frame">
-          <iframe src="games/game3/index.html" title="遊戲三"></iframe>
+    <section id="game-3" data-game-order="3">
+      <div class="quiz-card">
+        <h2>請選出正確答案</h2>
+        <div class="question">3 + 3 = ?</div>
+        <div class="options">
+          <button data-game="3" data-answer="5">5</button>
+          <button data-game="3" data-answer="6">6</button>
+          <button data-game="3" data-answer="7">7</button>
         </div>
+        <div class="status" id="status-3" aria-live="polite"></div>
+        <p class="lock-tip">完成最後一題就會解鎖全文。</p>
       </div>
     </section>
 
-    <section class="text-section">
-      <article class="panel">
-        <h2>文字四｜結語與延伸</h2>
-        <p>最後一段示意文案可作為總結，回收前面鋪陳的主題，也可以提供延伸閱讀、下一章節連結，或行動提示。若需要，你還能在此加入製作團隊資訊與資料來源。</p>
-        <p>至此，整個單頁 longform 架構已完整：標題、文字、遊戲交錯呈現，並兼顧桌機與行動裝置的瀏覽體驗。</p>
+    <section>
+      <article class="text-card">
+        <h2>面向四</h2>
+
+        <p>在採訪結束時，我問她，還會想繼續做下去嗎。
+她想了一下，沒有立刻回答。
+「會吧。」她最後說。
+不是因為沒有問題，而是因為這份工作，仍然承載著她一開始的想像。
+在舞台上，她還是可以成為那個角色。說出固定的台詞，讓人短暫忘記現實，帶著笑離開。
+某種程度上，這確實是一種「另類的偶像夢」。
+只是這個夢，不是被聚光燈照亮的那一面。
+而是必須同時承受光與影，才能成立。</p>
       </article>
     </section>
+
+
+
+     <section>
+      <article class="text-card">
+
+        <p>在採訪結束時，我問她，還會想繼續做下去嗎。
+她想了一下，沒有立刻回答。
+「會吧。」她最後說。
+不是因為沒有問題，而是因為這份工作，仍然承載著她一開始的想像。
+在舞台上，她還是可以成為那個角色。說出固定的台詞，讓人短暫忘記現實，帶著笑離開。
+某種程度上，這確實是一種「另類的偶像夢」。
+只是這個夢，不是被聚光燈照亮的那一面。
+而是必須同時承受光與影，才能成立。</p>
+      </article>
+    </section>
+
   </main>
 
+  <div id="gateHint" class="gate">請先完成目前的遊戲，才能繼續往下閱讀。</div>
+
   <script>
-    (function () {
-      const panels = document.querySelectorAll('.panel');
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-          }
+    (() => {
+      const answerKey = { 1: '2', 2: '4', 3: '6' };
+      const totalGames = 3;
+      const progressStorageKey = 'maidCafeQuizProgressV1';
+      const completed = new Set(loadProgress());
+      const gameSections = [...document.querySelectorAll('[data-game-order]')];
+      const gameByOrder = new Map(gameSections.map((section) => [Number(section.dataset.gameOrder), section]));
+      const gateHint = document.getElementById('gateHint');
+      let gateTimeout;
+      let gateTicking = false;
+      let lockUntilY = Number.POSITIVE_INFINITY;
+
+      function loadProgress() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(progressStorageKey) || '[]');
+          return Array.isArray(saved) ? saved.filter((n) => n >= 1 && n <= totalGames) : [];
+        } catch (_) {
+          return [];
+        }
+      }
+
+      function saveProgress() {
+        try {
+          localStorage.setItem(progressStorageKey, JSON.stringify([...completed]));
+        } catch (_) {
+          // ignore storage write errors (private mode / quota exceeded)
+        }
+      }
+
+      function maxUnlockedGameOrder() {
+        let order = 0;
+        while (completed.has(order + 1)) order += 1;
+        return order;
+      }
+
+      function gatePositionY() {
+        const order = maxUnlockedGameOrder();
+        if (order >= totalGames) return Number.POSITIVE_INFINITY;
+        const nextGame = gameByOrder.get(order + 1);
+        if (!nextGame) return Number.POSITIVE_INFINITY;
+        const gameBottom = nextGame.offsetTop + nextGame.offsetHeight;
+        return Math.max(nextGame.offsetTop + 8, gameBottom - 36);
+      }
+
+      function refreshGateLimit() {
+        lockUntilY = gatePositionY();
+      }
+
+      function showHint() {
+        gateHint.classList.add('show');
+        clearTimeout(gateTimeout);
+        gateTimeout = setTimeout(() => gateHint.classList.remove('show'), 1200);
+      }
+
+      function enforceGate() {
+        if (window.scrollY > lockUntilY) {
+          window.scrollTo({ top: lockUntilY, behavior: 'auto' });
+          showHint();
+        }
+      }
+
+      function lockSolvedGameButtons(game) {
+        document.querySelectorAll(`.options button[data-game="${game}"]`).forEach((btn) => {
+          btn.disabled = true;
         });
-      }, {
-        threshold: 0.2,
+      }
+
+      function renderSolvedState() {
+        completed.forEach((game) => {
+          const status = document.getElementById(`status-${game}`);
+          if (status) {
+            status.textContent = game === 3 ? '答對了！全文已解鎖，歡迎繼續閱讀。' : '答對了！已解鎖下一段內容。';
+          }
+          lockSolvedGameButtons(game);
+        });
+      }
+
+      document.addEventListener('click', (event) => {
+        const button = event.target.closest('.options button');
+        if (!button || button.disabled) return;
+
+        const game = Number(button.dataset.game);
+        const answer = button.dataset.answer;
+        const status = document.getElementById(`status-${game}`);
+
+        if (answer === answerKey[game]) {
+          completed.add(game);
+          lockSolvedGameButtons(game);
+          saveProgress();
+          refreshGateLimit();
+          status.textContent = game === 3 ? '答對了！全文已解鎖，歡迎繼續閱讀。' : '答對了！已解鎖下一段內容。';
+          gateHint.classList.remove('show');
+        } else {
+          status.textContent = '再試一次，主人♡';
+        }
       });
 
-      panels.forEach((panel) => io.observe(panel));
+      window.addEventListener('scroll', () => {
+        if (gateTicking) return;
+        gateTicking = true;
+        requestAnimationFrame(() => {
+          enforceGate();
+          gateTicking = false;
+        });
+      }, { passive: true });
+      window.addEventListener('resize', () => {
+        refreshGateLimit();
+        enforceGate();
+      });
+      window.addEventListener('orientationchange', () => {
+        refreshGateLimit();
+        enforceGate();
+      });
+
+      renderSolvedState();
+      refreshGateLimit();
+      enforceGate();
     })();
   </script>
 </body>
