@@ -12,14 +12,12 @@
       --text: #4a3340;
       --muted: #7b5b69;
       --accent: #ff6fa3;
-      --accent-2: #7ad5ff;
       --line: rgba(255, 111, 163, 0.26);
       --shadow: 0 18px 40px rgba(181, 101, 136, 0.2);
       --radius: 24px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     html, body { width: 100%; }
 
     body {
@@ -28,8 +26,10 @@
       background:
         radial-gradient(900px 600px at 5% -10%, #ffd8e8 0%, transparent 40%),
         radial-gradient(900px 700px at 100% 5%, #dff7ff 0%, transparent 45%),
+        repeating-radial-gradient(circle at 20% 30%, #ffffffaa 0 2px, transparent 2px 24px),
         var(--bg);
       overflow-x: hidden;
+      position: relative;
     }
 
     section {
@@ -37,21 +37,19 @@
       display: grid;
       place-items: center;
       padding: clamp(1rem, 4vw, 3rem);
-      border-bottom: 2px dashed var(--line);
+      border-bottom: 1px dashed var(--line);
+      position: relative;
+      z-index: 2;
     }
 
-    .hero {
-      text-align: center;
-      gap: 1rem;
-    }
-
-    .hero-card {
+    .hero-card,
+    .text-card,
+    .quiz-card {
       width: min(900px, 100%);
-      background: linear-gradient(160deg, #fff, #fff7fc);
-      border-radius: var(--radius);
-      border: 2px solid #ffd7e9;
-      box-shadow: var(--shadow);
-      padding: clamp(1.5rem, 4vw, 3rem);
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      padding: clamp(1.5rem, 4vw, 3rem) clamp(0.5rem, 2vw, 1rem);
       display: grid;
       gap: 0.9rem;
     }
@@ -62,41 +60,53 @@
       color: var(--accent);
       text-transform: uppercase;
       font-weight: 700;
+      text-align: center;
     }
 
-    h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.2; }
-    h2 { font-size: clamp(1.4rem, 3vw, 2.1rem); margin-bottom: 0.8rem; }
+    h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.2; text-align: center; }
+    h2 { font-size: clamp(1.4rem, 3vw, 2.1rem); margin-bottom: 0.3rem; text-align: center; }
     p { color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.2rem); line-height: 1.75; }
 
-    .game-wrap { width: min(1200px, 100%); display: grid; gap: 0.75rem; }
+    .lock-tip { color: #b64c78; font-size: 0.95rem; font-weight: 600; text-align: center; }
 
-    .game-frame {
-      width: 100%;
-      height: min(88vh, 860px);
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 2px solid #ffd2e5;
-      box-shadow: var(--shadow);
-      background: var(--bg-soft);
+    .question {
+      font-size: clamp(2rem, 8vw, 4.5rem);
+      line-height: 1.1;
+      font-weight: 900;
+      color: #c7497f;
+      text-align: center;
+      margin: 0.3rem 0;
     }
 
-    iframe { width: 100%; height: 100%; border: 0; display: block; }
-
-    .text-card {
-      width: min(860px, 100%);
-      background: #fff;
-      border-radius: var(--radius);
-      border: 2px solid #ffd7e9;
-      box-shadow: var(--shadow);
-      padding: clamp(1.4rem, 4vw, 2.6rem);
+    .options {
       display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.8rem;
     }
 
-    .lock-tip {
-      color: #b64c78;
-      font-size: 0.95rem;
-      font-weight: 600;
+    .options button {
+      border: 0;
+      border-radius: 14px;
+      background: #ff79a9;
+      color: white;
+      font-size: 1.2rem;
+      padding: 0.9rem 0.7rem;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .options button:hover { filter: brightness(1.05); }
+    .options button:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      filter: grayscale(0.1);
+    }
+
+    .status {
+      min-height: 1.8rem;
+      text-align: center;
+      color: #92506b;
+      font-weight: 700;
     }
 
     .gate {
@@ -104,7 +114,7 @@
       left: 50%;
       bottom: 1rem;
       transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.96);
       border: 2px solid #ffb9d3;
       border-radius: 999px;
       padding: 0.5rem 1rem;
@@ -118,11 +128,70 @@
     }
 
     .gate.show { opacity: 1; }
+
+    .bg-decoration {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .lace-top,
+    .lace-bottom {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 56px;
+      background:
+        radial-gradient(circle at 14px 0, #ffd3e6 14px, transparent 15px) repeat-x;
+      background-size: 28px 28px;
+      opacity: 0.75;
+    }
+
+    .lace-top { top: 0; }
+    .lace-bottom { bottom: 0; transform: scaleY(-1); }
+
+    .motif {
+      position: absolute;
+      font-size: clamp(1.2rem, 2vw, 2rem);
+      opacity: 0.25;
+      filter: saturate(0.9);
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .motif.m1 { top: 12%; left: 8%; }
+    .motif.m2 { top: 20%; right: 10%; animation-delay: 1s; }
+    .motif.m3 { top: 46%; left: 6%; animation-delay: 2s; }
+    .motif.m4 { top: 55%; right: 7%; animation-delay: 3s; }
+    .motif.m5 { bottom: 16%; left: 12%; animation-delay: 1.5s; }
+    .motif.m6 { bottom: 22%; right: 14%; animation-delay: 2.8s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @media (max-width: 720px) {
+      .options { grid-template-columns: 1fr; }
+    }
+
+    .gate.show { opacity: 1; }
   </style>
 </head>
 <body>
+  <div class="bg-decoration" aria-hidden="true">
+    <div class="lace-top"></div>
+    <div class="lace-bottom"></div>
+    <span class="motif m1">🎀</span>
+    <span class="motif m2">☕</span>
+    <span class="motif m3">🖤</span>
+    <span class="motif m4">🧁</span>
+    <span class="motif m5">🎀</span>
+    <span class="motif m6">☕</span>
+  </div>
   <main>
-    <section class="hero" data-locked-after="0">
+    <section>
       <div class="hero-card">
         <span class="badge">Maid Cafe Story</span>
         <h1>歡迎回家，主人 ♡</h1>
@@ -130,115 +199,66 @@
       </div>
     </section>
 
-    <section class="text-section" data-locked-after="1">
-      <article class="text-card">
-        <h2>文字一</h2>
-        <p>愛漫畫的女僕以前看一個偶像的動漫，其中一個角色成為女僕，所以她也想進來。她說，那個角色站在舞台上時，明明只是說「歡迎回來」，卻讓人覺得被世界溫柔對待了一次。
-她記得很清楚，那一幕的光是暖的。
-於是，她走進了這個產業。
-第一次穿上制服時，她站在鏡子前愣了幾秒。裙擺的弧度、頭飾的角度，甚至連「主人」兩個字怎麼說，都被訓練過。她說，那一刻其實沒有想太多，只是覺得——「原來我也可以變成那種讓人開心的人」。
-在店裡，她學會用特定的語氣打招呼、替客人畫蛋包飯、在舞台上唱歌跳舞。離開前，有人會排隊找她簽小卡，有人會為了一場表演反覆來店。
-「那時候真的很像偶像。」她說。
-但偶像的光，是被製造出來的。
-而在光之外，還有另一層不被看見的結構，慢慢顯影。</p>
-      </article>
-    </section>
-
-     <section class="text-section" data-locked-after="1">
-      <article class="text-card">
-        <h2>面向一：女僕文化概述【凡】</h2>
-        <p>女僕咖啡廳的文化，從本質上來看，是一種從ACG（動畫、漫畫、遊戲）延伸出來的現實再現。
-在動漫作品中，「女僕」通常承載的是一種理想化的角色設定——溫柔、順從、永遠以他人為優先，並且帶有一點距離感的親密。這樣的形象，被轉譯成服務業的一種形式，進入現實空間。
-在店裡，女僕的日常其實高度結構化。從進門的「歡迎回來，主人」，到送餐時的固定台詞，再到最後的拍照與互動，每一個環節都有明確規範。這些規範的目的，是維持一種「角色穩定性」，讓顧客進來之後，不會感覺到破綻。
-多數受訪的女僕，都提到自己進入這個產業的原因與ACG文化高度相關。有些人是從小看動漫長大，有些人則是因為喜歡角色扮演（cosplay），覺得這份工作可以「延續興趣」。
-但這樣的選擇，往往不被家庭理解。
-「我媽一開始覺得這跟酒店差不多。」一名女僕說。
-對家人而言，這是一個模糊的產業：外觀是可愛與服務，但內部的互動形式卻帶有某種曖昧性。這種模糊，使得許多剛入行的人，其實並不完全理解自己將面對什麼。
-「剛進來的時候，你只看到舞台、表演、小卡。」她說，「但那些比較危險的東西，是後面才慢慢知道的。」</p>
-      </article>
-    </section>
-
-    <section class="game-section" id="game-1" data-game-order="1">
-      <div class="game-wrap">
+    <section id="game-1" data-game-order="1">
+      <div class="quiz-card">
+        <h2>請選出正確答案</h2>
+        <div class="question">1 + 1 = ?</div>
+        <div class="options">
+          <button data-game="1" data-answer="1">1</button>
+          <button data-game="1" data-answer="2">2</button>
+          <button data-game="1" data-answer="3">3</button>
+        </div>
+        <div class="status" id="status-1" aria-live="polite"></div>
         <p class="lock-tip">完成這題後才可繼續往下滑閱讀後續內容。</p>
-        <div class="game-frame"><iframe src="games/game1/index.html" title="1+1 問答"></iframe></div>
       </div>
     </section>
 
-    <section class="text-section" data-locked-after="1">
+    <section>
       <article class="text-card">
-        <h2>面向二：「主僕」關係【雙】</h2>
-        <p>女僕咖啡廳最核心的設計，是一種被稱為「主僕關係」的互動框架。
-在這個框架中，顧客被稱為「主人」，女僕則以「僕人」自稱。這種稱呼本身，就已經建立了一種不對等的關係，但同時又被包裝成一種遊戲。
-店內通常有非常嚴格的規定，例如禁止肢體接觸、禁止私下聯絡、禁止過度個人化的提問等。這些規範的存在，是為了維持界線，也是在保護女僕。
-但實際運作上，界線並不總是清楚。
-尼亞提到，她曾聽過有顧客在店外試圖跟女僕「一起回家」的案例。「那時候大家其實都很緊張，因為你不知道對方會做到什麼程度。」
-璃沫則談到另一種壓力。她一開始會懷疑自己，如果有顧客表現出過度依賴或情感投射，她會想：「是不是我做錯了什麼？」但後來，她開始拒絕「戀愛型客人」。
-「不是所有人都適合被當成角色對待。」她說。
-在這個產業裡，熟客與新客之間的差異也非常明顯。熟客通常會投入大量金錢，例如點餐、購買周邊、支持表演等。這樣的投入，會在某種程度上影響互動方式。
-「你會更記得他們的喜好，也會比較願意花時間聊天。」一名女僕坦言。
-這種關係，介於服務與情感之間，但又無法被明確定義。</p>
+        <h2>今日第一道任務完成！</h2>
+        <p>女僕長為你送上第一杯紅茶，香氣柔和，剛好能讓你在店內放鬆一下。接下來還有兩個小任務，完成後就能看到主廚的隱藏菜單。</p>
       </article>
     </section>
 
-    <section class="game-section" id="game-2" data-game-order="2">
-      <div class="game-wrap">
+    <section id="game-2" data-game-order="2">
+      <div class="quiz-card">
+        <h2>請選出正確答案</h2>
+        <div class="question">2 + 2 = ?</div>
+        <div class="options">
+          <button data-game="2" data-answer="3">3</button>
+          <button data-game="2" data-answer="4">4</button>
+          <button data-game="2" data-answer="5">5</button>
+        </div>
+        <div class="status" id="status-2" aria-live="polite"></div>
         <p class="lock-tip">請先完成這題，故事才會繼續。</p>
-        <div class="game-frame"><iframe src="games/game2/index.html" title="2+2 問答"></iframe></div>
       </div>
     </section>
 
-    <section class="text-section" data-locked-after="2">
+    <section>
       <article class="text-card">
-        <h2>面向三：精神壓力【貝】</h2>
-        <p>比起現場互動，更隱性的壓力，來自於線上。
-在社群媒體上，女僕需要維持角色形象，並持續與顧客互動。尼亞說，有些顧客會傳上百字的訊息，她就必須回上百字。
-「不回會被說冷淡，回太短會被覺得不重視。」
-這種回覆壓力，逐漸延伸成一種「情緒勞動」。
-除了訊息，還包括日常經營。例如發文、回留言、拍照、維持曝光。這些工作，往往沒有被正式計算進薪資，但卻是維持客源的重要條件。
-更極端的案例，是界線被突破。
-小沙提到，有人曾經提出要購買她的「原味襪子」。她一開始以為只是玩笑，但對方持續追問，甚至願意出高價。
-「那時候真的有點嚇到。」
-在匿名社群平台「靠北女僕」上，也能看到大量相關案例。內容包括騷擾、情緒勒索、甚至是過度曝光個人資訊。
-部分店家會協助處理，例如封鎖顧客、報警等。但並不是所有店家都有這樣的資源或意願。
-這些壓力，累積在看似輕鬆的表演之下。</p>
+        <h2>你已經越來越熟練了！</h2>
+        <p>大廳響起輕快音樂，店員們在你面前擺上新鮮出爐的鬆餅。只差最後一道問題，就能拿到今晚限定的女僕簽名卡片。</p>
       </article>
     </section>
 
-    <section class="game-section" id="game-3" data-game-order="3">
-      <div class="game-wrap">
+    <section id="game-3" data-game-order="3">
+      <div class="quiz-card">
+        <h2>請選出正確答案</h2>
+        <div class="question">3 + 3 = ?</div>
+        <div class="options">
+          <button data-game="3" data-answer="5">5</button>
+          <button data-game="3" data-answer="6">6</button>
+          <button data-game="3" data-answer="7">7</button>
+        </div>
+        <div class="status" id="status-3" aria-live="polite"></div>
         <p class="lock-tip">完成最後一題就會解鎖全文。</p>
-        <div class="game-frame"><iframe src="games/game3/index.html" title="3+3 問答"></iframe></div>
       </div>
     </section>
 
-    <section class="text-section" data-locked-after="3">
+    <section>
       <article class="text-card">
-        <h2>面向四：職場問題【喬】</h2>
-        <p>除了情感與精神層面，制度性問題同樣存在。
-多名受訪者指出，部分店家存在勞動條件不明確的情況。例如未提供勞健保、不開發票、薪資延遲發放等。
-「有些地方甚至沒有正式合約。」一名女僕說。
-在人事成本方面，僕咖的營運壓力確實較高。除了基本人力，還需要負擔服裝、場地、活動等費用。在這樣的結構下，有些經營者選擇壓低成本。
-最具爭議的，是權力不對等所帶來的風險。
-有受訪者提到曾遭遇老闆言語或行為上的騷擾，但因為缺乏正式制度，很難提出申訴。
-對此，璃沫提出另一種可能。
-她認為，如果要讓產業長期發展，必須建立更穩定的制度。例如保障基本薪資、建立透明的排班制度、開拓更多元的客群，而不是只依賴單一族群。
-「甚至可以跟遊戲公司合作，做聯名活動。」她說，「讓這個文化回到它原本的ACG脈絡。」
-這些做法，或許能降低對個別女僕的壓力，同時提升產業的正當性。</p>
-      </article>
-    </section>
-
-    <section class="text-section" data-locked-after="3">
-      <article class="text-card">
-        
-        <p>在採訪結束時，我問她，還會想繼續做下去嗎。
-她想了一下，沒有立刻回答。
-「會吧。」她最後說。
-不是因為沒有問題，而是因為這份工作，仍然承載著她一開始的想像。
-在舞台上，她還是可以成為那個角色。說出固定的台詞，讓人短暫忘記現實，帶著笑離開。
-某種程度上，這確實是一種「另類的偶像夢」。
-只是這個夢，不是被聚光燈照亮的那一面。
-而是必須同時承受光與影，才能成立。</p>
+        <h2>恭喜通關，主人辛苦了！</h2>
+        <p>你成功完成今天的三道任務，女僕咖啡廳的隱藏章節也為你開啟。歡迎下次再回來，我們會準備新的互動故事與特製甜點等你挑戰！</p>
       </article>
     </section>
     
@@ -248,11 +268,27 @@
 
   <script>
     (() => {
-      const completed = new Set();
+      const answerKey = { 1: '2', 2: '4', 3: '6' };
       const totalGames = 3;
+      const progressStorageKey = 'maidCafeQuizProgressV1';
+      const completed = new Set(loadProgress());
       const gameSections = [...document.querySelectorAll('[data-game-order]')];
       const gateHint = document.getElementById('gateHint');
       let gateTimeout;
+      let gateTicking = false;
+
+      function loadProgress() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(progressStorageKey) || '[]');
+          return Array.isArray(saved) ? saved.filter((n) => n >= 1 && n <= totalGames) : [];
+        } catch (_) {
+          return [];
+        }
+      }
+
+      function saveProgress() {
+        localStorage.setItem(progressStorageKey, JSON.stringify([...completed]));
+      }
 
       function maxUnlockedGameOrder() {
         let order = 0;
@@ -264,7 +300,7 @@
         const order = maxUnlockedGameOrder();
         if (order >= totalGames) return Number.POSITIVE_INFINITY;
         const nextGame = gameSections.find((s) => Number(s.dataset.gameOrder) === order + 1);
-        return nextGame ? nextGame.offsetTop + 16 : Number.POSITIVE_INFINITY;
+        return nextGame ? nextGame.offsetTop + 8 : Number.POSITIVE_INFINITY;
       }
 
       function showHint() {
@@ -276,21 +312,58 @@
       function enforceGate() {
         const y = gatePositionY();
         if (window.scrollY > y) {
-          window.scrollTo({ top: y, behavior: 'smooth' });
+          window.scrollTo({ top: y, behavior: 'auto' });
           showHint();
         }
       }
 
-      window.addEventListener('scroll', enforceGate, { passive: true });
+      function lockSolvedGameButtons(game) {
+        document.querySelectorAll(`.options button[data-game="${game}"]`).forEach((btn) => {
+          btn.disabled = true;
+        });
+      }
+
+      function renderSolvedState() {
+        completed.forEach((game) => {
+          const status = document.getElementById(`status-${game}`);
+          if (status) {
+            status.textContent = game === 3 ? '答對了！全文已解鎖，歡迎繼續閱讀。' : '答對了！已解鎖下一段內容。';
+          }
+          lockSolvedGameButtons(game);
+        });
+      }
+
+      document.addEventListener('click', (event) => {
+        const button = event.target.closest('.options button');
+        if (!button || button.disabled) return;
+
+        const game = Number(button.dataset.game);
+        const answer = button.dataset.answer;
+        const status = document.getElementById(`status-${game}`);
+
+        if (answer === answerKey[game]) {
+          completed.add(game);
+          lockSolvedGameButtons(game);
+          saveProgress();
+          status.textContent = game === 3 ? '答對了！全文已解鎖，歡迎繼續閱讀。' : '答對了！已解鎖下一段內容。';
+          gateHint.classList.remove('show');
+        } else {
+          status.textContent = '再試一次，主人♡';
+        }
+      });
+
+      window.addEventListener('scroll', () => {
+        if (gateTicking) return;
+        gateTicking = true;
+        requestAnimationFrame(() => {
+          enforceGate();
+          gateTicking = false;
+        });
+      }, { passive: true });
       window.addEventListener('resize', enforceGate);
 
-      window.addEventListener('message', (event) => {
-        if (!event.data || event.data.type !== 'game-complete') return;
-        const game = Number(event.data.game);
-        if (!Number.isFinite(game)) return;
-        completed.add(game);
-        gateHint.classList.remove('show');
-      });
+      renderSolvedState();
+      enforceGate();
     })();
   </script>
 </body>
