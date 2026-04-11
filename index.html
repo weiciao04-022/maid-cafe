@@ -96,6 +96,11 @@
     }
 
     .options button:hover { filter: brightness(1.05); }
+    .options button:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+      filter: grayscale(0.1);
+    }
 
     .status {
       min-height: 1.8rem;
@@ -201,7 +206,7 @@
           <button data-game="1" data-answer="2">2</button>
           <button data-game="1" data-answer="3">3</button>
         </div>
-        <div class="status" id="status-1"></div>
+        <div class="status" id="status-1" aria-live="polite"></div>
         <p class="lock-tip">完成這題後才可繼續往下滑閱讀後續內容。</p>
       </div>
     </section>
@@ -222,7 +227,7 @@
           <button data-game="2" data-answer="4">4</button>
           <button data-game="2" data-answer="5">5</button>
         </div>
-        <div class="status" id="status-2"></div>
+        <div class="status" id="status-2" aria-live="polite"></div>
         <p class="lock-tip">請先完成這題，故事才會繼續。</p>
       </div>
     </section>
@@ -243,7 +248,7 @@
           <button data-game="3" data-answer="6">6</button>
           <button data-game="3" data-answer="7">7</button>
         </div>
-        <div class="status" id="status-3"></div>
+        <div class="status" id="status-3" aria-live="polite"></div>
         <p class="lock-tip">完成最後一題就會解鎖全文。</p>
       </div>
     </section>
@@ -261,11 +266,26 @@
   <script>
     (() => {
       const answerKey = { 1: '2', 2: '4', 3: '6' };
-      const completed = new Set();
       const totalGames = 3;
+      const progressStorageKey = 'maidCafeQuizProgressV1';
+      const completed = new Set(loadProgress());
       const gameSections = [...document.querySelectorAll('[data-game-order]')];
       const gateHint = document.getElementById('gateHint');
       let gateTimeout;
+      let gateTicking = false;
+
+      function loadProgress() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(progressStorageKey) || '[]');
+          return Array.isArray(saved) ? saved.filter((n) => n >= 1 && n <= totalGames) : [];
+        } catch (_) {
+          return [];
+        }
+      }
+
+      function saveProgress() {
+        localStorage.setItem(progressStorageKey, JSON.stringify([...completed]));
+      }
 
       function maxUnlockedGameOrder() {
         let order = 0;
@@ -294,24 +314,53 @@
         }
       }
 
-      document.querySelectorAll('.options button').forEach((button) => {
-        button.addEventListener('click', () => {
-          const game = Number(button.dataset.game);
-          const answer = button.dataset.answer;
-          const status = document.getElementById(`status-${game}`);
-
-          if (answer === answerKey[game]) {
-            completed.add(game);
-            status.textContent = game === 3 ? '答對了！全文已解鎖，歡迎繼續閱讀。' : '答對了！已解鎖下一段內容。';
-            gateHint.classList.remove('show');
-          } else {
-            status.textContent = '再試一次，主人♡';
-          }
+      function lockSolvedGameButtons(game) {
+        document.querySelectorAll(`.options button[data-game="${game}"]`).forEach((btn) => {
+          btn.disabled = true;
         });
+      }
+
+      function renderSolvedState() {
+        completed.forEach((game) => {
+          const status = document.getElementById(`status-${game}`);
+          if (status) {
+            status.textContent = game === 3 ? '答對了！全文已解鎖，歡迎繼續閱讀。' : '答對了！已解鎖下一段內容。';
+          }
+          lockSolvedGameButtons(game);
+        });
+      }
+
+      document.addEventListener('click', (event) => {
+        const button = event.target.closest('.options button');
+        if (!button || button.disabled) return;
+
+        const game = Number(button.dataset.game);
+        const answer = button.dataset.answer;
+        const status = document.getElementById(`status-${game}`);
+
+        if (answer === answerKey[game]) {
+          completed.add(game);
+          lockSolvedGameButtons(game);
+          saveProgress();
+          status.textContent = game === 3 ? '答對了！全文已解鎖，歡迎繼續閱讀。' : '答對了！已解鎖下一段內容。';
+          gateHint.classList.remove('show');
+        } else {
+          status.textContent = '再試一次，主人♡';
+        }
       });
 
-      window.addEventListener('scroll', enforceGate, { passive: true });
+      window.addEventListener('scroll', () => {
+        if (gateTicking) return;
+        gateTicking = true;
+        requestAnimationFrame(() => {
+          enforceGate();
+          gateTicking = false;
+        });
+      }, { passive: true });
       window.addEventListener('resize', enforceGate);
+
+      renderSolvedState();
+      enforceGate();
     })();
   </script>
 </body>
