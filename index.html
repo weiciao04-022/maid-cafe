@@ -7,12 +7,15 @@
   <meta name="description" content="女僕咖啡廳主題 longform 網頁，完成每段小遊戲後才能繼續閱讀。" />
   <style>
     :root {
-      --bg: #fff7fb;
+      --bg: #fff5fb;
       --bg-soft: #fff;
-      --text: #4a3340;
-      --muted: #7b5b69;
-      --accent: #ff6fa3;
-      --line: rgba(255, 111, 163, 0.26);
+      --text: #593a46;
+      --muted: #87616f;
+      --accent: #f47bb1;
+      --line: rgba(238, 149, 186, 0.28);
+      --gold: #e6c36a;
+      --rose: #f7a9c8;
+      --rose-soft: #ffd9ea;
       --shadow: 0 18px 40px rgba(181, 101, 136, 0.2);
       --radius: 24px;
     }
@@ -24,9 +27,10 @@
       font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(900px 600px at 5% -10%, #ffd8e8 0%, transparent 40%),
-        radial-gradient(900px 700px at 100% 5%, #dff7ff 0%, transparent 45%),
-        repeating-radial-gradient(circle at 20% 30%, #ffffffaa 0 2px, transparent 2px 24px),
+        radial-gradient(1200px 520px at 50% -12%, #ffe4f2 0%, transparent 62%),
+        radial-gradient(760px 360px at 10% 14%, #ffd6e9c9 0%, transparent 58%),
+        radial-gradient(760px 360px at 90% 14%, #ffd6e9c9 0%, transparent 58%),
+        linear-gradient(180deg, #fff9fd 0%, #fff2f8 48%, #ffeff7 100%),
         var(--bg);
       overflow-x: hidden;
       position: relative;
@@ -121,11 +125,11 @@
       bottom: 1rem;
       transform: translateX(-50%);
       background: rgba(255, 255, 255, 0.96);
-      border: 2px solid #ffb9d3;
+      border: 2px solid #f3bfd6;
       border-radius: 999px;
       padding: 0.5rem 1rem;
       font-size: 0.92rem;
-      color: #9f426b;
+      color: #9b4a6d;
       box-shadow: 0 8px 20px rgba(255, 111, 163, 0.25);
       opacity: 0;
       pointer-events: none;
@@ -148,38 +152,52 @@
       position: absolute;
       left: 0;
       width: 100%;
-      height: 56px;
+      height: 68px;
       background:
-        radial-gradient(circle at 14px 0, #ffd3e6 14px, transparent 15px) repeat-x;
-      background-size: 28px 28px;
-      opacity: 0.75;
+        radial-gradient(circle at 16px 0, #ffe0ef 16px, transparent 17px) repeat-x,
+        linear-gradient(180deg, transparent 0 42%, #ffeaf4 42% 100%);
+      background-size: 32px 32px, 100% 100%;
+      opacity: 0.88;
     }
 
     .lace-top { top: 0; }
     .lace-bottom { bottom: 0; transform: scaleY(-1); }
 
-    .motif {
+    .bg-decoration::before,
+    .bg-decoration::after {
+      content: "";
       position: absolute;
-      font-size: clamp(1.2rem, 2vw, 2rem);
-      opacity: 0.25;
-      filter: saturate(0.9);
-      animation: float 8s ease-in-out infinite;
+      top: 4%;
+      bottom: 4%;
+      width: 18px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #f8de97 0%, var(--gold) 48%, #f8de97 100%);
+      opacity: 0.7;
+      box-shadow: 0 0 0 4px #fff6df55;
     }
 
-    .motif.m1 { top: 12%; left: 8%; }
-    .motif.m2 { top: 20%; right: 10%; animation-delay: 1s; }
-    .motif.m3 { top: 46%; left: 6%; animation-delay: 2s; }
-    .motif.m4 { top: 55%; right: 7%; animation-delay: 3s; }
-    .motif.m5 { bottom: 16%; left: 12%; animation-delay: 1.5s; }
-    .motif.m6 { bottom: 22%; right: 14%; animation-delay: 2.8s; }
+    .bg-decoration::before { left: 2%; }
+    .bg-decoration::after { right: 2%; }
+
+    .motif {
+      position: absolute;
+      font-size: clamp(1rem, 1.8vw, 1.8rem);
+      opacity: 0.4;
+      animation: float 10s ease-in-out infinite;
+    }
+
+    .motif.m1 { top: 8%; left: 9%; color: #f3a8c7; }
+    .motif.m2 { top: 10%; right: 10%; color: #f3a8c7; animation-delay: 1s; }
+    .motif.m3 { top: 24%; left: 14%; color: #e8c266; font-size: clamp(1.2rem, 2vw, 2.1rem); animation-delay: 2s; }
+    .motif.m4 { top: 26%; right: 14%; color: #e8c266; font-size: clamp(1.2rem, 2vw, 2.1rem); animation-delay: 3s; }
+    .motif.m5 { bottom: 14%; left: 11%; color: #f09cc0; animation-delay: 1.5s; }
+    .motif.m6 { bottom: 16%; right: 11%; color: #f09cc0; animation-delay: 2.8s; }
+    .motif.m7 { top: 6%; left: 50%; transform: translateX(-50%); color: #f7b3ce; font-size: clamp(1.4rem, 2.4vw, 2.4rem); animation-delay: 2.2s; }
+    .motif.m8 { top: 13%; left: 50%; transform: translateX(-50%); color: #e9ca79; font-size: clamp(1rem, 1.8vw, 1.8rem); animation-delay: 0.6s; }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
-    @media (max-width: 720px) {
-      .options { grid-template-columns: 1fr; }
+      50% { transform: translateY(-10px); }
     }
 
     @media (max-width: 720px) {
@@ -193,12 +211,14 @@
   <div class="bg-decoration" aria-hidden="true">
     <div class="lace-top"></div>
     <div class="lace-bottom"></div>
-    <span class="motif m1">🎀</span>
-    <span class="motif m2">☕</span>
-    <span class="motif m3">🖤</span>
-    <span class="motif m4">🧁</span>
-    <span class="motif m5">🎀</span>
-    <span class="motif m6">☕</span>
+    <span class="motif m1">🌸</span>
+    <span class="motif m2">🌸</span>
+    <span class="motif m3">✦</span>
+    <span class="motif m4">✦</span>
+    <span class="motif m5">🌹</span>
+    <span class="motif m6">🌹</span>
+    <span class="motif m7">🪷</span>
+    <span class="motif m8">❀</span>
   </div>
   <main>
     <section>
@@ -211,7 +231,7 @@
 
     <section>
       <article class="text-card">
-        
+
         <p>在採訪結束時，我問她，還會想繼續做下去嗎。
 她想了一下，沒有立刻回答。
 「會吧。」她最後說。
@@ -226,7 +246,7 @@
     <section>
       <article class="text-card">
         <h2>面向一</h2>
-        
+
         <p>在採訪結束時，我問她，還會想繼續做下去嗎。
 她想了一下，沒有立刻回答。
 「會吧。」她最後說。
@@ -253,10 +273,11 @@
     </section>
     
 
+
     <section>
       <article class="text-card">
         <h2>面向二</h2>
-        
+
         <p>在採訪結束時，我問她，還會想繼續做下去嗎。
 她想了一下，沒有立刻回答。
 「會吧。」她最後說。
@@ -285,7 +306,7 @@
     <section>
       <article class="text-card">
         <h2>面向三</h2>
-        
+
         <p>在採訪結束時，我問她，還會想繼續做下去嗎。
 她想了一下，沒有立刻回答。
 「會吧。」她最後說。
@@ -314,7 +335,7 @@
     <section>
       <article class="text-card">
         <h2>面向四</h2>
-        
+
         <p>在採訪結束時，我問她，還會想繼續做下去嗎。
 她想了一下，沒有立刻回答。
 「會吧。」她最後說。
@@ -326,11 +347,11 @@
       </article>
     </section>
 
-  
+
 
      <section>
       <article class="text-card">
-        
+
         <p>在採訪結束時，我問她，還會想繼續做下去嗎。
 她想了一下，沒有立刻回答。
 「會吧。」她最後說。
@@ -341,7 +362,7 @@
 而是必須同時承受光與影，才能成立。</p>
       </article>
     </section>
-    
+
   </main>
 
   <div id="gateHint" class="gate">請先完成目前的遊戲，才能繼續往下閱讀。</div>
@@ -353,9 +374,11 @@
       const progressStorageKey = 'maidCafeQuizProgressV1';
       const completed = new Set(loadProgress());
       const gameSections = [...document.querySelectorAll('[data-game-order]')];
+      const gameByOrder = new Map(gameSections.map((section) => [Number(section.dataset.gameOrder), section]));
       const gateHint = document.getElementById('gateHint');
       let gateTimeout;
       let gateTicking = false;
+      let lockUntilY = Number.POSITIVE_INFINITY;
 
       function loadProgress() {
         try {
@@ -367,7 +390,11 @@
       }
 
       function saveProgress() {
-        localStorage.setItem(progressStorageKey, JSON.stringify([...completed]));
+        try {
+          localStorage.setItem(progressStorageKey, JSON.stringify([...completed]));
+        } catch (_) {
+          // ignore storage write errors (private mode / quota exceeded)
+        }
       }
 
       function maxUnlockedGameOrder() {
@@ -379,10 +406,14 @@
       function gatePositionY() {
         const order = maxUnlockedGameOrder();
         if (order >= totalGames) return Number.POSITIVE_INFINITY;
-        const nextGame = gameSections.find((s) => Number(s.dataset.gameOrder) === order + 1);
+        const nextGame = gameByOrder.get(order + 1);
         if (!nextGame) return Number.POSITIVE_INFINITY;
         const gameBottom = nextGame.offsetTop + nextGame.offsetHeight;
         return Math.max(nextGame.offsetTop + 8, gameBottom - 36);
+      }
+
+      function refreshGateLimit() {
+        lockUntilY = gatePositionY();
       }
 
       function showHint() {
@@ -392,9 +423,8 @@
       }
 
       function enforceGate() {
-        const y = gatePositionY();
-        if (window.scrollY > y) {
-          window.scrollTo({ top: y, behavior: 'auto' });
+        if (window.scrollY > lockUntilY) {
+          window.scrollTo({ top: lockUntilY, behavior: 'auto' });
           showHint();
         }
       }
@@ -427,6 +457,7 @@
           completed.add(game);
           lockSolvedGameButtons(game);
           saveProgress();
+          refreshGateLimit();
           status.textContent = game === 3 ? '答對了！全文已解鎖，歡迎繼續閱讀。' : '答對了！已解鎖下一段內容。';
           gateHint.classList.remove('show');
         } else {
@@ -442,9 +473,17 @@
           gateTicking = false;
         });
       }, { passive: true });
-      window.addEventListener('resize', enforceGate);
+      window.addEventListener('resize', () => {
+        refreshGateLimit();
+        enforceGate();
+      });
+      window.addEventListener('orientationchange', () => {
+        refreshGateLimit();
+        enforceGate();
+      });
 
       renderSolvedState();
+      refreshGateLimit();
       enforceGate();
     })();
   </script>
