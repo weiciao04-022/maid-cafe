@@ -28,7 +28,7 @@
       font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
       color: var(--text);
       background:
-        linear-gradient(180deg, rgba(248, 215, 230, 0.72), rgba(248, 215, 230, 0.88)),
+        linear-gradient(180deg, rgba(252, 238, 246, 0.38), rgba(252, 238, 246, 0.52)),
         url("assets/maid-cafe-bg.jpg"),
         linear-gradient(180deg, #f9d4e5 0%, #f6c9dd 100%),
         var(--bg);
@@ -219,15 +219,7 @@
 
     .bg-decoration::before,
     .bg-decoration::after {
-      content: "";
-      position: absolute;
-      top: 4%;
-      bottom: 4%;
-      width: 18px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, #f8de97 0%, var(--gold) 48%, #f8de97 100%);
-      opacity: 0.88;
-      box-shadow: 0 0 0 4px #fff6df55;
+      content: none;
     }
 
     .bg-decoration::before { left: 2%; }
@@ -237,6 +229,21 @@
       .options { grid-template-columns: 1fr; }
       body { cursor: auto; }
       .cursor-dot { display: none; }
+    }
+
+    .top-visual {
+      padding-top: 2.2rem;
+      padding-bottom: 0.6rem;
+    }
+
+    .top-visual img {
+      width: min(980px, 100%);
+      display: block;
+      margin-inline: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 226, 236, 0.8);
+      box-shadow: 0 10px 20px rgba(106, 68, 86, 0.18);
+      object-fit: cover;
     }
 
     .bg-decoration::before { left: 2%; }
@@ -256,6 +263,10 @@
     <div class="lace-bottom"></div>
   </div>
   <main>
+    <section class="top-visual">
+      <img src="pic/background01" alt="女僕咖啡廳背景" />
+    </section>
+
     <section>
       <div class="hero-card">
         <span class="badge">Maid Cafe Story</span>
@@ -307,6 +318,11 @@
       </div>
     </section>
     
+
+
+    <section>
+      <article class="text-card">
+        <h2>面向二</h2>
 
 
     <section>
