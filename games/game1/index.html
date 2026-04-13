@@ -1,71 +1,429 @@
-<!doctype html>
-<html lang="zh-Hant">
+<!DOCTYPE html>
+<html lang="zh-TW">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>題目 1</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      font-family: "Noto Sans TC", sans-serif;
-      background: linear-gradient(150deg, #ffe9f3, #fff, #e8f7ff);
-      color: #4a3340;
-      padding: 1rem;
-    }
-    .card {
-      width: min(760px, 100%);
-      background: rgba(255,255,255,0.92);
-      border: 2px solid #ffc9de;
-      border-radius: 26px;
-      box-shadow: 0 18px 35px rgba(182, 96, 138, 0.2);
-      padding: clamp(1.2rem, 4vw, 2.2rem);
-      text-align: center;
-      display: grid;
-      gap: 1rem;
-    }
-    .q { font-size: clamp(2rem, 6vw, 4rem); font-weight: 800; color: #c7497f; }
-    .opts { display: grid; gap: 0.7rem; }
-    button {
-      border: 0;
-      border-radius: 14px;
-      background: #ff79a9;
-      color: white;
-      font-size: 1.1rem;
-      padding: 0.8rem 1rem;
-      cursor: pointer;
-      font-weight: 700;
-    }
-    button:hover { filter: brightness(1.05); }
-    .msg { min-height: 1.8rem; color: #92506b; font-weight: 700; }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>夢幻邊界：魔法可愛加強版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;900&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sweet-pink: #ffb7c5;
+            --hot-pink: #ff6b8b;
+            --soft-purple: #f3e8ff;
+            --magic-yellow: #fff3b0;
+        }
+
+        /* 動態流動背景 */
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(-45deg, #fff5f7, #f3e8ff, #ffe4e9, #fffcf2);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin: 0;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* 頂部蕾絲裝飾 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background-image: radial-gradient(circle at 10px -5px, transparent 12px, white 13px);
+            background-size: 20px 20px;
+            z-index: 100;
+        }
+
+        .title-font { font-family: 'Zen Maru Gothic', sans-serif; }
+
+        /* 漂浮元素動畫 */
+        .floating-item {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+            animation: floatUp var(--dur) linear infinite;
+            filter: drop-shadow(0 0 5px white);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg) scale(0.5); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
+        }
+
+        /* 容器與面板 */
+        .cloud-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border: 6px solid white;
+            border-radius: 4rem;
+            box-shadow: 
+                0 20px 50px rgba(255, 107, 139, 0.2),
+                inset 0 0 20px rgba(255, 255, 255, 0.5);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* 打字機效果 */
+        .typing::after {
+            content: '✨';
+            animation: blink 0.8s infinite;
+            color: var(--hot-pink);
+            margin-left: 4px;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* 按鈕視覺 */
+        .candy-btn {
+            background: linear-gradient(135deg, #ffffff 0%, #fff0f3 100%);
+            border: 2px solid #ffdae0;
+            border-radius: 2rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 0 #ffdae0;
+        }
+
+        .candy-btn:hover {
+            transform: scale(1.03) rotate(1deg);
+            border-color: var(--hot-pink);
+            box-shadow: 0 8px 15px rgba(255, 107, 139, 0.2);
+        }
+
+        .main-action-btn {
+            background: linear-gradient(135deg, #ffb7c5 0%, #ff6b8b 100%);
+            color: white;
+            box-shadow: 0 6px 0 #e65a78, 0 10px 20px rgba(230, 90, 120, 0.3);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .portrait-frame {
+            background: white;
+            border: 5px solid #ffe4e9;
+            border-radius: 3rem;
+            box-shadow: 0 10px 25px rgba(255, 182, 197, 0.4);
+            position: relative;
+        }
+
+        .portrait-frame::after {
+            content: "♥";
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            background: var(--hot-pink);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            border: 3px solid white;
+        }
+
+        /* 音量開關 */
+        #audio-status {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 12px 24px;
+            border-radius: 50px;
+            border: 3px solid var(--sweet-pink);
+            font-weight: 900;
+            color: var(--hot-pink);
+            cursor: pointer;
+            z-index: 100;
+            box-shadow: 0 10px 20px rgba(255, 107, 139, 0.1);
+            transition: all 0.2s;
+        }
+
+        #audio-status:hover { transform: scale(1.1); }
+    </style>
 </head>
 <body>
-  <div class="card">
-    <p>請選出正確答案</p>
-    <div class="q">1 + 1 = ?</div>
-    <div class="opts">
-      <button data-answer="1">1</button>
-      <button data-answer="2">2</button>
-      <button data-answer="3">3</button>
-    </div>
-    <div class="msg" id="msg"></div>
-  </div>
 
-  <script>
-    const msg = document.getElementById('msg');
-    document.querySelectorAll('button').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        if (btn.dataset.answer === '2') {
-          msg.textContent = '答對了！已解鎖下一段內容。';
-          window.parent.postMessage({ type: 'game-complete', game: 1 }, '*');
-        } else {
-          msg.textContent = '再試一次，主人♡';
+    <div id="audio-status" onclick="toggleAudio()">🪄 靜音中</div>
+
+    <!-- 自動生成的背景元素會放在這裡 -->
+    <div id="bg-elements"></div>
+
+    <div id="start-screen" class="z-50 text-center px-6 max-w-xl">
+        <div class="inline-block relative">
+            <div class="text-8xl mb-6 drop-shadow-lg">🍰</div>
+            <div class="absolute -top-4 -right-4 text-4xl animate-bounce">✨</div>
+        </div>
+        <h1 class="title-font text-6xl md:text-7xl font-black mb-2 text-pink-400 drop-shadow-[0_4px_0_white]">
+            夢幻邊界
+        </h1>
+        <p class="text-pink-300 font-bold tracking-[0.3em] text-sm mb-10 opacity-80">MAIDEN HEART RECHOICE</p>
+        <div class="bg-white/40 backdrop-blur-md p-8 rounded-[3rem] border-4 border-white mb-10 shadow-xl">
+            <p class="text-pink-600/90 leading-relaxed font-bold text-lg">
+                「歡迎回來，店長。」<br>
+                這裡的每一份微笑都需要溫柔的守護。<br>
+                請用勇氣畫下那道純淨的魔法邊界。
+            </p>
+        </div>
+        <button onclick="startGame()" class="main-action-btn px-16 py-5 rounded-full font-black text-2xl transition-all active:translate-y-2 hover:scale-110">
+            開始執勤 ➔
+        </button>
+    </div>
+
+    <main id="game-ui" class="hidden w-full max-w-5xl p-4 md:p-6 flex flex-col items-center">
+        <div class="cloud-panel w-full p-8 md:p-12 flex flex-col md:flex-row gap-10">
+            <div class="w-full md:w-1/3 flex flex-col items-center">
+                <div class="portrait-frame w-48 h-48 flex items-center justify-center text-8xl mb-8 bg-pink-50/50">
+                    <span id="portrait">☕</span>
+                </div>
+                <h2 id="char-name" class="text-3xl font-black title-font text-pink-500 mb-2">---</h2>
+                <span class="px-6 py-1.5 rounded-full bg-pink-100 text-pink-400 text-sm font-black uppercase tracking-[0.2em] mb-10">Special Maid</span>
+
+                <div class="w-full space-y-4">
+                    <div class="flex justify-between items-end text-pink-400 font-black text-sm">
+                        <span class="flex items-center gap-1"><span class="text-lg">💖</span> 守護能量</span>
+                        <span id="score-num" class="text-2xl title-font">0</span>
+                    </div>
+                    <div class="h-5 bg-pink-50 rounded-full border-2 border-white overflow-hidden shadow-inner">
+                        <div id="progress-bar" class="h-full bg-gradient-to-r from-pink-200 to-pink-500 transition-all duration-1000 shadow-sm" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-1 flex flex-col">
+                <div class="bg-white/50 rounded-[3rem] p-8 md:p-10 flex-1 border-4 border-white mb-8 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-pink-100 to-transparent"></div>
+                    <p id="main-text" class="text-xl md:text-2xl text-pink-900/70 font-bold leading-relaxed mb-6"></p>
+                    <div id="feedback-area" class="hidden animate-pulse p-6 rounded-3xl bg-pink-50/80 border-2 border-pink-100 text-pink-600 font-bold italic text-base"></div>
+                </div>
+                <div id="options-box" class="grid grid-cols-1 gap-4"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- 魔法背景生成器 ---
+        function createDeco() {
+            const container = document.getElementById('bg-elements');
+            const items = ['🌸', '✨', '🎵', '🎀', '🍬', '⭐', '🎈', '☁️'];
+            const count = 20;
+
+            for (let i = 0; i < count; i++) {
+                const el = document.createElement('div');
+                el.className = 'floating-item';
+                el.innerText = items[Math.floor(Math.random() * items.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                el.style.setProperty('--dur', (Math.random() * 10 + 10) + 's');
+                el.style.animationDelay = (Math.random() * 10) + 's';
+                container.appendChild(el);
+            }
         }
-      });
-    });
-  </script>
+        createDeco();
+
+        // --- 魔法音效引擎 ---
+        let audioCtx = null;
+        let isMuted = true;
+        let bgmNoteIndex = 0;
+        const scale = [523.25, 587.33, 659.25, 783.99, 880.00, 1046.50];
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        function playSound(freq, dur, type = 'sine', vol = 0.05) {
+            if (isMuted || !audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + dur);
+        }
+
+        function playBGM() {
+            if (isMuted) return;
+            const notes = [0, 4, 2, 5, 4, 2, 4, 0];
+            const freq = scale[notes[bgmNoteIndex % notes.length]];
+            playSound(freq, 0.6, 'sine', 0.02);
+            if (bgmNoteIndex % 4 === 0) playSound(scale[0]/2, 1.2, 'triangle', 0.01);
+            bgmNoteIndex++;
+            setTimeout(playBGM, 400);
+        }
+
+        function toggleAudio() {
+            initAudio();
+            isMuted = !isMuted;
+            document.getElementById('audio-status').innerText = isMuted ? "🪄 靜音中" : "✨ 魔法奏鳴";
+            if (!isMuted) playBGM();
+        }
+
+        // --- 遊戲邏輯 ---
+        const story = [
+            {
+                name: "女僕 夢夢",
+                portrait: "🎀",
+                text: "「店長...那位常客一直在問我明天休假要去哪，他說他買了很貴的音樂盒想當面給我...我該怎麼辦？」",
+                options: [
+                    { t: "溫柔地告訴客人：店外私會是禁忌哦❤", points: 10, feedback: "【守護成功】妳用可愛的方式劃清了界限，女僕感到非常安心！" },
+                    { t: "幫她收下禮物，但不提供任何行程資訊。", points: 5, feedback: "【緩衝應對】雖然禮物收下了，但至少保護了隱私。" },
+                    { t: "這也是種人氣表現，就稍微聊一下吧？", points: -10, feedback: "【危險訊號】一旦開啟了私下聯絡，魔法的界線就開始模糊了..." }
+                ]
+            },
+            {
+                name: "女僕 夢夢",
+                portrait: "🎀",
+                text: "「有客人說如果我不給他私人 LINE，他就不點最貴的特調了...但我真的很怕他...」",
+                options: [
+                    { t: "「這違反了魔法契約，請向店長申請官方帳號吧！」", points: 10, feedback: "【制度盾牌】將問題轉向規則，讓夢夢不需要獨自面對壓力。" },
+                    { t: "「可以用店內的留言板交流哦～」", points: 6, feedback: "【轉移目標】提供了一個安全且透明的互動管道。" },
+                    { t: "「就先加吧，店業績也很重要的。」", points: -15, feedback: "【崩潰邊緣】妳將夢夢推向了恐懼，這不是愛，是消耗。" }
+                ]
+            },
+            {
+                name: "女僕 蕾娜",
+                portrait: "🌙",
+                text: "蕾娜最近變得很憂鬱，她覺得自己如果不隨時回覆客人的訊息，就是個不稱職的女僕。她已經分不清自己是誰了。",
+                options: [
+                    { t: "「蕾娜，脫下制服後的妳，只屬於妳自己。」", points: 10, feedback: "【靈魂覺醒】妳提醒了她角色與自我的平衡，蕾娜流下了寬心的淚水。" },
+                    { t: "「多休息幾天，等心情好了再回來營業吧。」", points: 4, feedback: "【暫時止痛】休息能讓身體復原，但心理邊界仍需加強。" },
+                    { t: "「這是資深者的責任，忍耐一下就過去了。」", points: -10, feedback: "【情緒壓榨】這句話成為了壓垮她的最後一根稻草。" }
+                ]
+            }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+        let isTyping = false;
+
+        function startGame() {
+            initAudio();
+            if(isMuted) toggleAudio();
+            document.getElementById('start-screen').classList.add('hidden');
+            const ui = document.getElementById('game-ui');
+            ui.classList.remove('hidden');
+            ui.classList.add('scene-fade');
+            loadScene();
+        }
+
+        async function typeText(elId, text) {
+            isTyping = true;
+            const el = document.getElementById(elId);
+            el.innerHTML = "";
+            el.classList.add('typing');
+            for (let char of text) {
+                el.innerHTML += char;
+                playSound(900 + Math.random()*100, 0.06, 'sine', 0.01);
+                await new Promise(r => setTimeout(r, 45));
+            }
+            el.classList.remove('typing');
+            isTyping = false;
+        }
+
+        async function loadScene() {
+            if (currentIdx >= story.length) {
+                showEnding();
+                return;
+            }
+            const data = story[currentIdx];
+            document.getElementById('char-name').innerText = data.name;
+            document.getElementById('portrait').innerText = data.portrait;
+            document.getElementById('feedback-area').classList.add('hidden');
+            document.getElementById('options-box').innerHTML = "";
+            await typeText('main-text', data.text);
+            data.options.forEach((opt) => {
+                const btn = document.createElement('button');
+                btn.className = "candy-btn p-5 text-left font-bold text-pink-700 active:translate-y-1";
+                btn.innerText = opt.t;
+                btn.onclick = () => selectOption(opt);
+                document.getElementById('options-box').appendChild(btn);
+            });
+        }
+
+        async function selectOption(opt) {
+            if (isTyping) return;
+            
+            if (opt.points > 0) {
+                playSound(523.25, 0.1);
+                setTimeout(() => playSound(659.25, 0.1), 100);
+                setTimeout(() => playSound(880, 0.3), 200);
+            } else {
+                playSound(200, 0.6, 'sawtooth', 0.02);
+            }
+
+            score += opt.points;
+            updateUI();
+            document.getElementById('options-box').innerHTML = "";
+            const fb = document.getElementById('feedback-area');
+            fb.classList.remove('hidden');
+            fb.innerText = opt.feedback;
+            const nextBtn = document.createElement('button');
+            nextBtn.className = "main-action-btn mt-6 w-full py-4 rounded-full font-black text-xl";
+            nextBtn.innerText = currentIdx === story.length - 1 ? "查看最後評價 ✨" : "下一個情境 ➔";
+            nextBtn.onclick = () => {
+                currentIdx++;
+                loadScene();
+            };
+            document.getElementById('options-box').appendChild(nextBtn);
+        }
+
+        function updateUI() {
+            document.getElementById('score-num').innerText = score;
+            const percentage = Math.max(0, Math.min(100, (score / 30) * 100));
+            document.getElementById('progress-bar').style.width = percentage + "%";
+        }
+
+        async function showEnding() {
+            document.getElementById('feedback-area').classList.add('hidden');
+            document.getElementById('options-box').innerHTML = "";
+            let title, content, portrait;
+            
+            if (score >= 25) {
+                title = "完美守護者：永恆的夢幻園";
+                portrait = "🏰";
+                content = "店長，妳證明了真誠的服務與嚴謹的界線可以共存。這家店成了女僕們最自豪的歸宿，笑容在這裡是發自肺腑的。這就是最完美的夢幻邊界！";
+                for(let i=0; i<8; i++) {
+                    setTimeout(() => playSound(scale[i%6]*2, 0.3), i*100);
+                }
+            } else if (score >= 10) {
+                title = "普通店長：曖昧的咖啡香";
+                portrait = "☕";
+                content = "店鋪營運平穩，但也帶著一絲疲憊。雖然沒有崩塌，但店長妳知道某些女僕的笑容背後藏著忍耐。或許，妳可以再多守護她們一點。";
+                playSound(scale[2], 0.8);
+            } else {
+                title = "失格店長：破滅的泡泡";
+                portrait = "🥀";
+                content = "當界線消失，魔法也隨之破滅。女孩們一個個離去，原本溫暖的地方變得冷冰冰。沒有尊重的愛，只是另一種形式的傷害。";
+                playSound(80, 1.5, 'sawtooth');
+            }
+            
+            document.getElementById('char-name').innerText = title;
+            document.getElementById('portrait').innerText = portrait;
+            await typeText('main-text', content);
+            const restartBtn = document.createElement('button');
+            restartBtn.className = "main-action-btn mt-8 w-full py-5 rounded-full font-black text-xl";
+            restartBtn.innerText = "重新點燃魔法 ↺";
+            restartBtn.onclick = () => location.reload();
+            document.getElementById('options-box').appendChild(restartBtn);
+        }
+    </script>
 </body>
 </html>
