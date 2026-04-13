@@ -108,6 +108,14 @@
       align-content: center;
     }
 
+    #game-2 .game2-frame {
+      width: 100%;
+      min-height: min(88vh, 900px);
+      border: 0;
+      display: block;
+      background: transparent;
+    }
+
     .options {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -296,6 +304,12 @@
       max-width: 28ch;
     }
 
+    .intro-overlay .subtitle {
+      font-size: clamp(1rem, 2vw, 1.7rem);
+      line-height: 1.6;
+      max-width: 28ch;
+    }
+
     .gate.show { opacity: 1; }
   </style>
 </head>
@@ -317,7 +331,13 @@
       </div>
     </section>
 
-    
+    <section>
+      <div class="hero-card">
+        <span class="badge">Maid Cafe Story</span>
+        <h1>歡迎回家，主人 ♡</h1>
+        <p>請先完成每一段的互動問答，再往下閱讀故事.</p>
+      </div>
+    </section>
 
     <section>
       <article class="text-card">
@@ -410,17 +430,7 @@
     </section>
 
     <section id="game-2" data-game-order="2">
-      <div class="quiz-card">
-        <h2>請選出正確答案</h2>
-        <div class="question">2 + 2 = ?</div>
-        <div class="options">
-          <button data-game="2" data-answer="3">3</button>
-          <button data-game="2" data-answer="4">4</button>
-          <button data-game="2" data-answer="5">5</button>
-        </div>
-        <div class="status" id="status-2" aria-live="polite"></div>
-        <p class="lock-tip">請先完成這題，故事才會繼續。</p>
-      </div>
+      <iframe class="game2-frame" src="games/game2/index.html" title="遊戲二"></iframe>
     </section>
 
     <section>
@@ -615,6 +625,21 @@
         status.textContent = answer === answerKey[game]
           ? (game === 3 ? '答對了！全文已解鎖，歡迎繼續閱讀。' : '答對了！已解鎖下一段內容。')
           : '已完成本段互動（答錯也可繼續），可往下閱讀。';
+        gateHint.classList.remove('show');
+      });
+
+      window.addEventListener('message', (event) => {
+        if (!event.data || event.data.type !== 'game-complete') return;
+        const game = Number(event.data.game);
+        if (!Number.isFinite(game)) return;
+        completed.add(game);
+        lockSolvedGameButtons(game);
+        saveProgress();
+        refreshGateLimit();
+        const status = document.getElementById(`status-${game}`);
+        if (status) {
+          status.textContent = game === 3 ? '答對了！全文已解鎖，歡迎繼續閱讀。' : '答對了！已解鎖下一段內容。';
+        }
         gateHint.classList.remove('show');
       });
 
