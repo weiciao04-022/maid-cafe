@@ -9,8 +9,8 @@
     :root {
       --bg: #1d1f28;
       --bg-soft: #fff;
-      --text: #fff8ff;
-      --muted: #ffe8f2;
+      --text: #3c2a33;
+      --muted: #4f3742;
       --accent: #ff8fbe;
       --line: rgba(255, 219, 230, 0.35);
       --gold: #f1d89a;
@@ -18,6 +18,7 @@
       --rose-soft: #ffdced;
       --shadow: 0 18px 40px rgba(181, 101, 136, 0.2);
       --radius: 24px;
+      --pink-base: #f8d7e6;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,16 +28,16 @@
       font-family: "Noto Sans TC", "Microsoft JhengHei", sans-serif;
       color: var(--text);
       background:
-        repeating-linear-gradient(135deg, #1b1e27 0 14px, #2a2e3a 14px 28px),
-        repeating-linear-gradient(45deg, #1b1e27 0 14px, #2a2e3a 14px 28px),
-        repeating-linear-gradient(90deg, transparent 0 90px, #f8ebdd 90px 98px, transparent 98px 188px),
-        repeating-linear-gradient(0deg, transparent 0 90px, #f8ebdd 90px 98px, transparent 98px 188px),
-        radial-gradient(circle at 30% 30%, #a40f18 0 22%, transparent 22%),
-        radial-gradient(circle at 70% 70%, #a40f18 0 22%, transparent 22%),
-        linear-gradient(180deg, #7e0d13 0%, #8d0f16 100%),
+        linear-gradient(180deg, rgba(248, 215, 230, 0.72), rgba(248, 215, 230, 0.88)),
+        url("assets/maid-cafe-bg.jpg"),
+        linear-gradient(180deg, #f9d4e5 0%, #f6c9dd 100%),
         var(--bg);
+      background-size: cover;
+      background-position: center top;
+      background-attachment: fixed;
       overflow-x: hidden;
       position: relative;
+      cursor: none;
     }
 
     section {
@@ -51,11 +52,10 @@
     .text-card,
     .quiz-card {
       width: min(980px, 100%);
-      background: rgba(0, 0, 0, 0.44);
-      border: 1px solid rgba(255, 221, 232, 0.25);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
-      border-radius: 14px;
-      backdrop-filter: blur(1px);
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      border-radius: 0;
       padding: clamp(1.2rem, 3vw, 2rem) clamp(1rem, 2vw, 1.4rem);
       display: grid;
       gap: 0.9rem;
@@ -71,11 +71,11 @@
       text-align: center;
     }
 
-    h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.2; text-align: center; color: #fff; }
-    h2 { font-size: clamp(1.4rem, 3vw, 2.1rem); margin-bottom: 0.3rem; text-align: center; color: #fff; }
+    h1 { font-size: clamp(2rem, 5vw, 4rem); line-height: 1.2; text-align: center; color: #2f1f27; }
+    h2 { font-size: clamp(1.4rem, 3vw, 2.1rem); margin-bottom: 0.3rem; text-align: center; color: #2f1f27; }
     p { color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.2rem); line-height: 1.75; }
 
-    .lock-tip { color: #ffd6e7; font-size: 0.95rem; font-weight: 600; text-align: center; }
+    .lock-tip { color: #3f2c34; font-size: 0.95rem; font-weight: 600; text-align: center; }
 
     .question {
       font-size: clamp(2rem, 8vw, 4.5rem);
@@ -120,7 +120,7 @@
     .status {
       min-height: 1.8rem;
       text-align: center;
-      color: #ffeaf3;
+      color: #3f2c34;
       font-weight: 700;
     }
 
@@ -143,6 +143,55 @@
     }
 
     .gate.show { opacity: 1; }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.25);
+      z-index: 90;
+      backdrop-filter: blur(2px);
+    }
+
+    .scroll-progress .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff9ac8, #ffc4de);
+      box-shadow: 0 0 12px rgba(255, 154, 200, 0.7);
+      transition: width 90ms linear;
+    }
+
+    .cursor-dot {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      pointer-events: none;
+      z-index: 120;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fff 0 18%, #ffd0ea 18% 44%, #ff92c5 44% 100%);
+      box-shadow: 0 0 15px rgba(255, 146, 197, 0.8);
+      mix-blend-mode: screen;
+    }
+
+    .trail-sparkle {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      pointer-events: none;
+      z-index: 110;
+      border-radius: 50%;
+      background: #ff9fd0;
+      box-shadow: 0 0 8px rgba(255, 159, 208, 0.9);
+      animation: fadeSpark 700ms ease-out forwards;
+    }
+
+    @keyframes fadeSpark {
+      from { opacity: 0.9; transform: translate(-50%, -50%) scale(1); }
+      to { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+    }
 
     .bg-decoration {
       position: fixed;
@@ -186,12 +235,22 @@
 
     @media (max-width: 720px) {
       .options { grid-template-columns: 1fr; }
+      body { cursor: auto; }
+      .cursor-dot { display: none; }
+    }
+
+    .bg-decoration::before { left: 2%; }
+    .bg-decoration::after { right: 2%; }
+
+    @media (max-width: 720px) {
+      .options { grid-template-columns: 1fr; }
     }
 
     .gate.show { opacity: 1; }
   </style>
 </head>
 <body>
+  <div class="scroll-progress" aria-hidden="true"><div id="scrollBar" class="bar"></div></div>
   <div class="bg-decoration" aria-hidden="true">
     <div class="lace-top"></div>
     <div class="lace-bottom"></div>
@@ -208,14 +267,14 @@
     <section>
       <article class="text-card">
 
-        <p>愛漫畫的女僕以前看一個偶像的動漫，其中一個角色成為女僕，所以她也想進來。她說，那個角色站在舞台上時，明明只是說「歡迎回來」，卻讓人覺得被世界溫柔對待了一次。</p>
-        <p>她記得很清楚，那一幕的光是暖的。</p>
-        <p>於是，她走進了這個產業。</p>
-        <p>第一次穿上制服時，她站在鏡子前愣了幾秒。裙擺的弧度、頭飾的角度，甚至連「主人」兩個字怎麼說，都被訓練過。她說，那一刻其實沒有想太多，只是覺得——「原來我也可以變成那種讓人開心的人」。</p>
-        <p>在店裡，她學會用特定的語氣打招呼、替客人畫蛋包飯、在舞台上唱歌跳舞。離開前，有人會排隊找她簽小卡，有人會為了一場表演反覆來店。</p>
-        <p>「那時候真的很像偶像。」她說。</p>
-        <p>但偶像的光，是被製造出來的。</p>
-        <p>而在光之外，還有另一層不被看見的結構，慢慢顯影。</p>
+        <p>在採訪結束時，我問她，還會想繼續做下去嗎。
+她想了一下，沒有立刻回答。
+「會吧。」她最後說。
+不是因為沒有問題，而是因為這份工作，仍然承載著她一開始的想像。
+在舞台上，她還是可以成為那個角色。說出固定的台詞，讓人短暫忘記現實，帶著笑離開。
+某種程度上，這確實是一種「另類的偶像夢」。
+只是這個夢，不是被聚光燈照亮的那一面。
+而是必須同時承受光與影，才能成立。</p>
       </article>
     </section>
 
@@ -223,14 +282,14 @@
       <article class="text-card">
         <h2>面向一</h2>
 
-        <p>女僕咖啡廳的文化，從本質上來看，是一種從ACG（動畫、漫畫、遊戲）延伸出來的現實再現。</p>
-        <p>在動漫作品中，「女僕」通常承載的是一種理想化的角色設定——溫柔、順從、永遠以他人為優先，並且帶有一點距離感的親密。這樣的形象，被轉譯成服務業的一種形式，進入現實空間。</p>
-        <p>在店裡，女僕的日常其實高度結構化。從進門的「歡迎回來，主人」，到送餐時的固定台詞，再到最後的拍照與互動，每一個環節都有明確規範。這些規範的目的，是維持一種「角色穩定性」，讓顧客進來之後，不會感覺到破綻。</p>
-        <p>多數受訪的女僕，都提到自己進入這個產業的原因與ACG文化高度相關。有些人是從小看動漫長大，有些人則是因為喜歡角色扮演（cosplay），覺得這份工作可以「延續興趣」。</p>
-        <p>但這樣的選擇，往往不被家庭理解。</p>
-        <p>「我媽一開始覺得這跟酒店差不多。」一名女僕說。</p>
-        <p>對家人而言，這是一個模糊的產業：外觀是可愛與服務，但內部的互動形式卻帶有某種曖昧性。這種模糊，使得許多剛入行的人，其實並不完全理解自己將面對什麼。</p>
-        <p>「剛進來的時候，你只看到舞台、表演、小卡。」她說，「但那些比較危險的東西，是後面才慢慢知道的。」</p>
+        <p>在採訪結束時，我問她，還會想繼續做下去嗎。
+她想了一下，沒有立刻回答。
+「會吧。」她最後說。
+不是因為沒有問題，而是因為這份工作，仍然承載著她一開始的想像。
+在舞台上，她還是可以成為那個角色。說出固定的台詞，讓人短暫忘記現實，帶著笑離開。
+某種程度上，這確實是一種「另類的偶像夢」。
+只是這個夢，不是被聚光燈照亮的那一面。
+而是必須同時承受光與影，才能成立。</p>
       </article>
     </section>
 
@@ -254,16 +313,19 @@
       <article class="text-card">
         <h2>面向二</h2>
 
-        <p>女僕咖啡廳最核心的設計，是一種被稱為「主僕關係」的互動框架。</p>
-        <p>在這個框架中，顧客被稱為「主人」，女僕則以「僕人」自稱。這種稱呼本身，就已經建立了一種不對等的關係，但同時又被包裝成一種遊戲。</p>
-        <p>店內通常有非常嚴格的規定，例如禁止肢體接觸、禁止私下聯絡、禁止過度個人化的提問等。這些規範的存在，是為了維持界線，也是在保護女僕。</p>
-        <p>但實際運作上，界線並不總是清楚。</p>
-        <p>尼亞提到，她曾聽過有顧客在店外試圖跟女僕「一起回家」的案例。「那時候大家其實都很緊張，因為你不知道對方會做到什麼程度。」</p>
-        <p>璃沫則談到另一種壓力。她一開始會懷疑自己，如果有顧客表現出過度依賴或情感投射，她會想：「是不是我做錯了什麼？」但後來，她開始拒絕「戀愛型客人」。</p>
-        <p>「不是所有人都適合被當成角色對待。」她說。</p>
-        <p>在這個產業裡，熟客與新客之間的差異也非常明顯。熟客通常會投入大量金錢，例如點餐、購買周邊、支持表演等。這樣的投入，會在某種程度上影響互動方式。</p>
-        <p>「你會更記得他們的喜好，也會比較願意花時間聊天。」一名女僕坦言。</p>
-        <p>這種關係，介於服務與情感之間，但又無法被明確定義。</p>
+
+    <section>
+      <article class="text-card">
+        <h2>面向二</h2>
+
+        <p>在採訪結束時，我問她，還會想繼續做下去嗎。
+她想了一下，沒有立刻回答。
+「會吧。」她最後說。
+不是因為沒有問題，而是因為這份工作，仍然承載著她一開始的想像。
+在舞台上，她還是可以成為那個角色。說出固定的台詞，讓人短暫忘記現實，帶著笑離開。
+某種程度上，這確實是一種「另類的偶像夢」。
+只是這個夢，不是被聚光燈照亮的那一面。
+而是必須同時承受光與影，才能成立。</p>
       </article>
     </section>
 
@@ -285,19 +347,14 @@
       <article class="text-card">
         <h2>面向三</h2>
 
-        <p>比起現場互動，更隱性的壓力，來自於線上。</p>
-        <p>在社群媒體上，女僕需要維持角色形象，並持續與顧客互動。尼亞說，有些顧客會傳上百字的訊息，她就必須回上百字。</p>
-        <p>「不回會被說冷淡，回太短會被覺得不重視。」</p>
-        <p>這種回覆壓力，逐漸延伸成一種「情緒勞動」。</p>
-        <p>除了訊息，還包括日常經營。例如發文、回留言、拍照、維持曝光。這些工作，往往沒有被正式計算進薪資，但卻是維持客源的重要條件。</p>
-        <p>更極端的案例，是界線被突破。</p>
-        <p>小沙提到，有人曾經提出要購買她的「原味襪子」。她一開始以為只是玩笑，但對方持續追問，甚至願意出高價。</p>
-        <p>「那時候真的有點嚇到。」</p>
-        <p>在匿名社群平台「靠北女僕」上，也能看到大量相關案例。內容包括騷擾、情緒勒索、甚至是過度曝光個人資訊。</p>
-        <p>部分店家會協助處理，例如封鎖顧客、報警等。但並不是所有店家都有這樣的資源或意願。</p>
-        <p>這些壓力，累積在看似輕鬆的表演之下。</p>
- 
-        
+        <p>在採訪結束時，我問她，還會想繼續做下去嗎。
+她想了一下，沒有立刻回答。
+「會吧。」她最後說。
+不是因為沒有問題，而是因為這份工作，仍然承載著她一開始的想像。
+在舞台上，她還是可以成為那個角色。說出固定的台詞，讓人短暫忘記現實，帶著笑離開。
+某種程度上，這確實是一種「另類的偶像夢」。
+只是這個夢，不是被聚光燈照亮的那一面。
+而是必須同時承受光與影，才能成立。</p>
       </article>
     </section>
 
@@ -319,19 +376,14 @@
       <article class="text-card">
         <h2>面向四</h2>
 
-          <p>除了情感與精神層面，制度性問題同樣存在。</p>
-          <p>多名受訪者指出，部分店家存在勞動條件不明確的情況。例如未提供勞健保、不開發票、薪資延遲發放等。</p>
-          <p>「有些地方甚至沒有正式合約。」一名女僕說。</p>
-          <p>在人事成本方面，僕咖的營運壓力確實較高。除了基本人力，還需要負擔服裝、場地、活動等費用。在這樣的結構下，有些經營者選擇壓低成本。</p>
-          <p>最具爭議的，是權力不對等所帶來的風險。</p>
-          <p>有受訪者提到曾遭遇老闆言語或行為上的騷擾，但因為缺乏正式制度，很難提出申訴。</p>
-          <p>對此，璃沫提出另一種可能。</p>
-          <p>她認為，如果要讓產業長期發展，必須建立更穩定的制度。例如保障基本薪資、建立透明的排班制度、開拓更多元的客群，而不是只依賴單一族群。</p>
-          <p>「甚至可以跟遊戲公司合作，做聯名活動。」她說，「讓這個文化回到它原本的ACG脈絡。」</p>
-          <p>這些做法，或許能降低對個別女僕的壓力，同時提升產業的正當性。</p>
-         
-        
-        
+        <p>在採訪結束時，我問她，還會想繼續做下去嗎。
+她想了一下，沒有立刻回答。
+「會吧。」她最後說。
+不是因為沒有問題，而是因為這份工作，仍然承載著她一開始的想像。
+在舞台上，她還是可以成為那個角色。說出固定的台詞，讓人短暫忘記現實，帶著笑離開。
+某種程度上，這確實是一種「另類的偶像夢」。
+只是這個夢，不是被聚光燈照亮的那一面。
+而是必須同時承受光與影，才能成立。</p>
       </article>
     </section>
 
@@ -364,6 +416,7 @@
       const gameSections = [...document.querySelectorAll('[data-game-order]')];
       const gameByOrder = new Map(gameSections.map((section) => [Number(section.dataset.gameOrder), section]));
       const gateHint = document.getElementById('gateHint');
+      const scrollBar = document.getElementById('scrollBar');
       let gateTimeout;
       let gateTicking = false;
       let lockUntilY = Number.POSITIVE_INFINITY;
@@ -415,6 +468,14 @@
           window.scrollTo({ top: lockUntilY, behavior: 'auto' });
           showHint();
         }
+        updateProgressBar();
+      }
+
+      function updateProgressBar() {
+        if (!scrollBar) return;
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = scrollHeight <= 0 ? 0 : (window.scrollY / scrollHeight) * 100;
+        scrollBar.style.width = `${Math.max(0, Math.min(100, progress))}%`;
       }
 
       function lockSolvedGameButtons(game) {
@@ -473,6 +534,30 @@
       renderSolvedState();
       refreshGateLimit();
       enforceGate();
+    })();
+
+    (() => {
+      if (window.matchMedia('(pointer: coarse)').matches) return;
+      const cursor = document.createElement('div');
+      cursor.className = 'cursor-dot';
+      document.body.appendChild(cursor);
+
+      let lastTrail = 0;
+      document.addEventListener('mousemove', (event) => {
+        cursor.style.left = `${event.clientX}px`;
+        cursor.style.top = `${event.clientY}px`;
+
+        const now = performance.now();
+        if (now - lastTrail < 24) return;
+        lastTrail = now;
+
+        const trail = document.createElement('span');
+        trail.className = 'trail-sparkle';
+        trail.style.left = `${event.clientX}px`;
+        trail.style.top = `${event.clientY}px`;
+        document.body.appendChild(trail);
+        setTimeout(() => trail.remove(), 700);
+      });
     })();
   </script>
 </body>
