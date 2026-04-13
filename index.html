@@ -93,6 +93,21 @@
       border-bottom: 1px dashed var(--line);
     }
 
+    #game-1,
+    #game-2,
+    #game-3 {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+    }
+
+    #game-1 .quiz-card,
+    #game-2 .quiz-card,
+    #game-3 .quiz-card {
+      min-height: min(88vh, 900px);
+      align-content: center;
+    }
+
     .options {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -206,12 +221,12 @@
       position: absolute;
       top: 0;
       height: 100%;
-      width: 28px;
+      width: 14px;
       background:
-        radial-gradient(circle at 0 14px, #ffffff 14px, transparent 15px) repeat-y,
-        linear-gradient(90deg, #ffffff 0 62%, transparent 62% 100%);
-      background-size: 28px 28px, 100% 100%;
-      opacity: 0.95;
+        radial-gradient(circle at 0 7px, #ffffff 7px, transparent 8px) repeat-y,
+        linear-gradient(90deg, #ffffff 0 58%, transparent 58% 100%);
+      background-size: 14px 14px, 100% 100%;
+      opacity: 0.96;
     }
 
     .lace-top { left: 0; }
@@ -250,19 +265,36 @@
       object-fit: cover;
     }
 
-    .top-overlay-title {
+    .top-overlay {
       position: absolute;
       inset: 0;
       display: grid;
       place-items: center;
       text-align: center;
       color: #fff;
-      font-size: clamp(2rem, 6vw, 4.5rem);
-      font-weight: 800;
-      letter-spacing: 0.03em;
       text-shadow: 0 3px 18px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.7);
       background: linear-gradient(180deg, rgba(55, 33, 43, 0.12), rgba(55, 33, 43, 0.28));
       pointer-events: none;
+      padding: 1rem;
+    }
+
+    .top-overlay .kicker {
+      font-size: clamp(0.9rem, 1.3vw, 1.15rem);
+      letter-spacing: 0.16em;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .top-overlay .title {
+      font-size: clamp(2rem, 6vw, 4.5rem);
+      font-weight: 800;
+      margin-bottom: 0.45rem;
+    }
+
+    .top-overlay .subtitle {
+      font-size: clamp(1rem, 1.4vw, 1.35rem);
+      line-height: 1.6;
+      max-width: 32ch;
     }
 
     .gate.show { opacity: 1; }
@@ -274,7 +306,7 @@
     <div class="lace-top"></div>
     <div class="lace-bottom"></div>
   </div>
-  <main>
+<main>
     <section class="top-visual">
       <img src="pic/background01.png" alt="女僕咖啡廳背景" />
     </section>
@@ -295,14 +327,14 @@
         </p>
         <p>
         原本只是抱著「試試看」的心情入行，可可卻意外發現這份工作的種種驚喜：除了衣服如預期中的可愛，每天上班都能精心打扮、工時相對彈性，還能拍下許多美麗的照片，甚至有人願意買單。日常工作內容已讓他覺得有趣，店內不定期舉辦的特別表演活動更讓他樂在其中，彷彿真實走進了當初動漫裡的夢幻場景。「我覺得很好玩，還能收到大家的禮物，也常常能收到甜點。」他說，粉絲們總是帶著禮物與點心前來，用這份心意表達對女僕們的喜愛。
-          
+
         </p>
         <p>
           談及與客人之間的互動，可可也與我們分享了工作中的小確幸：「在這裡，可以明顯感受到他們是開心的。我可以認識不同的人，聊不同的話題。」言談之間，他臉上的笑意從未消散。
 
         </p>
-        
-        
+
+
       </article>
     </section>
 
@@ -337,7 +369,7 @@
 
 
         </p>
-        
+
       </article>
     </section>
 
@@ -372,8 +404,8 @@
           曾有七年女僕資歷的璃茉也坦言，自己在剛入行、尚未熟悉如何拿捏與顧客的關係時，曾經會反覆自我懷疑：「顧客喜歡自己，但自己卻無法回應，是不是自己的問題？」然而，隨著經驗累積，他逐漸學會設立清楚的邊界，例如明確告知不接「戀愛客」，以免陷入與顧客產生難以收拾的情感糾葛。「僕咖是提供情緒價值的地方，但不要把裡面發生的一切當成真實。」璃茉強調，雖然與顧客之間的親近程度可能影響業績表現，但他仍認為顧客仍須清楚理解這段關係的本質，才能避免讓自己越陷越深。
 
         </p>
-        
-        
+
+
       </article>
     </section>
 
@@ -419,7 +451,7 @@
           註1：出禁機制，指顧客若違反店內規範，經判定後將被禁止再次入店消費，但此制度難以防範僅消費一次的客人。
 
         </p>
-        
+
       </article>
     </section>
 
@@ -454,7 +486,7 @@
         <p>
           璃沫正是在這樣的背景下，決心籌備屬於自己的店。「僕咖有很多欠薪、騷擾這些問題。我是女僕出身的，自然會站在女僕的立場，創造一個屬於大家的小家。」他說。有別於傳統僕咖仰賴ACG客群的模式，璃茉計畫透過與遊戲品牌合作、拓展業配等方式開源，同時確保女僕的勞健保、核實開立發票，並提供相對優渥的薪資待遇，以制度化的方式保障從業人員的基本權益。在他的藍圖裡，希望女僕店能成為一個讓女僕們真正感到安心的家。
         </p>
-        
+
       </article>
     </section>
 
@@ -472,11 +504,12 @@
         <p>僕咖雖存在問題，卻也成為許多女僕們實現夢想的舞台。</p>
         <p>註2：生誕祭（せいたんさい）指粉絲為偶像或角色舉辦、具應援與儀式性的生日慶祝活動。
 </p>
-        
+
       </article>
     </section>
 
   </main>
+
 
   <div id="gateHint" class="gate">請先完成目前的遊戲，才能繼續往下閱讀。</div>
 
