@@ -826,6 +826,7 @@
       document.getElementById('bar-cert-money').style.width = stats.money + '%';
       document.getElementById('bar-cert-privacy').style.width = stats.privacy + '%';
       document.getElementById('end-report').innerText = report;
+      window.parent.postMessage({ type: 'game-complete', game: 2 }, '*');
     }
   </script>
 </body>
