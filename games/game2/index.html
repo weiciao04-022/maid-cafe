@@ -1,1 +1,42 @@
-
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>題目 2</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { min-height: 100vh; display: grid; place-items: center; font-family: "Noto Sans TC", sans-serif; background: linear-gradient(150deg, #ffe9f3, #fff, #e8f7ff); color: #4a3340; padding: 1rem; }
+    .card { width: min(760px, 100%); background: rgba(255,255,255,0.92); border: 2px solid #ffc9de; border-radius: 26px; box-shadow: 0 18px 35px rgba(182, 96, 138, 0.2); padding: clamp(1.2rem, 4vw, 2.2rem); text-align: center; display: grid; gap: 1rem; }
+    .q { font-size: clamp(2rem, 6vw, 4rem); font-weight: 800; color: #c7497f; }
+    .opts { display: grid; gap: 0.7rem; }
+    button { border: 0; border-radius: 14px; background: #ff79a9; color: white; font-size: 1.1rem; padding: 0.8rem 1rem; cursor: pointer; font-weight: 700; }
+    .msg { min-height: 1.8rem; color: #92506b; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <p>請選出正確答案</p>
+    <div class="q">2 + 2 = ?</div>
+    <div class="opts">
+      <button data-answer="3">3</button>
+      <button data-answer="4">4</button>
+      <button data-answer="5">5</button>
+    </div>
+    <div class="msg" id="msg"></div>
+  </div>
+  <script>
+    const msg = document.getElementById('msg');
+    document.querySelectorAll('button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.answer === '4') {
+          msg.textContent = '答對了！已解鎖下一段內容。';
+          window.parent.postMessage({ type: 'game-complete', game: 2 }, '*');
+        } else {
+          msg.textContent = '再試一次，主人♡';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
