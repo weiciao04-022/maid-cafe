@@ -38,6 +38,19 @@
       height: 100%;
       background: linear-gradient(90deg, #e4a6bf, #bc678a);
     }
+    .hero-content {
+      position: absolute;
+      left: min(6vw, 64px);
+      right: min(8vw, 72px);
+      bottom: min(12vh, 90px);
+      z-index: 2;
+      max-width: 66ch;
+      color: #fff;
+      text-shadow: 0 6px 24px rgba(0,0,0,.35);
+    }
+    .kicker { font-size: .86rem; letter-spacing: .15em; font-weight: 800; }
+    h1 { margin: .56rem 0; font-size: clamp(2rem, 5.3vw, 4.1rem); line-height: 1.12; }
+    .subtitle { margin: 0; font-size: clamp(1rem, 2vw, 1.3rem); }
 
     .hero {
       position: relative;
@@ -98,6 +111,7 @@
       align-items: center;
       justify-content: center;
     }
+    .scene-inner, .section, .interaction-wrap { width: var(--maxw); margin: 0 auto; }
 
     .split-copy-inner {
       width: min(560px, 72%);
@@ -217,6 +231,8 @@
       0% { opacity: 1; transform: translate(-50%, -50%) scale(.8); }
       100% { opacity: 0; transform: translate(-50%, -50%) scale(2.2); }
     }
+    .embed.active { display: block; }
+    .embed iframe { width: 100%; min-height: 80vh; border: 0; display: block; }
 
     @media (max-width: 1024px) {
       .hero { background-position: 38% center; }
@@ -281,7 +297,11 @@
         font-size: 1rem;
         line-height: 1.8;
       }
+      .hero-content { left: 20px; right: 20px; bottom: 8vh; }
+      .game-section { height: 88vh; }
     }
+
+    .gate.show { opacity: 1; }
   </style>
 </head>
 <body>
