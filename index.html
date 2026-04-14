@@ -277,12 +277,14 @@
 
     .top-visual .intro-overlay {
       position: absolute;
-      left: clamp(1rem, 5vw, 5rem);
-      bottom: clamp(1rem, 8vh, 5rem);
+      right: clamp(1rem, 5vw, 5rem);
+      top: 50%;
+      transform: translateY(-50%);
       color: #fff;
       text-shadow: 0 3px 18px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.7);
-      max-width: min(85vw, 920px);
+      max-width: min(52vw, 680px);
       pointer-events: none;
+      text-align: left;
     }
 
     .intro-overlay .kicker {
@@ -324,14 +326,21 @@
     <section class="top-visual">
       <div class="hero-image-wrap">
         <img src="pic/background01.png" alt="女僕咖啡廳背景" />
-        <div>
+        <div class="intro-overlay">
           <div class="kicker">MAID CAFE STORY</div>
           <div class="title">歡迎回家，主人 ♡</div>
-          
+          <div class="subtitle">請先完成每一段的互動問答，再往下閱讀故事.</div>
         </div>
       </div>
     </section>
 
+    <section>
+      <div class="hero-card">
+        <span class="badge">Maid Cafe Story</span>
+        <h1>歡迎回家，主人 ♡</h1>
+        <p>請先完成每一段的互動問答，再往下閱讀故事.</p>
+      </div>
+    </section>
 
     <section>
       <article class="text-card">
