@@ -144,6 +144,7 @@
       transform: translateY(var(--parallax-y, 0px));
       will-change: transform;
     }
+    .scene-inner, .section, .interaction-wrap { width: var(--maxw); margin: 0 auto; }
 
     .editorial-text {
       max-width: var(--textw);
@@ -180,6 +181,11 @@
       background: #fffdf3;
       color: #67593f;
     }
+    .report-wrap { border: 1px solid var(--line); background: #fff; }
+    .lead-block { border: 1px solid var(--line); background: #fff; box-shadow: var(--shadow); }
+    .bridge { background: var(--accent-soft); border: 1px dashed #efbed2; color: #714e5a; }
+    .quote { border-left: 4px solid var(--accent); background: #fff; font-weight: 700; color: #654652; }
+    .annotation { background: #fffdf4; border: 1px dashed #eddca8; color: #695a39; font-size: .96rem; }
 
     .module {
       margin-top: 1rem;
@@ -231,6 +237,8 @@
       .editorial-image { min-height: 300px; aspect-ratio: 16 / 10; }
       .embed iframe { min-height: 70vh; }
     }
+
+    .gate.show { opacity: 1; }
   </style>
 </head>
 <body>
@@ -296,6 +304,7 @@
           <p class="bridge">下一段將進一步討論：當「主人／大小姐」這套互動語言離開店內，界線會如何變得模糊。</p>
         </article>
       </div>
+      <p class="bridge">當「主人／大小姐」不再只是一句店內稱呼，主僕關係的互動邏輯，也會一路延伸到店外生活。</p>
     </section>
 
     <section class="section" id="scene-manager">
@@ -331,6 +340,7 @@
           <p class="quote">「僕咖是提供情緒價值的地方，但不要把裡面發生的一切當成真實。」</p>
         </article>
       </div>
+      <p class="bridge">當「主人／大小姐」不再只是一句店內稱呼，互動中的角色關係就會延伸成更現實的界線問題。</p>
     </section>
 
     <section class="section" id="scene-harassment">
@@ -397,6 +407,9 @@
       </div>
     </section>
   </main>
+
+
+  <div id="gateHint" class="gate">請先完成目前的遊戲，才能繼續往下閱讀。</div>
 
   <script>
     const progress = document.getElementById('progress');
