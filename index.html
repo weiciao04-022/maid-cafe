@@ -298,6 +298,8 @@
       .parallax-lead img { aspect-ratio: 16 / 10; }
       .embed iframe { min-height: 72vh; }
     }
+
+    .gate.show { opacity: 1; }
   </style>
 </head>
 <body>
@@ -449,7 +451,11 @@
         <img src="pic/06-ending-stage.png" alt="帶有舞台暖光的結尾場景" />
       </div>
     </section>
+
   </main>
+
+
+  <div id="gateHint" class="gate">請先完成目前的遊戲，才能繼續往下閱讀。</div>
 
   <script>
     const progress = document.getElementById('progress');
