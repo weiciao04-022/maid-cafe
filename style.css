@@ -59,8 +59,11 @@ body {
   transform: translateY(-50%);
   z-index: 2;
   max-width: 560px;
-  color: #fff;
-  text-shadow: 0 6px 24px rgba(0,0,0,.35);
+  padding: .95rem 1.15rem;
+  border-radius: 10px;
+  background: rgba(255, 238, 245, 0.68);
+  color: #5a3d47;
+  text-shadow: none;
 }
 .kicker { font-size: .86rem; letter-spacing: .15em; font-weight: 800; }
 h1 { margin: .56rem 0; font-size: clamp(2rem, 5.3vw, 4.1rem); line-height: 1.12; }
@@ -130,7 +133,7 @@ h1 { margin: .56rem 0; font-size: clamp(2rem, 5.3vw, 4.1rem); line-height: 1.12;
   --game-safe-x: clamp(12px, 2vw, 24px);
   position: relative;
   width: 100%;
-  min-height: 100svh;
+  min-height: auto;
   padding: var(--game-safe-y) var(--game-safe-x);
   display: flex;
   align-items: center;
@@ -141,7 +144,7 @@ h1 { margin: .56rem 0; font-size: clamp(2rem, 5.3vw, 4.1rem); line-height: 1.12;
 }
 .game-frame {
   width: min(1280px, 100%);
-  height: min(980px, calc(100svh - (var(--game-safe-y) * 2)));
+  height: max(820px, calc(100svh - (var(--game-safe-y) * 2)));
   border: none;
   display: block;
   border-radius: 10px;
@@ -222,6 +225,10 @@ h1 { margin: .56rem 0; font-size: clamp(2rem, 5.3vw, 4.1rem); line-height: 1.12;
   box-shadow: 0 14px 28px rgba(217, 109, 159, 0.3);
   outline: none;
 }
+a:hover,
+button:hover {
+  filter: drop-shadow(0 0 8px rgba(234, 126, 179, 0.45));
+}
 
 .sparkle {
   position: fixed;
@@ -265,17 +272,21 @@ h1 { margin: .56rem 0; font-size: clamp(2rem, 5.3vw, 4.1rem); line-height: 1.12;
 @media (max-width: 768px) {
   body { cursor: auto; }
   .hero {
-    background-position: center top;
-    background-size: contain;
-    min-height: auto;
-    aspect-ratio: 3 / 4;
+    background-position: 38% top;
+    background-size: cover;
+    min-height: 68vh;
+    aspect-ratio: auto;
   }
   .hero-content {
-    position: static;
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 14px;
+    top: auto;
     transform: none;
-    max-width: none;
-    padding: 1.2rem 1rem 1.4rem;
-    background: linear-gradient(to top, rgba(255,242,247,.92), rgba(255,242,247,.76));
+    max-width: 100%;
+    padding: .85rem .9rem;
+    background: rgba(255, 238, 245, 0.78);
     color: #5a3d47;
     text-shadow: none;
   }
@@ -313,9 +324,12 @@ h1 { margin: .56rem 0; font-size: clamp(2rem, 5.3vw, 4.1rem); line-height: 1.12;
     transform: none !important;
   }
   .game-section {
-    min-height: 100svh;
+    min-height: auto;
     --game-safe-y: 14px;
     --game-safe-x: 12px;
+  }
+  .game-frame {
+    height: max(760px, calc(100svh - (var(--game-safe-y) * 2)));
   }
   .game-overlay {
     justify-content: center;
