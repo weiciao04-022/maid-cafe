@@ -108,6 +108,7 @@
       align-content: center;
     }
 
+    #game-1 .game1-frame,
     #game-2 .game2-frame {
       width: 100%;
       min-height: min(88vh, 900px);
@@ -394,17 +395,7 @@
     </section>
 
     <section id="game-1" data-game-order="1">
-      <div class="quiz-card">
-        <h2>請選出正確答案</h2>
-        <div class="question">1 + 1 = ?</div>
-        <div class="options">
-          <button data-game="1" data-answer="1">1</button>
-          <button data-game="1" data-answer="2">2</button>
-          <button data-game="1" data-answer="3">3</button>
-        </div>
-        <div class="status" id="status-1" aria-live="polite"></div>
-        <p class="lock-tip">完成這題後才可繼續往下滑閱讀後續內容。</p>
-      </div>
+      <iframe class="game1-frame" src="games/game1/index.html" title="遊戲一"></iframe>
     </section>
 
 
