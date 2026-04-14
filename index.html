@@ -38,19 +38,6 @@
       height: 100%;
       background: linear-gradient(90deg, #e4a6bf, #bc678a);
     }
-    .hero-content {
-      position: absolute;
-      left: min(6vw, 64px);
-      right: min(8vw, 72px);
-      bottom: min(12vh, 90px);
-      z-index: 2;
-      max-width: 66ch;
-      color: #fff;
-      text-shadow: 0 6px 24px rgba(0,0,0,.35);
-    }
-    .kicker { font-size: .86rem; letter-spacing: .15em; font-weight: 800; }
-    h1 { margin: .56rem 0; font-size: clamp(2rem, 5.3vw, 4.1rem); line-height: 1.12; }
-    .subtitle { margin: 0; font-size: clamp(1rem, 2vw, 1.3rem); }
 
     .hero {
       position: relative;
@@ -71,11 +58,12 @@
     }
     .hero-content {
       position: absolute;
-      left: min(6vw, 64px);
+      top: 50%;
+      left: clamp(42vw, 52vw, 58vw);
       right: min(8vw, 72px);
-      bottom: min(12vh, 90px);
+      transform: translateY(-50%);
       z-index: 2;
-      max-width: 66ch;
+      max-width: 560px;
       color: #fff;
       text-shadow: 0 6px 24px rgba(0,0,0,.35);
     }
@@ -103,7 +91,18 @@
       background-position: center center;
       background-repeat: no-repeat;
       align-self: flex-start;
+      overflow: hidden;
     }
+    .story-media-inner {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+    .kicker { font-size: .86rem; letter-spacing: .15em; font-weight: 800; }
+    h1 { margin: .56rem 0; font-size: clamp(2rem, 5.3vw, 4.1rem); line-height: 1.12; }
+    .subtitle { margin: 0; font-size: clamp(1rem, 2vw, 1.3rem); }
 
     .split-copy {
       background: #fff;
@@ -111,7 +110,7 @@
       align-items: center;
       justify-content: center;
     }
-    .scene-inner, .section, .interaction-wrap { width: var(--maxw); margin: 0 auto; }
+    .story-section.split-section.reverse { flex-direction: row-reverse; }
 
     .split-copy-inner {
       width: min(560px, 72%);
@@ -135,6 +134,7 @@
       will-change: transform;
       transform: translateY(0);
     }
+    .scene-inner, .section, .interaction-wrap { width: var(--maxw); margin: 0 auto; }
 
     .game-section {
       position: relative;
@@ -231,11 +231,25 @@
       0% { opacity: 1; transform: translate(-50%, -50%) scale(.8); }
       100% { opacity: 0; transform: translate(-50%, -50%) scale(2.2); }
     }
-    .embed.active { display: block; }
-    .embed iframe { width: 100%; min-height: 80vh; border: 0; display: block; }
+
+    .section-risk .split-media,
+    .section-workplace .split-media,
+    .section-ending .split-media {
+      background-image: none !important;
+    }
+    .section-risk .story-media-inner {
+      background-image: url("images/section-03-online-risk.jpg");
+    }
+    .section-workplace .story-media-inner {
+      background-image: url("images/section-04-workplace.jpg");
+    }
+    .section-ending .story-media-inner {
+      background-image: url("images/section-05-ending-dream.jpg");
+    }
 
     @media (max-width: 1024px) {
       .hero { background-position: 38% center; }
+      .hero-content { left: clamp(36vw, 46vw, 52vw); }
       .split-copy-inner { width: min(520px, 78%); padding: 72px 0; }
     }
 
@@ -244,14 +258,19 @@
         background-position: 32% center;
         min-height: 100svh;
       }
-      .story-section.split-section {
+      .story-section.split-section,
+      .story-split {
         flex-direction: column;
         min-height: auto;
       }
       .split-media,
-      .split-copy {
+      .split-copy,
+      .story-media,
+      .story-copy {
         width: 100%;
       }
+      .story-media { order: 1; }
+      .story-copy { order: 2; }
       .split-media {
         position: relative;
         top: auto;
@@ -311,13 +330,12 @@
     <div class="hero-content">
       <div class="kicker">新聞專題報導 ・ MAID CAFE IN TAIWAN</div>
       <h1>主人／大小姐，歡迎回家</h1>
-      <p class="subtitle">這是一篇關於台灣女僕咖啡廳產業的報導：從夢想與被喜歡的舞台，走到界線、網路騷擾與制度風險。</p>
     </div>
   </header>
 
-  <section class="story-section split-section" id="intro-story">
-    <div class="split-media parallax-panel" data-speed="0.18" style="background-image:url('pic/01-entrance.png')"></div>
-    <div class="split-copy"><div class="split-copy-inner">
+  <section class="story-section split-section story-split" id="intro-story">
+    <div class="split-media story-media parallax-panel" data-speed="0.18" style="background-image:url('pic/01-entrance.png')"></div>
+    <div class="split-copy story-copy"><div class="split-copy-inner">
       <h2>導言人物故事：可可的入行起點與夢幻日常</h2>
       <p>【記者陳少凡、黃暐喬、陳雙、顏貝恩報導】「主人／大小姐，歡迎回家！」踏入女僕咖啡廳（以下簡稱僕咖），迎面而來的是女僕親切的笑容與問候。帶位入座後，女僕會輕輕靠在桌邊，細心介紹餐點，讓人彷彿瞬間進入了莊園，女僕從旁服務顧客。</p>
       <p>桌上擺放著菜單與搖鈴，顧客隨時可以透過搖鈴呼喚專屬的女僕前來服務，這樣的設計，也讓互動多了一層儀式感。</p>
@@ -328,9 +346,9 @@
     </div></div>
   </section>
 
-  <section class="story-section split-section reverse" id="origin">
-    <div class="split-media parallax-panel" data-speed="0.16" style="background-image:url('pic/03-atmosphere-crack.png')"></div>
-    <div class="split-copy"><div class="split-copy-inner">
+  <section class="story-section split-section story-split reverse" id="origin">
+    <div class="split-media story-media parallax-panel" data-speed="0.16" style="background-image:url('pic/03-atmosphere-crack.png')"></div>
+    <div class="split-copy story-copy"><div class="split-copy-inner">
       <h2>面向一：女僕咖啡廳起源</h2>
       <p>僕咖源自日本秋葉原的御宅族文化，將ACG（Anime、Comic、Game）中對女僕角色的想像搬入現實。透過服裝、語言與互動，男性顧客被稱為「主人」，女性顧客則被稱為「大小姐」，女僕也因此成為從虛構世界走出來的獨特存在。這樣的空間，讓人得以短暫抽離日常生活，進入非現實的情境中。台灣女僕文化從早期的小眾同好聚集，演變為一種結合餐飲與互動體驗的娛樂型態。</p>
       <p>「基本上就是收送餐、畫盤（用巧克力醬或番茄醬作畫）、施魔法、招呼客人、靠桌聊天、調製飲料、幫客人拍照。」女僕小沙（化名）細數工作內容，他笑著說，這是一份「很夢幻、也很美好」的工作。女僕與一般咖啡廳員工的職責差異不大，但最特別之處在於，送上餐點之餘，他們提供的更是一種「情緒價值」。</p>
@@ -353,9 +371,9 @@
     </div>
   </section>
 
-  <section class="story-section split-section" id="relationship-report">
-    <div class="split-media parallax-panel" data-speed="0.18" style="background-image:url('pic/02-bell-omurice.png')"></div>
-    <div class="split-copy"><div class="split-copy-inner">
+  <section class="story-section split-section story-split" id="relationship-report">
+    <div class="split-media story-media parallax-panel" data-speed="0.18" style="background-image:url('pic/02-bell-omurice.png')"></div>
+    <div class="split-copy story-copy"><div class="split-copy-inner">
       <h2>當「主人」走出咖啡廳——主僕關係的建構</h2>
       <p>僕咖常被形容為一個為顧客打造的「異世界」。「大小姐」、「主人」這些稱謂不僅營造出獨特的氛圍，也在建立起女僕與客人之間的「主僕關係」，讓顧客感受到自己處於被服務與關注的焦點。對此，幻戀女僕咖啡廳負責人璃茉（化名）表示：「僕咖本質上還是餐飲業，只是服裝比較精緻，空閒時間會和客人聊天，有點像偶像互動的感覺。」儘管這樣的關係設定強調互動，正統的僕咖會對女僕與客人的互動設下明確界線，例如：禁止顧客觸碰女僕、女僕也不得坐在顧客身旁、不能等待女僕下班等，以維持一定的距離與安全。</p>
       <p>然而，這樣的角色關係延伸至現實生活時，界線有時也會變得模糊。女僕蘋果派（化名）分享，曾有同事在下班後由男友從台北接送回桃園住處，卻遭顧客一路尾隨，事後還收到私訊追問接送者的身分。這樣的舉動不僅打破了本應存在於店內的角色界線，也讓女僕的人身安全面臨潛在威脅。</p>
@@ -375,9 +393,11 @@
     </div>
   </section>
 
-  <section class="story-section split-section reverse" id="harassment-report">
-    <div class="split-media parallax-panel" data-speed="0.14" style="background-image:url('pic/05-phone-harassment.png')"></div>
-    <div class="split-copy"><div class="split-copy-inner">
+  <section class="story-section split-section story-split reverse section-risk" id="harassment-report">
+    <div class="split-media story-media">
+      <div class="story-media-inner parallax-panel" data-speed="0.14"></div>
+    </div>
+    <div class="split-copy story-copy"><div class="split-copy-inner">
       <h2>面向三：網路世界的潛在威脅：額外經營負擔、隱私、騷擾</h2>
       <p>女僕提供的情緒價值，往往不只停留在店內，而是延伸至下班之後。為了維繫既有客群並吸引新客源，女僕必須在下班後的時間持續經營社群帳號，他們被迫隨時守著手機、保持在線，這種隱形成本已轉化為沉重的負擔。女僕小美（化名）坦言：「壓力就是你會覺得可能要一直盯著手機啊！就是一定要上線。」這種數位勞動也引發了權力不對等的情感勒索，若女僕未能即時回覆訊息，常會遭到標籤化的負面評價，蘋果派指出：「有些客人會很在意你沒有回他訊息，這件事情可能他（顧客）會覺得你很功利、很現實，因為（他們會覺得女僕的服務）一定要到店裡要花了錢，才能跟你講到話。」在顧客的認知中，即時回訊是女僕應盡的本職工作，若未達標即被視為失職。儘管女僕們能理解顧客對陪伴的渴望，但他們也強烈希望對方能理解勞動的界線。在脫下制服後，他們同樣需要享受純粹的休息時光。蘋果派表示，雖然這份工作的隱形壓力極大，但她選擇維持心理邊界，若顧客過於在意回訊頻率，他會禮貌地表示雙方「沒有緣分」，藉此過濾掉對私生活過度干擾的顧客。</p>
       <p>壓力不只來自顧客的期待，女僕圈內的匿名社群「靠北女僕」，也是許多人揮之不去的陰影。由於這個圈子人員流動頻繁，女僕的工作表現、私下行蹤，都可能被人截圖上傳、討論。小美分享，曾有女僕與男友約會時遭人偷拍，照片流出後還被嘲諷「有男朋友還來當女僕」，反映出部分顧客對女僕「必須純淨、不能有私生活」的扭曲想像。這樣的輿論壓力，讓女僕即使下了班，也難以真正卸下包袱。</p>
@@ -388,9 +408,11 @@
     </div></div>
   </section>
 
-  <section class="story-section split-section section-workplace" id="labor-report">
-    <div class="split-media parallax-panel" data-speed="0.12" style="background-image:url('pic/03-atmosphere-crack.png')"></div>
-    <div class="split-copy"><div class="split-copy-inner">
+  <section class="story-section split-section story-split section-workplace" id="labor-report">
+    <div class="split-media story-media">
+      <div class="story-media-inner parallax-panel" data-speed="0.12"></div>
+    </div>
+    <div class="split-copy story-copy"><div class="split-copy-inner">
       <h2>面向四：職場問題</h2>
       <p>「人事成本當然是經營時支出最大的項目。」天使心女僕咖啡廳老闆寶哥說明，僕咖產業的人事成本相較其他服務業高出許多。不少女僕當初正是因為較高的薪資入行，沒想到卻碰上欠薪問題，讓原本的期待落空。據報導，議員張志豪於2月13日揭露，某僕咖業主積欠員工薪資高達約560萬元。這樣的案例並非個案。「一開始只是拖半個月，後來乾脆不給薪水。」曾於欠薪僕咖工作過的可可說道。業者慣以「晚點再給」或「先給一部分」等方式拖延，許多女僕礙於情面或求職不易，往往選擇默默承受，待離職或轉往他店後才告一段落，真正被揭露的案例仍屬少數。欠薪所帶來的衝擊不僅停留在勞資糾紛層面，更實質威脅到女僕的日常生計。</p>
       <p>除了欠薪問題，職場內的不當對待同樣令人憂心。「聽朋友說，有老闆會搭女僕肩膀、手往下摸，然後可能還會摸一下頭，沒來由地動手動腳。」可可分享著從同業口中聽來的遭遇。僕咖雖明訂了與客人之間的互動界線，職場內部的規範卻仍所欠缺，形成灰色地帶。「因為是上對下的關係，有時候也不敢反抗。有些人會選擇離開，有些人選擇順從。」小美說，畢竟跟老闆關係不好，排班就會變少，薪水也會受影響，所以大多數人即使心裡不滿，還是會選擇忍下來。</p>
@@ -399,9 +421,11 @@
     </div></div>
   </section>
 
-  <section class="story-section split-section reverse" id="ending">
-    <div class="split-media parallax-panel" data-speed="0.12" style="background-image:url('pic/06-ending-stage.png')"></div>
-    <div class="split-copy"><div class="split-copy-inner">
+  <section class="story-section split-section story-split reverse section-ending" id="ending">
+    <div class="split-media story-media">
+      <div class="story-media-inner parallax-panel" data-speed="0.12"></div>
+    </div>
+    <div class="split-copy story-copy"><div class="split-copy-inner">
       <h2>結尾：僕咖雖有問題，但也成為女僕完成夢想的舞台</h2>
       <p>可可的生誕祭（註2）快到了，他最近常因為準備，彩排到很晚。他表示，這次生誕祭準備六到八個表演節目，讓粉絲幫他慶祝生日的同時，也能展現他認真準備的痕跡。「準備起來很累，但很期待那一天（生誕祭）。」他說，即使需要花費大量時間排練，但他還是很期待可以將最好的狀態帶給粉絲。</p>
       <p>「我的夢想是想要徵選地下偶像，我想在女僕咖啡廳先累積一些勇氣和經驗！」小沙說道，透過在僕咖表演的工作，也能增加他徵選上地下偶像的機會。</p>
