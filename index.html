@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>主人／大小姐，歡迎回家：台灣女僕咖啡廳的夢與現實</title>
-  <meta name="description" content="台灣女僕咖啡廳專題：從沉浸式情境進入夢想、界線、網路騷擾與制度風險的現場。" />
+  <meta name="description" content="台灣女僕咖啡廳專題：從夢想與情緒價值，到界線、騷擾與制度風險。" />
   <style>
     :root {
       --bg: #fff7fb;
@@ -14,14 +14,11 @@
       --line: #f0dbe4;
       --accent: #c75d88;
       --accent-soft: #fae8f0;
-      --dark-soft: #584149;
       --maxw: min(900px, 92vw);
       --shadow: 0 14px 38px rgba(77, 43, 57, 0.13);
     }
-
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
-
     body {
       font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
       color: var(--ink);
@@ -34,13 +31,12 @@
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 100;
       width: 100%;
       height: 5px;
-      background: rgba(255, 255, 255, 0.45);
+      z-index: 100;
+      background: rgba(255,255,255,0.45);
       backdrop-filter: blur(2px);
     }
-
     .read-progress i {
       display: block;
       width: 0;
@@ -49,14 +45,13 @@
     }
 
     .hero {
-      min-height: 82vh;
+      min-height: 80vh;
       position: relative;
       display: grid;
       align-items: end;
       isolation: isolate;
       overflow: hidden;
     }
-
     .hero img {
       position: absolute;
       inset: 0;
@@ -66,44 +61,45 @@
       z-index: -2;
       transform: scale(1.03);
     }
-
     .hero::after {
       content: "";
       position: absolute;
       inset: 0;
       z-index: -1;
-      background: linear-gradient(to bottom, rgba(48, 23, 30, 0.18), rgba(48, 23, 30, 0.75));
+      background: linear-gradient(to bottom, rgba(48,23,30,.2), rgba(48,23,30,.76));
     }
-
     .hero-inner {
       width: var(--maxw);
       margin: 0 auto clamp(2.8rem, 8vh, 5.3rem);
       color: #fff;
-      text-shadow: 0 4px 22px rgba(0, 0, 0, 0.35);
+      text-shadow: 0 4px 22px rgba(0,0,0,.35);
     }
+    .kicker { font-size: .9rem; letter-spacing: .16em; font-weight: 800; }
+    h1 { margin: .55rem 0; font-size: clamp(2rem,5.4vw,4rem); line-height: 1.12; }
+    .subtitle { margin: 0; max-width: 38ch; font-size: clamp(1.04rem,2vw,1.35rem); }
+    .scroll-cue { margin-top: 1.1rem; font-weight: 700; font-size: .95rem; opacity: .95; }
 
-    .kicker { font-size: 0.9rem; letter-spacing: 0.16em; font-weight: 800; }
-    h1 { margin: 0.55rem 0; font-size: clamp(2rem, 5.4vw, 4rem); line-height: 1.12; }
-    .subtitle { margin: 0; max-width: 38ch; font-size: clamp(1.04rem, 2vw, 1.35rem); }
-    .scroll-cue { margin-top: 1.1rem; font-weight: 700; font-size: 0.95rem; opacity: 0.94; }
+    .story-nav {
+      width: var(--maxw);
+      margin: 1rem auto 0;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: .8rem 1rem;
+      color: var(--ink-soft);
+      font-size: .92rem;
+      box-shadow: var(--shadow);
+    }
+    .story-nav strong { color: #5b3e48; }
+    .story-nav a { color: #7a4560; text-decoration: none; margin-right: .6rem; }
 
     .scene {
-      position: relative;
-      padding: clamp(2.8rem, 8vh, 5.8rem) 0;
+      padding: clamp(2.6rem, 7vh, 5rem) 0;
       background: linear-gradient(180deg, #fff8fb 0%, #fff5fa 100%);
-      overflow: clip;
     }
+    .scene-inner, .section, .interaction-wrap { width: var(--maxw); margin: 0 auto; }
 
-    .scene-inner,
-    .section,
-    .interaction-wrap {
-      width: var(--maxw);
-      margin: 0 auto;
-    }
-
-    .scene h2,
-    .section h2,
-    .interaction-wrap h2 {
+    .scene h2, .section h2, .interaction-wrap h2 {
       margin: 0 0 1rem;
       line-height: 1.35;
       font-size: clamp(1.5rem, 2.8vw, 2.2rem);
@@ -113,127 +109,69 @@
     .scene-grid {
       display: grid;
       gap: 1rem;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0,1fr));
       margin-top: 1rem;
     }
-
     .scene-card {
-      background: #fff;
       border: 1px solid var(--line);
       border-radius: 16px;
+      background: #fff;
       overflow: hidden;
       box-shadow: var(--shadow);
-      transform: translateY(var(--parallax-offset, 0px));
+      transform: translateY(var(--parallax-offset, 0));
       transition: transform 120ms linear;
     }
-
-    .scene-card img {
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      object-fit: cover;
-      display: block;
-    }
-
-    .scene-card p {
-      margin: 0;
-      padding: 0.9rem 0.95rem 1rem;
-      color: var(--ink-soft);
-      font-size: 0.96rem;
-    }
-
+    .scene-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+    .scene-card p { margin: 0; padding: .9rem .95rem 1rem; color: var(--ink-soft); font-size: .96rem; }
     .scene-note {
       margin-top: 1rem;
-      padding: 0.95rem 1.05rem;
+      padding: .95rem 1.05rem;
       border-radius: 12px;
       background: var(--accent-soft);
       border: 1px dashed #efbfd2;
       color: #6f4f59;
     }
 
-    .section {
-      padding: clamp(2rem, 6vh, 4rem) 0;
-      border-bottom: 1px solid var(--line);
-    }
+    .section { padding: clamp(2rem, 6vh, 3.9rem) 0; border-bottom: 1px solid var(--line); }
+    .section p, .interaction-wrap p { margin: .72rem 0; color: var(--ink-soft); font-size: clamp(1rem,1.4vw,1.08rem); }
 
-    .section p,
-    .interaction-wrap p {
-      margin: 0.72rem 0;
-      color: var(--ink-soft);
-      font-size: clamp(1rem, 1.4vw, 1.08rem);
-    }
-
-    .lead-block,
-    .report-wrap,
-    .bridge,
-    .annotation,
-    .quote {
+    .report-wrap, .lead-block, .bridge, .quote, .annotation {
       border-radius: 14px;
       padding: 1rem 1.06rem;
       margin: 1rem 0;
     }
+    .report-wrap { border: 1px solid var(--line); background: #fff; }
+    .lead-block { border: 1px solid var(--line); background: #fff; box-shadow: var(--shadow); }
+    .bridge { background: var(--accent-soft); border: 1px dashed #efbed2; color: #714e5a; }
+    .quote { border-left: 4px solid var(--accent); background: #fff; font-weight: 700; color: #654652; }
+    .annotation { background: #fffdf4; border: 1px dashed #eddca8; color: #695a39; font-size: .96rem; }
 
-    .lead-block {
-      background: #fff;
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .report-wrap {
-      border: 1px solid var(--line);
-      background: #fff;
-    }
-
-    .quote {
-      border-left: 4px solid var(--accent);
-      background: #fff;
-      font-weight: 700;
-      color: #654652;
-    }
-
-    .annotation {
-      background: #fffdf4;
-      border: 1px dashed #eddca8;
-      color: #695a39;
-      font-size: 0.96rem;
-    }
-
-    .bridge {
-      background: var(--accent-soft);
-      border: 1px dashed #efbed2;
-      color: #714e5a;
-    }
-
-    .interaction-wrap {
-      padding: clamp(2rem, 6vh, 4rem) 0;
-      border-bottom: 1px solid var(--line);
-    }
+    .interaction-wrap { padding: clamp(2rem, 6vh, 3.9rem) 0; border-bottom: 1px solid var(--line); }
 
     .parallax-lead {
       position: relative;
+      margin-top: .8rem;
       border: 1px solid var(--line);
       border-radius: 16px;
       overflow: hidden;
       background: #fff;
       box-shadow: var(--shadow);
-      margin-top: 0.8rem;
     }
-
     .parallax-lead img {
       width: 100%;
-      aspect-ratio: 16 / 8;
+      aspect-ratio: 16/8;
       object-fit: cover;
       display: block;
-      transform: scale(1.04) translateY(var(--parallax-offset, 0px));
+      transform: scale(1.04) translateY(var(--parallax-offset, 0));
       transition: transform 120ms linear;
     }
-
     .parallax-lead .overlay {
       position: absolute;
       inset: auto 0 0 0;
-      background: linear-gradient(to top, rgba(34, 20, 24, 0.72), rgba(34, 20, 24, 0.08));
-      color: #fff;
       padding: 1rem 1.1rem;
-      font-size: 0.97rem;
+      color: #fff;
+      background: linear-gradient(to top, rgba(34,20,24,.72), rgba(34,20,24,.08));
+      font-size: .97rem;
       line-height: 1.7;
     }
 
@@ -245,36 +183,30 @@
       padding: 1rem;
       box-shadow: var(--shadow);
     }
-
-    .module h3 { margin: 0 0 0.45rem; color: #5b3d46; }
-
+    .module h3 { margin: 0 0 .45rem; color: #5b3d46; }
     .module button {
-      margin-top: 0.45rem;
+      margin-top: .45rem;
       border: 0;
       border-radius: 999px;
       background: linear-gradient(180deg, #dd86ac, #c45c87);
       color: #fff;
       font-weight: 800;
-      padding: 0.72rem 1.15rem;
+      padding: .72rem 1.15rem;
       cursor: pointer;
     }
 
     .embed {
       display: none;
-      margin-top: 0.95rem;
+      margin-top: .95rem;
       border: 1px solid var(--line);
       border-radius: 14px;
       overflow: hidden;
       background: #fff;
     }
-
     .embed.active { display: block; }
     .embed iframe { width: 100%; min-height: 84vh; border: 0; display: block; }
 
-    .dark-report {
-      background: linear-gradient(180deg, #fff5fa 0%, #f9ecf2 100%);
-    }
-
+    .dark-report { background: linear-gradient(180deg, #fff5fa 0%, #f8ebf1 100%); }
     .section.emphasis {
       background: #fff;
       border: 1px solid var(--line);
@@ -290,13 +222,13 @@
       overflow: hidden;
       border: 1px solid var(--line);
     }
-
-    .ending-visual img { width: 100%; aspect-ratio: 16 / 7; object-fit: cover; display: block; }
+    .ending-visual img { width: 100%; aspect-ratio: 16/7; object-fit: cover; display: block; }
 
     @media (max-width: 900px) {
       .scene-grid { grid-template-columns: 1fr; }
-      .parallax-lead img { aspect-ratio: 16 / 10; }
+      .parallax-lead img { aspect-ratio: 16/10; }
       .embed iframe { min-height: 72vh; }
+      .story-nav { font-size: .88rem; }
     }
 
     .gate.show { opacity: 1; }
@@ -311,10 +243,20 @@
       <div class="hero-inner">
         <div class="kicker">新聞專題報導 ・ MAID CAFE IN TAIWAN</div>
         <h1>主人／大小姐，歡迎回家</h1>
-        <p class="subtitle">這是一篇關於台灣女僕咖啡廳產業的專題：從被喜歡的夢想出發，走進界線、騷擾與制度風險的現場。</p>
-        <p class="scroll-cue">向下閱讀，先走進場景，再進入報導 →</p>
+        <p class="subtitle">這是一篇關於台灣女僕咖啡廳產業的長篇報導：從被喜歡的夢想出發，走進界線、騷擾與制度風險。</p>
+        <p class="scroll-cue">向下閱讀，先進入情境，再回到報導現場 →</p>
       </div>
     </header>
+
+    <nav class="story-nav" aria-label="閱讀導覽">
+      <strong>閱讀導覽：</strong>
+      <a href="#intro-story">導言</a>
+      <a href="#origin">面向一</a>
+      <a href="#boundary-report">面向二</a>
+      <a href="#online-risk">面向三</a>
+      <a href="#labor">面向四</a>
+      <a href="#ending">結尾</a>
+    </nav>
 
     <section class="scene" id="opening-scene">
       <div class="scene-inner">
@@ -327,15 +269,16 @@
           </article>
           <article class="scene-card" data-parallax="0.18">
             <img src="pic/02-bell-omurice.png" alt="菜單、搖鈴與蛋包飯施魔法儀式" />
-            <p>菜單、搖鈴、蛋包飯施魔法，形成一套可被重複參與的儀式，也讓互動被細緻地設計成體驗。</p>
+            <p>菜單、搖鈴、蛋包飯施魔法，形成可被反覆參與的儀式，也讓互動被細緻地設計成體驗。</p>
           </article>
           <article class="scene-card" data-parallax="0.24">
             <img src="pic/03-atmosphere-crack.png" alt="夢幻氛圍中隱約裂痕的場景" />
             <p>在被照顧與被理解的感受背後，情緒勞動與角色期待，也正悄悄累積成看不見的壓力。</p>
           </article>
         </div>
-        <p class="scene-note">這一段是情境導入。接下來，報導將回到人物與採訪現場，拆解這份夢幻工作如何與現實交錯。</p>
+        <p class="scene-note">這一段是情境導入。接下來，報導會回到人物與採訪現場，拆解僕咖產業的多重面貌。</p>
       </div>
+      <p class="bridge">當「主人／大小姐」不再只是一句店內稱呼，主僕關係的互動邏輯，也會一路延伸到店外生活。</p>
     </section>
 
     <section class="section" id="intro-story">
@@ -348,7 +291,7 @@
         <p>原本只是抱著「試試看」的心情入行，可可卻意外發現這份工作的種種驚喜：除了衣服如預期中的可愛，每天上班都能精心打扮、工時相對彈性，還能拍下許多美麗的照片，甚至有人願意為此買單。店內不定期舉辦的特別表演活動，像是可以被指定上台唱歌跳舞，讓他在過程中享受到萬眾矚目的感覺，彷彿真實走進了當初偶像動漫裡的夢幻場景。「我覺得很好玩，還能收到大家的禮物，也常常能收到甜點。」他說，粉絲們總是帶著禮物與點心前來，用這份心意表達對女僕們的喜愛。</p>
         <p>「在這裡，可以明顯感受到他們是開心的。我可以認識不同的人，聊不同的話題。」可可也分享，工作中因為與客人聊天學到了很多，並且不同於一般餐飲服務多半停留在點餐與送餐，女僕需要主動靠桌與顧客聊天，記住對方的名字與習慣，甚至在一次次見面中延續對話。對此，可可認為這不只是表面的應對，而更像是一種帶著真心的交流，也讓這份工作多了一份情感上的連結。</p>
       </div>
-      <p class="bridge">這份工作的吸引力，來自可愛、表演與被喜歡的回饋；但當夢幻成為日常勞動，界線與現實壓力也會一步步浮現。</p>
+      <p class="bridge">這份工作的吸引力，來自可愛、表演與被喜歡的回饋；但當夢幻成為日常勞動，界線與現實風險也會一步步浮現。</p>
     </section>
 
     <section class="section" id="origin">
@@ -361,26 +304,7 @@
         <p>小沙提及自己剛入職時的家庭衝突，「我18歲就開始當女僕，一開始爸媽知道之後非常反對，甚至為了這件事大吵了一架，還離家出走。」他說，家人將女僕咖啡廳視為遊走在灰色地帶的產業，與茶店、禮服店等工作產生聯想。對於不熟悉這類文化的人而言，女僕的服裝與顧客之間的親密互動，往往容易被誤解與放大檢視。</p>
         <p>在外界眼中，這份工作既夢幻，也難免帶著爭議；女僕們在僕咖「服侍」的日常裡，隱藏著許多不為人知的困境。</p>
       </div>
-      <p class="bridge">當「主人／大小姐」不再只是一句店內稱呼，主僕關係的互動邏輯，也會一路延伸到店外生活。</p>
-    </section>
-
-    <section class="interaction-wrap" id="lead-game-1">
-      <h2>情境前導 A：店內界線如何被即時判斷</h2>
-      <div class="lead-block">
-        <p>在正式閱讀下一段報導之前，先把鏡頭放回店內第一線：桌邊距離、搖鈴頻率、語氣轉折、同仁眼神交換，往往都在幾秒內決定「這是一般互動，還是需要介入的訊號」。</p>
-        <p>接下來這段互動模組，會從「店長視角」走一次現場，幫你先理解：店內是如何在服務與安全之間做判斷。</p>
-      </div>
-      <div class="parallax-lead" data-parallax="0.22">
-        <img src="pic/04-manager-scene.png" alt="店長觀察女僕與客人距離的場景" />
-        <div class="overlay">桌邊站位、目光停留、顧客語氣，都是店長快速判斷風險的訊號。現場管理有時很有效，但也很即時、很吃經驗。</div>
-      </div>
-      <div class="module">
-        <h3>情境體驗模組｜店長端視角</h3>
-        <p>這是專題中的情境補充，不是闖關或解鎖流程。你可以先體驗，再回到下方閱讀完整報導。</p>
-        <button type="button" data-open="mod-game-1">從店長視角看一次</button>
-        <div id="mod-game-1" class="embed"><iframe src="games/game1/index.html" title="遊戲一：店長視角"></iframe></div>
-      </div>
-      <p class="bridge">店內界線需要即時判斷與處理；但現場能處理的，往往只是風險的一部分。當關係離開咖啡廳，壓力常常才真正開始。</p>
+      <p class="bridge">當「主人／大小姐」不再只是一句店內稱呼，互動中的角色關係就會延伸成更現實的界線問題。</p>
     </section>
 
     <section class="section" id="boundary-report">
@@ -393,23 +317,23 @@
       <p class="quote">「僕咖是提供情緒價值的地方，但不要把裡面發生的一切當成真實。」</p>
     </section>
 
-    <section class="interaction-wrap" id="lead-game-2">
-      <h2>情境前導 B：下班後，界線如何繼續延伸</h2>
+    <section class="interaction-wrap" id="game-1-module">
+      <h2>情境補充模組 A：從管理端理解店內界線</h2>
       <div class="lead-block">
-        <p>離開店門後，工作並沒有真的結束。手機通知、限時動態回覆、匿名社群討論，會把「被看見」變成全天候狀態。這份壓力並不總是劇烈，但會持續、反覆、難以關機。</p>
-        <p>接下來先從「女僕視角」看一次，感受界線如何在下班後仍被訊息、期待與窺探拉扯。</p>
+        <p>在進入下一段店外風險之前，先用一段短情境看見第一線管理如何判斷界線：這段互動用來補充面向二的採訪內容，幫助理解店長端如何在服務與保護之間做即時決策。</p>
+        <p>這不是主體報導、也不是關卡機制；你可以先體驗，再繼續閱讀。</p>
       </div>
-      <div class="parallax-lead" data-parallax="0.26">
-        <img src="pic/05-phone-harassment.png" alt="夜晚手機通知與騷擾訊息場景" />
-        <div class="overlay">私訊泡泡在深夜跳出，匿名貼文在另一端擴散。風險不只在店內互動，也在看不見的網路空間裡累積。</div>
+      <div class="parallax-lead" data-parallax="0.22">
+        <img src="pic/04-manager-scene.png" alt="店長觀察女僕與客人距離的場景" />
+        <div class="overlay">桌邊站位、目光停留、顧客語氣，都是店長快速判斷風險的訊號。現場管理有時有效，但也有其邊界。</div>
       </div>
       <div class="module">
-        <h3>情境體驗模組｜女僕端視角</h3>
-        <p>這段互動用來補足採訪理解：先進入經驗，再回到後文的報導分析。</p>
-        <button type="button" data-open="mod-game-2">從女僕視角看一次</button>
-        <div id="mod-game-2" class="embed"><iframe src="games/game2/index.html" title="遊戲二：女僕視角"></iframe></div>
+        <h3>情境體驗模組｜店長端視角</h3>
+        <p>互動內容維持原始設計，僅作為報導節點的情境補充。</p>
+        <button type="button" data-open="mod-game-1">從店長視角看一次</button>
+        <div id="mod-game-1" class="embed"><iframe src="games/game1/index.html" title="遊戲一：店長視角"></iframe></div>
       </div>
-      <p class="bridge">這些不只是幾則不舒服的訊息，而是長期在線、被監視、被期待與被打擾的工作延伸。當風險不只來自顧客，也來自職場制度，問題就不只是個人如何自保。</p>
+      <p class="bridge">現場管理能處理的，通常只是風險的一部分；當關係離開咖啡廳，壓力往往才真正開始。</p>
     </section>
 
     <div class="dark-report">
@@ -423,19 +347,38 @@
           <p>針對此類騷擾，部分店家雖設有「出禁機制」，讓女僕能透過管理層處理並限制問題顧客再次入店，但對於初次來訪或流動性高的客群，這樣的機制仍難以做到提前預防。</p>
           <p>註1：出禁機制，指顧客若違反店內規範，經判定後將被禁止再次入店消費，但此制度難以防範僅消費一次的客人。</p>
         </div>
-        <p class="annotation">註解：從社群經營到私人訊息，這些額外勞動多半不被正式計入工時，卻真實影響了休息、心理安全與人身界線。</p>
-      </section>
-
-      <section class="section emphasis" id="labor">
-        <h2>面向四：職場問題</h2>
-        <div class="report-wrap">
-          <p>「人事成本當然是經營時支出最大的項目。」天使心女僕咖啡廳老闆寶哥說明，僕咖產業的人事成本相較其他服務業高出許多。不少女僕當初正是因為較高的薪資入行，沒想到卻碰上欠薪問題，讓原本的期待落空。據報導，議員張志豪於2月13日揭露，某僕咖業主積欠員工薪資高達約560萬元。這樣的案例並非個案。「一開始只是拖半個月，後來乾脆不給薪水。」曾於欠薪僕咖工作過的可可說道。業者慣以「晚點再給」或「先給一部分」等方式拖延，許多女僕礙於情面或求職不易，往往選擇默默承受，待離職或轉往他店後才告一段落，真正被揭露的案例仍屬少數。欠薪所帶來的衝擊不僅停留在勞資糾紛層面，更實質威脅到女僕的日常生計。</p>
-          <p>除了欠薪問題，職場內的不當對待同樣令人憂心。「聽朋友說，有老闆會搭女僕肩膀、手往下摸，然後可能還會摸一下頭，沒來由地動手動腳。」可可分享著從同業口中聽來的遭遇。僕咖雖明訂了與客人之間的互動界線，職場內部的規範卻仍所欠缺，形成灰色地帶。「因為是上對下的關係，有時候也不敢反抗。有些人會選擇離開，有些人選擇順從。」小美說，畢竟跟老闆關係不好，排班就會變少，薪水也會受影響，所以大多數人即使心裡不滿，還是會選擇忍下來。</p>
-          <p>國立政治大學社會學系教授林承毅對此指出：「女僕咖啡廳是一個很健康的產業，是業者應該要去制定好規則。」僕咖產業若要健全發展，建立友善、透明且安全的工作環境，才能讓更多人願意投身其中，也讓許多正值學生年紀的女孩獲得應有的保障。</p>
-          <p>璃茉正是在這樣的背景下，決心籌備屬於自己的店。「僕咖有很多欠薪、騷擾這些問題。我是女僕出身的，自然會站在女僕的立場，創造一個屬於大家的小家。」他說。有別於傳統僕咖仰賴ACG客群的模式，璃茉計畫透過與遊戲品牌合作、拓展業配等方式開源，同時確保女僕優渥的薪資待遇，以制度化的方式保障從業人員的基本權益。在他的藍圖裡，希望僕咖能成為一個讓女僕們真正感到安心的家。</p>
-        </div>
+        <p class="annotation">註解：從社群經營到私人訊息，這些額外勞動常被忽略，卻真實影響了休息、心理安全與人身界線。</p>
       </section>
     </div>
+
+    <section class="interaction-wrap" id="game-2-module">
+      <h2>情境補充模組 B：從女僕視角看見店外壓力</h2>
+      <div class="lead-block">
+        <p>界線離開店門後不會自然消失。這段互動將鏡頭放到女僕本人，感受網路訊息、在線期待與騷擾如何滲入日常生活。</p>
+        <p>它是情境補充，不是文章中斷；體驗後請回到下段，一起看制度層面的問題如何出現。</p>
+      </div>
+      <div class="parallax-lead" data-parallax="0.26">
+        <img src="pic/05-phone-harassment.png" alt="夜晚手機通知與騷擾訊息場景" />
+        <div class="overlay">私訊泡泡在深夜跳出，匿名貼文在另一端擴散。風險不只來自個人互動，也來自被常態化的工作延伸。</div>
+      </div>
+      <div class="module">
+        <h3>情境體驗模組｜女僕端視角</h3>
+        <p>互動內容維持原始設計，作為報導段落的理解補充。</p>
+        <button type="button" data-open="mod-game-2">從女僕視角看一次</button>
+        <div id="mod-game-2" class="embed"><iframe src="games/game2/index.html" title="遊戲二：女僕視角"></iframe></div>
+      </div>
+      <p class="bridge">這些不只是單一訊息的不舒服，而是長期、持續的工作延伸。當風險不只來自顧客，也來自制度保護的缺位，問題就不只是個人如何自保。</p>
+    </section>
+
+    <section class="section emphasis" id="labor">
+      <h2>面向四：職場問題</h2>
+      <div class="report-wrap">
+        <p>「人事成本當然是經營時支出最大的項目。」天使心女僕咖啡廳老闆寶哥說明，僕咖產業的人事成本相較其他服務業高出許多。不少女僕當初正是因為較高的薪資入行，沒想到卻碰上欠薪問題，讓原本的期待落空。據報導，議員張志豪於2月13日揭露，某僕咖業主積欠員工薪資高達約560萬元。這樣的案例並非個案。「一開始只是拖半個月，後來乾脆不給薪水。」曾於欠薪僕咖工作過的可可說道。業者慣以「晚點再給」或「先給一部分」等方式拖延，許多女僕礙於情面或求職不易，往往選擇默默承受，待離職或轉往他店後才告一段落，真正被揭露的案例仍屬少數。欠薪所帶來的衝擊不僅停留在勞資糾紛層面，更實質威脅到女僕的日常生計。</p>
+        <p>除了欠薪問題，職場內的不當對待同樣令人憂心。「聽朋友說，有老闆會搭女僕肩膀、手往下摸，然後可能還會摸一下頭，沒來由地動手動腳。」可可分享著從同業口中聽來的遭遇。僕咖雖明訂了與客人之間的互動界線，職場內部的規範卻仍所欠缺，形成灰色地帶。「因為是上對下的關係，有時候也不敢反抗。有些人會選擇離開，有些人選擇順從。」小美說，畢竟跟老闆關係不好，排班就會變少，薪水也會受影響，所以大多數人即使心裡不滿，還是會選擇忍下來。</p>
+        <p>國立政治大學社會學系教授林承毅對此指出：「女僕咖啡廳是一個很健康的產業，是業者應該要去制定好規則。」僕咖產業若要健全發展，建立友善、透明且安全的工作環境，才能讓更多人願意投身其中，也讓許多正值學生年紀的女孩獲得應有的保障。</p>
+        <p>璃茉正是在這樣的背景下，決心籌備屬於自己的店。「僕咖有很多欠薪、騷擾這些問題。我是女僕出身的，自然會站在女僕的立場，創造一個屬於大家的小家。」他說。有別於傳統僕咖仰賴ACG客群的模式，璃茉計畫透過與遊戲品牌合作、拓展業配等方式開源，同時確保女僕優渥的薪資待遇，以制度化的方式保障從業人員的基本權益。在他的藍圖裡，希望僕咖能成為一個讓女僕們真正感到安心的家。</p>
+      </div>
+    </section>
 
     <section class="section" id="ending">
       <h2>結尾：僕咖不是非黑即白——它既提供舞台，也伴隨現實代價</h2>
@@ -445,13 +388,12 @@
         <p>「我小時候的夢想是當偶像！」可可堅定的說，雖然不像真正的偶像需要經營演藝事業，但是畫拍立得、日常表演、生誕祭的演出，也讓他體會到為粉絲帶來快樂的感覺。</p>
         <p>雖然僕咖產業存在不少亂象，但在這裡，是他們實現夢想和感受被喜歡的地方。小美分享：「我在這裡可以做自己，而且發現原來做自己也可以有很多人喜歡。」這份從僕咖獲得的喜悅，並不只停留在女僕身上，更透過互動傳遞給了每一位推開店門的顧客。「有些客人走進來的時候帶著心事，離開的時候是笑著的。」可可說道，這是讓他覺得這份工作值得做下去的原因。</p>
       </div>
-      <p class="quote">這個產業不是非黑即白：它既提供舞台，也伴隨明確的現實代價。</p>
+      <p class="quote">這個產業不是非黑即白：它既提供夢想，也伴隨明確的現實代價。</p>
       <p class="annotation">註2：生誕祭（せいたんさい）指粉絲為偶像或角色舉辦、具應援與儀式性的生日慶祝活動。</p>
       <div class="ending-visual">
         <img src="pic/06-ending-stage.png" alt="帶有舞台暖光的結尾場景" />
       </div>
     </section>
-
   </main>
 
 
