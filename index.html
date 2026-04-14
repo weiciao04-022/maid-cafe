@@ -91,6 +91,7 @@
       transform: translateZ(0);
       will-change: transform;
     }
+    .scene-inner, .section, .interaction-wrap { width: var(--maxw); margin: 0 auto; }
 
     .split-text {
       flex: 1;
@@ -139,6 +140,11 @@
       border-top: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
     }
+    .report-wrap { border: 1px solid var(--line); background: #fff; }
+    .lead-block { border: 1px solid var(--line); background: #fff; box-shadow: var(--shadow); }
+    .bridge { background: var(--accent-soft); border: 1px dashed #efbed2; color: #714e5a; }
+    .quote { border-left: 4px solid var(--accent); background: #fff; font-weight: 700; color: #654652; }
+    .annotation { background: #fffdf4; border: 1px dashed #eddca8; color: #695a39; font-size: .96rem; }
 
     .cta-button {
       border: 0;
@@ -164,6 +170,8 @@
       margin: 0 auto;
       padding: clamp(2rem, 6vh, 4rem) 0;
     }
+    .embed.active { display: block; }
+    .embed iframe { width: 100%; min-height: 80vh; border: 0; display: block; }
 
     .sparkle {
       position: fixed;
@@ -196,6 +204,8 @@
       .hero-content { left: 20px; right: 20px; bottom: 8vh; }
       .game-section { height: 88vh; }
     }
+
+    .gate.show { opacity: 1; }
   </style>
 </head>
 <body>
@@ -310,6 +320,9 @@
       <p>註2：生誕祭（せいたんさい）指粉絲為偶像或角色舉辦、具應援與儀式性的生日慶祝活動。</p>
     </article>
   </section>
+
+
+  <div id="gateHint" class="gate">請先完成目前的遊戲，才能繼續往下閱讀。</div>
 
   <script>
     const progress = document.querySelector('#progress');
