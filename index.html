@@ -100,6 +100,9 @@
       background-position: center center;
       background-repeat: no-repeat;
     }
+    .kicker { font-size: .86rem; letter-spacing: .15em; font-weight: 800; }
+    h1 { margin: .56rem 0; font-size: clamp(2rem, 5.3vw, 4.1rem); line-height: 1.12; }
+    .subtitle { margin: 0; font-size: clamp(1rem, 2vw, 1.3rem); }
 
     .split-copy {
       background: #fff;
@@ -107,6 +110,7 @@
       align-items: center;
       justify-content: center;
     }
+    .story-section.split-section.reverse { flex-direction: row-reverse; }
 
     .split-copy-inner {
       width: min(560px, 72%);
@@ -325,7 +329,15 @@
         font-size: 1rem;
         line-height: 1.8;
       }
+      .game-overlay-inner p {
+        font-size: 1rem;
+        line-height: 1.8;
+      }
+      .hero-content { left: 20px; right: 20px; bottom: 8vh; }
+      .game-section { height: 88vh; }
     }
+
+    .gate.show { opacity: 1; }
   </style>
 </head>
 <body>
