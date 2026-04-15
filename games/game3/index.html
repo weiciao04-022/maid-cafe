@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>揭開夢幻背後的真相 - 融媒體專案互動</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -20,9 +20,10 @@
             font-family: 'Noto Sans TC', sans-serif;
             overflow: hidden;
             margin: 0;
+            overscroll-behavior-y: contain;
         }
 
-        /* 探照燈遮罩 - z-index: 100 */
+        /* 探照燈遮罩 */
         #spotlight-mask {
             position: fixed;
             top: 0;
@@ -32,10 +33,17 @@
             pointer-events: none;
             background: black;
             z-index: 100;
-            -webkit-mask-image: radial-gradient(circle 180px at var(--x, 50%) var(--y, 50%), transparent 15%, black 85%);
-            mask-image: radial-gradient(circle 180px at var(--x, 50%) var(--y, 50%), transparent 15%, black 85%);
+            -webkit-mask-image: radial-gradient(circle 120px at var(--x, 50%) var(--y, 50%), transparent 15%, black 85%);
+            mask-image: radial-gradient(circle 120px at var(--x, 50%) var(--y, 50%), transparent 15%, black 85%);
             opacity: 0;
             transition: opacity 1s ease;
+        }
+
+        @media (min-width: 768px) {
+            #spotlight-mask {
+                -webkit-mask-image: radial-gradient(circle 180px at var(--x, 50%) var(--y, 50%), transparent 15%, black 85%);
+                mask-image: radial-gradient(circle 180px at var(--x, 50%) var(--y, 50%), transparent 15%, black 85%);
+            }
         }
 
         #game-container {
@@ -45,12 +53,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            touch-action: none;
         }
 
-        /* 角色容器 */
         .character-container {
             position: relative;
-            height: 85vh;
+            height: 80vh;
             width: auto;
             display: flex;
             justify-content: center;
@@ -63,49 +71,64 @@
             object-fit: contain;
             display: block;
             filter: brightness(0.8);
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
         .tremble {
-            animation: tremble 0.15s infinite;
+            animation: tremble 0.2s ease-in-out;
         }
 
         @keyframes tremble {
-            0% { transform: translate(1px, 1px); }
-            50% { transform: translate(-1.5px, -1px); }
-            100% { transform: translate(1px, 1px); }
+            0% { transform: translate(2px, 2px); }
+            25% { transform: translate(-2px, -1px); }
+            50% { transform: translate(2px, -2px); }
+            75% { transform: translate(-1px, 2px); }
+            100% { transform: translate(0, 0); }
         }
 
         /* 真相證物組件 */
         .evidence-scene {
             position: absolute;
-            z-index: 20; /* 初始在燈光下 */
+            z-index: 20;
             opacity: 0;
-            transform: scale(0.8);
+            transform: scale(0.8) translateX(-50%);
             transition: opacity 0.8s ease, transform 0.8s ease, z-index 0s;
             pointer-events: none;
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 240px;
+            left: 50%; /* 手機預設置中 */
         }
 
-        /* 解鎖後的永久亮起狀態 - z-index 提升至 150 跳過遮罩 */
+        /* 桌機版位置微調 */
+        @media (min-width: 1024px) {
+            #ev-shoulder { left: -10%; transform: scale(0.8); }
+            #ev-hand { left: 110%; transform: scale(0.8); }
+            #ev-hip { left: 0%; transform: scale(0.8); }
+            
+            .evidence-scene.revealed {
+                transform: scale(1) !important;
+            }
+        }
+
         .evidence-scene.revealed {
             opacity: 1 !important;
-            transform: scale(1);
+            transform: scale(1) translateX(-50%);
             z-index: 150 !important;
             pointer-events: auto;
         }
 
-        /* 證物視覺樣式 */
         .evidence-card {
-            background: rgba(10, 10, 10, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(15px);
             border: 2px solid var(--evidence-red);
             padding: 1rem;
-            border-radius: 12px;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.4);
+            border-radius: 16px;
+            box-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
             animation: pulse-red 2s infinite ease-in-out;
-            max-width: 280px;
+            width: 100%;
         }
 
         @keyframes pulse-red {
@@ -115,40 +138,40 @@
         }
 
         .evidence-img {
-            width: 120px;
+            width: 50px;
             height: auto;
-            margin-bottom: 0.75rem;
-            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+            margin: 0 auto 0.5rem;
         }
 
-        /* 互動熱區 */
         .touch-zone {
             position: absolute;
-            cursor: help;
             z-index: 110;
+            background: rgba(255,255,255,0);
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
         
-        /* 擴大後的感應範圍 */
+        /* 調整熱區使其更容易點擊 */
         .zone-shoulder { top: 10%; left: 15%; width: 70%; height: 25%; }
         .zone-hand { top: 35%; left: 25%; width: 50%; height: 25%; }
         .zone-hip { top: 60%; left: 10%; width: 80%; height: 35%; }
 
-        /* 文字私語 */
         .whisper-text {
             position: absolute;
             color: #f472b6;
             font-weight: bold;
             z-index: 160;
             pointer-events: none;
-            animation: whisperAnim 2.5s forwards ease-out;
+            animation: whisperAnim 2s forwards ease-out;
             text-shadow: 0 0 10px black;
             font-size: 1.1rem;
+            white-space: nowrap;
         }
 
         @keyframes whisperAnim {
-            0% { transform: scale(0.8); opacity: 0; }
+            0% { transform: scale(0.5); opacity: 0; }
             20% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(1) translateY(-30px); opacity: 0; }
+            100% { transform: scale(1) translateY(-50px); opacity: 0; }
         }
 
         #start-screen {
@@ -162,6 +185,7 @@
             text-align: center;
             color: #1a1a1a;
             border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
         }
 
         .action-btn {
@@ -172,22 +196,27 @@
             font-weight: bold;
             transition: all 0.3s;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(219, 39, 119, 0.3);
+            box-shadow: 0 8px 20px rgba(219, 39, 119, 0.4);
+            border: none;
         }
 
         #hint-text {
             position: fixed;
-            top: 40px;
+            top: 30px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 150;
-            background: rgba(0,0,0,0.8);
-            padding: 12px 30px;
+            background: rgba(0,0,0,0.85);
+            padding: 10px 25px;
             border-radius: 40px;
             color: #fbcfe8;
             opacity: 0;
             transition: opacity 0.5s;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.9rem;
+            width: auto;
+            min-width: 200px;
+            text-align: center;
         }
     </style>
 </head>
@@ -196,87 +225,81 @@
 <div id="spotlight-mask"></div>
 
 <!-- 啟動介面 -->
-<div id="start-screen" class="fixed inset-0 m-auto w-fit h-fit">
+<div id="start-screen" class="fixed inset-0 m-auto w-[85%] md:w-fit h-fit">
     <div class="max-w-md">
-        <h1 class="text-3xl font-bold mb-6 text-pink-600">揭開夢幻背後的暗影</h1>
-        <p class="text-gray-600 mb-8 leading-relaxed">
-            身為調查者，請點擊開始。<br>
-            移動您的目光（探照燈）審視女僕，發掘隱藏的真相。
+        <h1 class="text-2xl md:text-3xl font-bold mb-4 text-pink-600">揭開夢幻背後的暗影</h1>
+        <p class="text-gray-600 mb-8 leading-relaxed text-sm md:text-base">
+            身為調查者，請點擊按鈕開始。<br>
+            移動目光（探照燈）並<span class="text-pink-600 font-bold">點擊疑點</span>，<br>發掘隱藏在女僕外表下的真相。
         </p>
         <button class="action-btn" onclick="startInvestigating()">開始蒐證調查</button>
     </div>
 </div>
 
-<div id="hint-text">持續搜尋疑點：肩膀、手部、裙擺</div>
+<div id="hint-text">請輕觸探查：肩膀、手部、裙擺</div>
 
 <div id="game-container">
     <div class="character-container" id="character">
         
-        <!-- 💡 角色本體圖片 (已修復為 Raw 網址) -->
         <img id="maid-image" src="https://raw.githubusercontent.com/weiciao04-022/maid-cafe/bfbfa6f9291e4970b2aa79697b36dc4ce8abb364/games/game3/gemini-2.5-flash-image_Image_Matting-0.png" alt="女僕角色">
 
-        <!-- 1. 肩膀真相：紅色手掌 -->
-        <div class="evidence-scene" style="top: 15%; left: 15%;" id="ev-shoulder">
+        <!-- 1. 肩膀真相：手機版置於上方 -->
+        <div class="evidence-scene" style="top: 10%;" id="ev-shoulder">
             <div class="evidence-card">
-                <!-- 💡 此處更換為你的圖片路徑 -->
                 <svg class="evidence-img" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="1.5">
                     <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0M14 10V4a2 2 0 0 0-2-2M10 10.5V6M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2" />
                     <path d="M12 15 L7 15" stroke="red" />
                 </svg>
-                <p class="text-red-500 font-bold text-lg text-center">不適的搭肩</p>
-                <p class="text-gray-400 text-[10px] mt-1 text-center">來自上級的「職場關心」</p>
+                <p class="text-red-500 font-bold text-base text-center">不適的搭肩</p>
+                <p class="text-gray-400 text-[11px] mt-1 text-center">來自上級的「職場關心」</p>
             </div>
         </div>
         
-        <!-- 2. 手部真相：手機訊息 -->
-        <div class="evidence-scene" style="top: 40%; left: 52%;" id="ev-hand">
+        <!-- 2. 手部真相：手機版置於中間 -->
+        <div class="evidence-scene" style="top: 40%;" id="ev-hand">
             <div class="evidence-card" style="border-color: #db2777;">
-                <!-- 💡 此處更換為你的圖片路徑 -->
-                <svg class="evidence-icon evidence-img" style="width: 60px; margin: 0 auto 10px;" viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="2">
+                <svg class="evidence-img" viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="2">
                     <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
                     <path d="M12 18h.01" />
                 </svg>
-                <p class="text-pink-400 text-xs font-bold mb-2">來自未知的私訊：</p>
-                <p class="text-pink-100 text-sm leading-relaxed italic">「笑容是買下的，不准收起來。」</p>
+                <p class="text-pink-400 text-xs font-bold mb-1">狂熱顧客私訊：</p>
+                <p class="text-pink-100 text-sm leading-snug italic">「我為你花那麼多錢，怎麼都不理我。」</p>
             </div>
         </div>
 
-        <!-- 3. 裙擺真相：窺視眼球 -->
-        <div class="evidence-scene" style="bottom: 18%; left: 35%;" id="ev-hip">
+        <!-- 3. 裙擺真相：手機版置於下方 -->
+        <div class="evidence-scene" style="bottom: 10%;" id="ev-hip">
             <div class="evidence-card">
-                <!-- 💡 此處更換為你的圖片路徑 -->
-                <svg class="evidence-img" style="width: 80px; margin: 0 auto 10px;" viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="2">
+                <svg class="evidence-img" viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="2">
                     <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
                     <circle cx="12" cy="12" r="3" fill="red" />
                 </svg>
-                <p class="text-pink-500 font-bold text-lg text-center">偷拍與監視</p>
-                <p class="text-gray-400 text-[10px] mt-1 text-center">被忽視的個人隱私邊界</p>
+                <p class="text-pink-500 font-bold text-base text-center">偷拍與監視</p>
+                <p class="text-gray-400 text-[11px] mt-1 text-center">被忽視的個人隱私邊界</p>
             </div>
         </div>
 
         <!-- 互動熱區 -->
-        <div class="touch-zone zone-shoulder" onmouseenter="examineMaid('shoulder')" onmouseleave="stopExamine()"></div>
-        <div class="touch-zone zone-hand" onmouseenter="examineMaid('hand')" onmouseleave="stopExamine()"></div>
-        <div class="touch-zone zone-hip" onmouseenter="examineMaid('hip')" onmouseleave="stopExamine()"></div>
+        <div class="touch-zone zone-shoulder" data-part="shoulder"></div>
+        <div class="touch-zone zone-hand" data-part="hand"></div>
+        <div class="touch-zone zone-hip" data-part="hip"></div>
     </div>
 </div>
 
 <!-- 結論層 -->
 <div id="conclusion" class="fixed inset-0 bg-black/95 z-[500] hidden items-center justify-center p-8 text-center text-white">
     <div class="max-w-xl">
-        <h2 class="text-3xl font-bold text-pink-500 mb-6">調查報告：隱形的壓迫</h2>
-        <p class="text-gray-300 mb-10 text-lg leading-relaxed">
-            對每一位女僕來說，這謝都是必須獨自承受的職場陰影。當工作環境沒有清楚的界線，那些無從閃避的侵犯，就會悄悄滲進日常，成為她們在精心打扮之下，最真實也最難言說的困境。
+        <h2 class="text-2xl md:text-3xl font-bold text-pink-500 mb-6">調查報告：隱形的壓迫</h2>
+        <p class="text-gray-300 mb-8 text-base md:text-lg leading-relaxed">
+            對每一位女僕來說，這些都是必須獨自承受的職場陰影。當工作環境沒有清楚的界線，那些無從閃避的侵犯，就會悄悄滲進日常，成為她們在精心打扮之下，最真實也最難言說的困境。
         </p>
-        <p class="text-zinc-500 text-sm italic">請繼續向下閱讀報導全文</p>
+        <button class="action-btn text-sm" onclick="location.reload()">重新調查</button>
+        <p class="text-zinc-500 text-xs italic mt-8">請繼續向下閱讀報導全文</p>
     </div>
 </div>
 
 <script>
     let audioCtx, oscillator, gainNode;
-    let examinationProgress = { shoulder: 0, hand: 0, hip: 0 };
-    let isExaming = false;
-    let currentPart = '';
     let found = { shoulder: false, hand: false, hip: false };
 
     const whispers = {
@@ -285,16 +308,33 @@
         hip: ["「拍一下又不會怎樣。」", "「我會一直盯著妳。」"]
     };
 
+    const mask = document.getElementById('spotlight-mask');
+    const character = document.getElementById('character');
+
     function startInvestigating() {
         document.getElementById('start-screen').style.display = 'none';
-        document.getElementById('spotlight-mask').style.opacity = '1';
+        mask.style.opacity = '1';
         document.getElementById('hint-text').style.opacity = '1';
         initAudio();
     }
 
-    window.addEventListener('mousemove', e => {
+    // 探照燈跟隨 (PointerMove 同時支援滑鼠與觸控拖曳)
+    window.addEventListener('pointermove', e => {
         document.documentElement.style.setProperty('--x', e.clientX + 'px');
         document.documentElement.style.setProperty('--y', e.clientY + 'px');
+    });
+
+    // 改為點擊偵測 (PointerDown)
+    document.querySelectorAll('.touch-zone').forEach(zone => {
+        const part = zone.getAttribute('data-part');
+        
+        zone.addEventListener('pointerdown', (e) => {
+            // 防止事件冒泡與預設行為
+            e.stopPropagation();
+            if (found[part]) return;
+            
+            triggerInvestigation(part, e.clientX, e.clientY);
+        });
     });
 
     function initAudio() {
@@ -311,40 +351,24 @@
         }
     }
 
-    function examineMaid(part) {
-        if (found[part]) return;
+    function triggerInvestigation(part, x, y) {
         if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
         
-        isExaming = true;
-        currentPart = part;
-        document.getElementById('character').classList.add('tremble');
-        gainNode.gain.setTargetAtTime(0.3, audioCtx.currentTime, 0.2);
+        // 1. 視覺回饋：震動
+        character.classList.remove('tremble');
+        void character.offsetWidth; // 強制重繪以重啟動畫
+        character.classList.add('tremble');
         
-        const interval = setInterval(() => {
-            if (!isExaming || currentPart !== part || found[part]) {
-                clearInterval(interval);
-                return;
-            }
-            // 判定速度調整 (約 3.5 秒解鎖)
-            examinationProgress[part] += 1.4;
-            
-            // 只有在進度 50% 時跳出文字
-            if (Math.floor(examinationProgress[part]) === 50) {
-                showWhisper(whispers[part][Math.floor(Math.random() * whispers[part].length)]);
-            }
-
-            if (examinationProgress[part] >= 100) {
-                revealEvidence(part);
-                clearInterval(interval);
-            }
-        }, 50);
-    }
-
-    function stopExamine() {
-        isExaming = false;
-        currentPart = '';
-        document.getElementById('character').classList.remove('tremble');
-        if (gainNode) gainNode.gain.setTargetAtTime(0, audioCtx.currentTime, 0.5);
+        // 2. 音效回饋：低頻鳴響
+        gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(0.4, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+        
+        // 3. 顯示私語
+        showWhisper(whispers[part][Math.floor(Math.random() * whispers[part].length)], x, y);
+        
+        // 4. 立即解鎖真相 (取代原本的長按邏輯)
+        revealEvidence(part);
     }
 
     function revealEvidence(part) {
@@ -354,23 +378,28 @@
             ev.classList.add('revealed');
         }
         
+        // 檢查全部
         if (Object.values(found).every(v => v)) {
             document.getElementById('hint-text').innerText = "真相已顯現。";
             setTimeout(() => {
-                document.getElementById('conclusion').classList.remove('hidden');
-                document.getElementById('conclusion').style.display = 'flex';
+                const conclusion = document.getElementById('conclusion');
+                conclusion.classList.remove('hidden');
+                conclusion.style.display = 'flex';
             }, 3000);
         }
     }
 
-    function showWhisper(text) {
+    function showWhisper(text, x, y) {
         const div = document.createElement('div');
         div.className = 'whisper-text';
         div.innerText = text;
-        div.style.left = `${Math.random() * 40 + 30}%`;
-        div.style.top = `${Math.random() * 20 + 40}%`;
+        
+        // 設定在點擊位置附近
+        div.style.left = (x - 60) + 'px';
+        div.style.top = (y - 40) + 'px';
+        
         document.body.appendChild(div);
-        setTimeout(() => div.remove(), 2500);
+        setTimeout(() => div.remove(), 2000);
     }
 </script>
 
