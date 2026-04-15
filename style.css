@@ -35,102 +35,112 @@ body {
 .hero {
   position: relative;
   width: 100%;
-  min-height: 0;
-  background: none;
+  overflow: hidden;
 }
-.hero-media {
+
+.hero-image-wrap {
+  position: relative;
   width: 100%;
 }
-.hero-media img {
+
+.hero-image {
   display: block;
   width: 100%;
   height: auto;
+  object-fit: cover;
 }
-.hero::after {
-  content: "";
+
+.hero-overlay {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 24vh;
-  background: linear-gradient(to bottom, rgba(255,242,247,0), rgba(255,242,247,.93) 68%, var(--bg));
+  height: 22%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 245, 248, 0) 0%,
+    rgba(255, 245, 248, 0.72) 55%,
+    rgba(255, 245, 248, 0.96) 100%
+  );
   pointer-events: none;
 }
-.hero-content {
-  position: absolute;
-  top: 50%;
-  left: clamp(42vw, 52vw, 58vw);
-  right: min(8vw, 72px);
-  transform: translateY(-50%);
-  z-index: 2;
-  max-width: 560px;
-  padding: .95rem 1.15rem;
-  border-radius: 10px;
-  background: rgba(255, 238, 245, 0.68);
-  color: #5a3d47;
-  text-shadow: none;
-}
-.kicker { font-size: .86rem; letter-spacing: .15em; font-weight: 800; }
-h1 { margin: .56rem 0; font-size: clamp(2rem, 5.3vw, 4.1rem); line-height: 1.12; }
 
-.story-section.split-section {
-  display: flex;
+.hero-title-box {
+  position: absolute;
+  top: 7%;
+  left: 4%;
+  z-index: 2;
+  color: #5f4340;
+  padding: 1rem 1.4rem;
+  border-radius: 22px;
+  background: rgba(255, 228, 236, 0.28);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 8px 30px rgba(160, 110, 120, 0.12);
+  max-width: min(92%, 900px);
+}
+.hero-kicker {
+  margin: 0 0 0.8rem 0;
+  font-size: clamp(0.85rem, 1.4vw, 1.2rem);
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: #6a4a46;
+}
+
+.hero-title-box h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 5rem);
+  line-height: 1.1;
+  font-weight: 800;
+  color: #5b3f3d;
+  text-wrap: balance;
+}
+
+.story-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
   width: 100%;
-  min-height: 120vh;
-  align-items: flex-start;
   border-top: 1px solid var(--line);
 }
-.story-section.split-section.reverse { flex-direction: row-reverse; }
-
-.split-media { width: 33.333%; }
-.split-copy { width: 66.667%; }
-
-.split-media {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  align-self: flex-start;
-  overflow: hidden;
+.story-section.reverse .story-image {
+  order: 2;
 }
-.story-media-inner {
+.story-section.reverse .story-text {
+  order: 1;
+}
+
+.story-image img {
+  display: block;
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  object-fit: cover;
 }
 
-.split-copy {
+.story-text {
+  padding: 3rem 2.4rem;
   background: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.split-copy-inner {
+.story-text-inner {
   width: min(560px, 72%);
   margin: 0 auto;
-  padding: 96px 0;
+  padding: 48px 0;
 }
-.split-copy-inner h2 {
+.story-text-inner h2 {
   margin: 0 0 1rem;
   line-height: 1.35;
   font-size: clamp(1.48rem, 2.7vw, 2.2rem);
   color: #4f3941;
 }
-.split-copy-inner p {
+.story-text-inner p {
   font-size: 1.1rem;
   line-height: 2;
   margin: 0 0 1.4em;
   color: var(--ink-soft);
-}
-
-.parallax-panel {
-  will-change: transform;
-  transform: translateY(0);
 }
 
 .game-section {
@@ -251,24 +261,8 @@ button:hover {
   100% { opacity: 0; transform: translate(-50%, -50%) scale(2.2); }
 }
 
-.section-risk .split-media,
-.section-workplace .split-media,
-.section-ending .split-media {
-  background-image: none !important;
-}
-.section-risk .story-media-inner {
-  background-image: url("pic/03.png");
-}
-.section-workplace .story-media-inner {
-  background-image: url("pic/04.png");
-}
-.section-ending .story-media-inner {
-  background-image: url("pic/05.png");
-}
-
 @media (max-width: 1024px) {
-  .hero-content { left: clamp(36vw, 46vw, 52vw); }
-  .split-copy-inner { width: min(520px, 78%); padding: 72px 0; }
+  .story-text-inner { width: min(520px, 78%); }
 }
 
 @media (max-width: 768px) {
@@ -276,51 +270,64 @@ button:hover {
   .hero {
     min-height: 0;
   }
-  .hero-content {
-    position: absolute;
-    left: 12px;
-    right: 12px;
-    bottom: 14px;
-    top: auto;
-    transform: none;
-    max-width: 100%;
-    padding: .85rem .9rem;
-    background: rgba(255, 238, 245, 0.78);
-    color: #5a3d47;
-    text-shadow: none;
+  .hero-image-wrap {
+    min-height: 0;
   }
-  .story-section.split-section,
-  .story-split {
-    flex-direction: column;
-    min-height: auto;
-  }
-  .split-media,
-  .split-copy,
-  .story-media,
-  .story-copy {
+  .hero-image {
     width: 100%;
-    max-width: 100%;
+    height: auto;
+    display: block;
   }
-  .story-media { order: 1; }
-  .story-copy { order: 2; }
-  .split-media {
-    position: relative;
-    top: auto;
-    align-self: auto;
-    height: 52vh;
-    min-height: 52vh;
+  .hero-title-box {
+    top: 4%;
+    left: 4%;
+    right: 4%;
+    max-width: none;
+    padding: 0.9rem 1rem;
+    border-radius: 18px;
   }
-  .split-copy { min-height: auto; }
-  .split-copy-inner {
-    width: min(92%, 640px);
-    padding: 48px 0;
+  .hero-kicker {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
   }
-  .split-copy-inner p {
+  .hero-title-box h1 {
+    font-size: clamp(1.9rem, 8vw, 3rem);
+    line-height: 1.15;
+  }
+  .hero-overlay {
+    height: 18%;
+  }
+  .story-section,
+  .story-section.reverse {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .story-image {
+    order: 1;
+    width: 100%;
+  }
+
+  .story-text {
+    order: 2;
+    width: 100%;
+    padding: 1.6rem 1.2rem 2rem;
+  }
+
+  .story-image img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: cover;
+    display: block;
+  }
+  .story-text-inner {
+    width: min(96%, 700px);
+    padding: 0;
+  }
+  .story-text-inner p {
     font-size: 1rem;
     line-height: 1.9;
-  }
-  .parallax-panel {
-    transform: none !important;
   }
   .game-section {
     min-height: auto;
