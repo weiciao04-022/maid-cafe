@@ -38,29 +38,18 @@
       overflow-x: hidden;
     }
 
-    body::before,
-    body::after {
+    body::before {
       content: "";
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 0;
-    }
-
-    body::before {
       background-image:
         radial-gradient(rgba(255,255,255,0.9) 1.3px, transparent 1.3px),
         radial-gradient(rgba(255,214,227,0.6) 1px, transparent 1px);
       background-size: 26px 26px, 18px 18px;
       background-position: 0 0, 9px 9px;
       opacity: 0.55;
-    }
-
-    body::after {
-      background:
-        linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.35) 49%, rgba(255,255,255,0.35) 51%, transparent 52%);
-      background-size: 22px 22px;
-      opacity: 0.15;
     }
 
     .wrapper {
@@ -77,6 +66,7 @@
       animation: bob 3s ease-in-out infinite;
       pointer-events: none;
       filter: drop-shadow(0 4px 8px rgba(255,255,255,0.7));
+      z-index: 10;
     }
 
     .floating.one { top: -18px; left: 8px; }
@@ -124,7 +114,7 @@
     .bar {
       height: 100%;
       border-radius: 999px;
-      transition: width .5s ease;
+      transition: width .5s cubic-bezier(0.4, 0, 0.2, 1);
       background-image: linear-gradient(90deg, rgba(255,255,255,0.15), rgba(255,255,255,0.4));
     }
 
@@ -132,7 +122,7 @@
       position: relative;
       overflow: hidden;
       border-radius: 42px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,248,251,0.98));
+      background: linear-gradient(180deg, rgba(255,255,255,1), rgba(255,248,251,1));
       border: 4px solid white;
       box-shadow:
         0 18px 45px var(--rose-shadow),
@@ -167,6 +157,12 @@
       padding: 34px 28px;
       position: relative;
       z-index: 1;
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .screen.active { display: block; }
@@ -203,7 +199,7 @@
       background: linear-gradient(180deg, #fffefe, #fff6fa);
       color: #8a6671;
       padding: 14px 16px;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 800;
       line-height: 1.65;
       cursor: pointer;
@@ -211,6 +207,7 @@
       transition: all .2s ease;
       text-align: left;
       position: relative;
+      padding-right: 40px;
     }
 
     .choice-btn::after {
@@ -251,23 +248,13 @@
       display: inline-block;
     }
 
-    .soft-box {
-      background: linear-gradient(180deg, rgba(255,248,251,0.95), rgba(255,240,245,0.95));
-      border: 1.5px solid #ffd7e4;
-      border-radius: 24px;
-      padding: 14px 16px;
-      font-size: 12px;
-      line-height: 1.8;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
-    }
-
     .chat-shell {
       background: linear-gradient(180deg, #fff8fb, #fff0f5);
       border: 1.5px solid #ffd7e4;
       border-radius: 24px;
-      padding: 14px 12px;
+      padding: 16px 12px;
       display: grid;
-      gap: 10px;
+      gap: 12px;
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
     }
 
@@ -277,54 +264,50 @@
       gap: 8px;
     }
 
-    .chat-row.me {
-      justify-content: flex-end;
-    }
+    .chat-row.me { justify-content: flex-end; }
 
     .chat-avatar {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border-radius: 999px;
-      background: linear-gradient(180deg, #fff, #ffeaf2);
-      border: 2px solid #ffd7e4;
+      background: white;
+      border: 1.5px solid #ffd7e4;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 14px;
       flex-shrink: 0;
-      box-shadow: 0 4px 10px rgba(255, 143, 177, 0.12);
+      overflow: hidden;
     }
 
     .chat-bubble {
-      max-width: 78%;
-      padding: 10px 13px;
+      max-width: 80%;
+      padding: 10px 14px;
       border-radius: 18px;
-      font-size: 12px;
+      font-size: 12.5px;
       line-height: 1.7;
       position: relative;
-      box-shadow: 0 6px 14px rgba(255, 143, 177, 0.08);
+      box-shadow: 0 4px 10px rgba(255, 143, 177, 0.06);
     }
 
     .chat-row.other .chat-bubble {
       background: white;
       border: 1.5px solid #ffd6e5;
       color: #7a626c;
-      border-bottom-left-radius: 8px;
+      border-bottom-left-radius: 4px;
     }
 
     .chat-row.me .chat-bubble {
       background: linear-gradient(180deg, #ff95b6, #ff7da4);
       color: white;
-      border: 1.5px solid #ff87ac;
-      border-bottom-right-radius: 8px;
+      border-bottom-right-radius: 4px;
     }
 
     .chat-name {
       font-size: 10px;
       font-weight: 900;
-      margin-bottom: 4px;
-      opacity: 0.75;
-      letter-spacing: 0.04em;
+      margin-bottom: 2px;
+      opacity: 0.8;
     }
 
     .chat-time {
@@ -339,55 +322,36 @@
       color: #895564;
       border: 2px dashed #ffb5ca;
       border-radius: 24px;
-      padding: 15px;
-      font-size: 12px;
+      padding: 18px;
+      font-size: 13px;
       line-height: 1.8;
-    }
-
-    .tiny-note {
-      font-size: 11px;
-      line-height: 1.8;
-      color: #9d8790;
+      text-align: left;
     }
 
     .top-visual {
-      min-height: 185px;
+      min-height: 180px;
       background:
         radial-gradient(circle at 25% 22%, rgba(255,255,255,0.96) 0 18px, transparent 19px),
-        radial-gradient(circle at 80% 28%, rgba(255,255,255,0.72) 0 22px, transparent 23px),
         linear-gradient(180deg, #ffeef5 0%, #ffe0ec 100%);
       border-bottom: 4px solid #ffe2ec;
       display: flex;
       align-items: center;
       justify-content: space-around;
-      padding: 22px;
+      padding: 20px;
       position: relative;
-      overflow: hidden;
-    }
-
-    .top-visual::after {
-      content: "♥ ♥ ✦ ♥";
-      position: absolute;
-      top: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgba(255, 143, 177, 0.5);
-      font-size: 12px;
-      letter-spacing: 0.5em;
-      font-weight: 900;
     }
 
     .vs-bubble {
-      width: 52px;
-      height: 52px;
+      width: 48px;
+      height: 48px;
       border-radius: 999px;
-      background: linear-gradient(180deg, #fff, #fff0f5);
+      background: white;
       border: 4px solid #ffdce8;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #ff7fa7;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 900;
       box-shadow: 0 8px 18px rgba(255, 143, 177, 0.16);
     }
@@ -396,95 +360,35 @@
       display: inline-block;
       margin-top: 8px;
       border-radius: 999px;
-      padding: 6px 10px;
+      padding: 4px 12px;
       font-size: 10px;
       font-weight: 900;
       color: white;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.08);
     }
-
     .maid-chip { background: linear-gradient(180deg, #ff83a7, #ff5d8d); }
     .guest-chip { background: linear-gradient(180deg, #a897b2, #84748d); }
 
-    .section-title {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 20px;
-      font-weight: 900;
-      color: #7d636b;
-      margin-bottom: 10px;
-    }
-
-    .cert-box {
-      padding: 6px;
-      border-radius: 34px;
-      background: linear-gradient(180deg, #fff, #fff0f6);
-      border: 3px solid #ffd5e4;
-      box-shadow: 0 18px 40px rgba(255, 143, 177, 0.16);
-    }
-
     .cert-inner {
       border-radius: 28px;
-      padding: 30px 24px;
-      background:
-        radial-gradient(circle at 50% 0%, rgba(255,255,255,0.95), transparent 52%),
-        linear-gradient(180deg, #fffefd, #fff7fb 60%, #fff0f4);
+      padding: 35px 24px;
+      background: linear-gradient(180deg, #fffefd, #fff7fb 60%, #fff0f4);
       border: 2px dashed #ffc4d7;
       position: relative;
-      overflow: hidden;
     }
 
-    .cert-inner::before {
-      content: "✦ ✿ ribbon lace ✿ ✦";
-      position: absolute;
-      top: 14px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: rgba(255, 143, 177, 0.25);
-      font-size: 12px;
+    .stamp-pass, .stamp-fail {
+      padding: 8px 16px;
+      border-radius: 12px;
+      font-size: 14px;
       font-weight: 900;
-      letter-spacing: 0.18em;
-      white-space: nowrap;
+      transform: rotate(-12deg);
+      border: 4px double;
     }
+    .stamp-pass { color: #e65286; border-color: #e65286; background: rgba(230, 82, 134, 0.05); }
+    .stamp-fail { color: #9b9ca8; border-color: #9b9ca8; background: rgba(155, 156, 168, 0.05); }
 
-    .stamp-pass,
-    .stamp-fail {
-      display: inline-block;
-      padding: 7px 14px;
-      border-radius: 16px;
-      font-size: 12px;
-      font-weight: 900;
-      transform: rotate(-10deg);
-    }
-
-    .stamp-pass {
-      color: #e65286;
-      border: 4px double #e65286;
-      background: rgba(230, 82, 134, 0.06);
-    }
-
-    .stamp-fail {
-      color: #9b9ca8;
-      border: 4px double #9b9ca8;
-      background: rgba(155, 156, 168, 0.05);
-    }
-
-    .replay-btn {
-      width: 100%;
-      background: none;
-      border: none;
-      color: #ff6f98;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 0.18em;
-      cursor: pointer;
-      margin-top: 8px;
-    }
-
-    .center { text-align: center; }
-    .grid-gap { display: grid; gap: 12px; }
     .hidden { display: none !important; }
+    .grid-gap { display: grid; gap: 12px; }
   </style>
 </head>
 <body>
@@ -509,101 +413,106 @@
     </div>
 
     <div class="game-shell">
-      <div id="screen-start" class="screen active center">
-        <div style="position:relative; display:inline-block; margin-top:8px;">
+      <!-- 初始畫面 -->
+      <div id="screen-start" class="screen active text-center">
+        <div class="mt-2 relative inline-block">
           <div class="avatar-ring">
-            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=SakuraMaid&top=longHair&accessories=round&hairColor=2c1b18&clothing=collar&clothingColor=3c444d" style="width:124px; height:124px; border-radius:999px; background:white;" alt="maid avatar" />
+            <img src="C:\Users\USER\Downloads\ChatGPT Image Apr 15, 2026, 06_12_10 PM.png"seed=SakuraMaid&top=longHair&accessories=round&hairColor=2c1b18&clothing=collar&clothingColor=3c444d" class="w-[120px] h-[120px] rounded-full bg-white" alt="maid avatar" />
           </div>
-          <div class="profile-badge">しんじんメイド</div>
+          <div class="profile-badge">新人メイド</div>
         </div>
 
-        <div style="margin-top:22px; display:grid; gap:10px;">
+        <div class="mt-6 grid gap-2">
           <div class="ribbon">Maid Diary</div>
-          <h1 class="jp-title" style="font-size:34px;">メイド修行ノート<br>甜系女僕的一日試煉</h1>
-          <p class="tiny-note" style="padding:0 16px;">
-            在夢幻可愛的女僕世界裡，妳要面對的不只是服務與笑容，
-            還有訊息壓力、隱私邊界、偷拍凝視與工作騷擾。試著走完這一天，看看妳是否還能守住自己。
+          <h1 class="jp-title text-[30px]">メイド修行ノート<br>甜系女僕的一日試煉</h1>
+          <p class="text-[11px] text-[#9d8790] px-4 leading-relaxed mt-2">
+            在夢幻可愛的女僕世界裡，妳要面對的不只是服務與笑容，還有訊息壓力、隱私邊界與各種不合理的索求。試著走完這一天，看看妳是否還能守住自己。
           </p>
         </div>
 
-        <div style="margin-top:26px; display:grid; gap:10px;">
+        <div class="mt-8 grid gap-3">
           <button class="main-btn" onclick="showScreen('screen-quiz')">開始今日出勤 ♡</button>
-          <div style="font-size:11px; color:#b599a3; font-weight:700;">ようこそ、お帰りなさいませ ♡</div>
+          <div class="text-[10px] text-[#b599a3] font-bold">ようこそ、お帰りなさいませ ♡</div>
         </div>
       </div>
 
-      <div id="screen-quiz" class="screen center">
+      <!-- 入場測驗 -->
+      <div id="screen-quiz" class="screen text-center">
         <div class="ribbon">Entry Check</div>
-        <h2 class="jp-title" style="font-size:24px; margin-top:16px; color:#7d636b;">在成為女僕之前，<br>妳認為最重要的是什麼？</h2>
-        <div class="grid-gap" style="margin-top:20px;">
+        <h2 class="jp-title text-[24px] mt-4 text-[#7d636b]">在成為女僕之前，<br>妳認為最重要的是什麼？</h2>
+        <div class="grid-gap mt-6">
           <button class="choice-btn" onclick="handleQuiz(false)">只要看起來可愛就好，其他都不重要</button>
           <button class="choice-btn" onclick="handleQuiz(true)">提供情緒陪伴，同時守住專業與界線</button>
-          <button class="choice-btn" onclick="handleQuiz(false)">為了留住客人，下班也該持續陪伴互動</button>
+          <button class="choice-btn" onclick="handleQuiz(false)">為了留住客人，下班也該持續互動</button>
         </div>
-        <div id="quiz-feedback" class="feedback-box hidden" style="margin-top:16px;"></div>
-        <button id="btn-start-game" class="main-btn hidden" style="margin-top:18px; font-size:14px;" onclick="startGame()">換上制服，開始今天的體驗</button>
+        <div id="quiz-feedback" class="feedback-box hidden mt-4"></div>
+        <button id="btn-start-game" class="main-btn hidden mt-6 text-[15px]" onclick="startGame()">換上制服，開始體驗</button>
       </div>
 
-      <div id="screen-game" class="screen" style="padding:0;">
+      <!-- 遊戲核心畫面 -->
+      <div id="screen-game" class="screen p-0">
         <div class="top-visual">
-          <div class="center" style="z-index:1;">
-            <div class="avatar-ring" style="padding:6px;"><img id="maid-avatar" style="width:84px; height:84px; border-radius:999px; background:white;" alt="maid" /></div>
+          <div class="text-center z-10">
+            <div class="avatar-ring p-1"><img id="maid-avatar" class="w-16 h-16 rounded-full bg-white" img src="C:\Users\USER\Downloads\ChatGPT Image Apr 15, 2026, 06_12_10 PM.png" alt="maid" /></div>
             <div class="name-chip maid-chip">結衣ちゃん</div>
           </div>
           <div class="vs-bubble">VS</div>
-          <div class="center" style="z-index:1; opacity:0.92;">
-            <div class="avatar-ring" style="padding:6px;"><img id="guest-avatar" style="width:84px; height:84px; border-radius:999px; background:white;" alt="guest" /></div>
+          <div class="text-center z-10 opacity-90">
+            <div class="avatar-ring p-1"><img id="guest-avatar" class="w-16 h-16 rounded-full bg-white" alt="guest" /></div>
             <div id="guest-name" class="name-chip guest-chip">主人樣</div>
           </div>
         </div>
 
-        <div style="padding:26px 24px 28px; display:grid; gap:14px;">
-          <div class="section-title"><span>📣</span><span id="scene-title"></span></div>
+        <div class="p-6 grid gap-4">
+          <div class="flex items-center gap-2 text-[18px] font-black text-[#7d636b]">
+            <span>📣</span><span id="scene-title"></span>
+          </div>
           <div id="scene-desc" class="chat-shell"></div>
           <div id="choice-area" class="grid-gap"></div>
-          <div id="feedback-area" class="hidden" style="display:grid; gap:14px;">
+          <div id="feedback-area" class="hidden grid gap-4">
             <div id="feedback-text" class="feedback-box"></div>
-            <button class="main-btn" style="font-size:13px; padding:15px;" onclick="nextStep()">進入下一段日常</button>
+            <button class="main-btn py-4 text-[14px]" onclick="nextStep()">進入下一段日常</button>
           </div>
         </div>
       </div>
 
-      <div id="screen-end" class="screen center" style="background:linear-gradient(180deg, #fffefd, #fff4f8);">
-        <div class="cert-box">
+      <!-- 結算畫面 -->
+      <div id="screen-end" class="screen text-center bg-[#fffefd]">
+        <div class="p-2 border-[3px] border-[#ffd5e4] rounded-[34px] shadow-xl bg-white">
           <div class="cert-inner">
-            <div id="cert-type-label" style="font-size:10px; color:#f2a6be; font-weight:900; letter-spacing:0.28em;">SWEET CERTIFICATE</div>
-            <h2 id="cert-title" class="jp-title" style="font-size:28px; margin-top:18px; color:#ff6f98;">今日修行完成證</h2>
+            <div id="cert-type-label" class="text-[10px] text-[#f2a6be] font-black tracking-widest uppercase">SWEET CERTIFICATE</div>
+            <h2 id="cert-title" class="jp-title text-[28px] mt-3">今日修行完成證</h2>
 
-            <div style="margin-top:24px; padding:22px 0; border-top:1px solid #ffe1ec; border-bottom:1px solid #ffe1ec; display:grid; gap:16px;">
-              <p class="tiny-note" style="text-align:center; margin:0;">依據妳今日在女僕日常中的應對方式，<br>系統將從「情緒耗損」「隱私邊界」「收益壓力」三項進行判定。</p>
-              <div style="background:linear-gradient(180deg, #fff2f7, #ffe5ee); border:1.5px solid #ffd3e1; border-radius:22px; padding:14px 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);">
-                <div id="cert-rank" style="font-size:19px; font-weight:900; color:#e05284;">載入中...</div>
+            <div class="mt-6 py-4 border-y border-[#ffe1ec] grid gap-4">
+              <p class="text-[11px] text-[#9d8790] leading-relaxed">依據妳在女僕日常中的應對，<br>系統將從隱私與能量狀態進行判定。</p>
+              <div class="bg-[#fff2f7] border border-[#ffd3e1] rounded-2xl py-3 px-2">
+                <div id="cert-rank" class="text-[18px] font-black text-[#e05284]">載入中...</div>
               </div>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px; text-align:left; padding:0 4px;">
+              <div class="grid grid-cols-2 gap-4 text-left px-2">
                 <div>
-                  <div style="display:flex; justify-content:space-between; font-size:10px; font-weight:900; color:#efb13d; margin-bottom:5px;"><span>甜點收益</span><span id="cert-money">0</span></div>
-                  <div class="bar-wrap" style="height:6px;"><div id="bar-cert-money" class="bar" style="width:0%; background-color:#efb13d;"></div></div>
+                  <div class="flex justify-between text-[10px] font-black text-[#efb13d] mb-1"><span>甜點收益</span><span id="cert-money">0</span></div>
+                  <div class="bar-wrap h-[6px]"><div id="bar-cert-money" class="bar bg-[#efb13d]"></div></div>
                 </div>
                 <div>
-                  <div style="display:flex; justify-content:space-between; font-size:10px; font-weight:900; color:#67b6e7; margin-bottom:5px;"><span>秘密結界</span><span id="cert-privacy">0%</span></div>
-                  <div class="bar-wrap" style="height:6px;"><div id="bar-cert-privacy" class="bar" style="width:0%; background-color:#67b6e7;"></div></div>
+                  <div class="flex justify-between text-[10px] font-black text-[#67b6e7] mb-1"><span>秘密結界</span><span id="cert-privacy">0%</span></div>
+                  <div class="bar-wrap h-[6px]"><div id="bar-cert-privacy" class="bar bg-[#67b6e7]"></div></div>
                 </div>
               </div>
             </div>
 
-            <div style="margin-top:22px; display:flex; justify-content:space-between; align-items:end; gap:10px;">
-              <div style="text-align:left; font-size:8px; color:#ccb6bf; font-weight:800; line-height:1.6;">
-                <div>MAID-LIFE-SIM-RECORD</div>
-                <div>AUTH ID : SWEET-ROOM-042</div>
-                <div>DATE : 2026.04.13</div>
+            <div class="mt-6 flex justify-between items-end">
+              <div class="text-left text-[8px] text-[#ccb6bf] font-bold leading-tight">
+                <div>MAID-LIFE-RECORD</div>
+                <div>AUTH: SWEET-042</div>
+                <div id="cert-date">DATE : 2026.04.13</div>
               </div>
               <div id="cert-stamp"></div>
             </div>
           </div>
         </div>
 
-        <p id="end-report" class="tiny-note" style="margin-top:18px; padding:0 8px;"></p>
-        <button class="replay-btn" onclick="location.reload()">RESTART YOUR MAID DAY</button>
+        <p id="end-report" class="text-[11px] text-[#9d8790] mt-6 px-2"></p>
+        <button class="mt-4 text-[#ff6f98] text-[12px] font-black tracking-widest" onclick="location.reload()">RESTART YOUR MAID DAY</button>
       </div>
     </div>
   </div>
@@ -612,81 +521,89 @@
     const gameData = [
       {
         title: "下班後還要回訊息",
+        guestName: "熟客主人",
+        guestAvatar: "https://api.dicebear.com/7.x/lorelei/svg?seed=Guest1",
         desc: [
-          { role: 'other', name: '熟客主人', avatar: '📱', text: '結衣醬～妳下班了嗎？人家今天有點低落，想被妳安慰一下可以嗎…？', time: '22:41' },
+          { role: 'other', name: '熟客主人', avatar: '📱', text: '結衣醬～妳下班了嗎？人家今天有點低落，想被妳安慰一下…', time: '22:41' },
           { role: 'other', name: '熟客主人', avatar: '📱', text: '妳剛剛在店裡真的好溫柔…我現在還在想著妳呢♡', time: '22:42' },
           { role: 'me', name: '結衣ちゃん', avatar: '🎀', text: '主人樣～我剛下班，正準備回家休息了呢…(小聲)♡', time: '22:43' },
-          { role: 'other', name: '熟客主人', avatar: '📱', text: '可是人家還想延續今天的感覺…結衣醬可以再多陪我一下下嗎？', time: '22:44' }
+          { role: 'other', name: '熟客主人', avatar: '📱', text: '可是人家還想延續今天的感覺…再多陪我一下下嗎？', time: '22:44' }
         ],
         choices: [
           {
             text: "先回訊息，怕對方失望或不再來店裡",
-            fb: "妳暫時維持了顧客的好感，也保住了熟客關係，但自己的休息時間被一點一點吃掉。工作看似結束，情緒勞動卻還在繼續。",
+            fb: "妳暫時維持了顧客的好感，但也讓工作侵蝕了私人的休息時間。情緒勞動在妳換下制服後依然持續著。",
             stats: { energy: -22, privacy: -18, money: +24 }
           },
           {
-            text: "禮貌告知下班後需要休息，先不繼續回覆",
-            fb: "妳守住了私人時間，也讓對方知道可愛的服務並不等於 24 小時待命。雖然可能少了一點討好，但妳保住了喘息空間。",
+            text: "禮貌告知下班後需休息，不繼續回覆",
+            fb: "妳守住了私人時間。雖然可能少了一點點「討好」，但妳成功讓對方知道，服務不等於 24 小時待命。",
             stats: { energy: +6, privacy: +16, money: -8 }
           }
         ]
       },
       {
         title: "和男友約會被偷拍",
+        guestName: "匿名社群",
+        guestAvatar: "https://api.dicebear.com/7.x/identicon/svg?seed=Twitter",
         desc: [
-          { role: 'other', name: '匿名社群貼文', avatar: '📸', text: '欸這不是那個女僕店的結衣嗎？居然跟男生單獨吃飯欸w', time: '18:26' },
-          { role: 'other', name: '匿名社群貼文', avatar: '📸', text: '有男友還當什麼女僕啊？人設直接破滅欸www', time: '18:27' },
-          { role: 'me', name: '結衣ちゃん', avatar: '🎀', text: '……這只是我的休假日常而已，ご主人様也會休息的吧…？', time: '18:28' }
+          { role: 'other', name: '匿名社群', avatar: '📸', text: '欸這不是那個女僕店的結衣嗎？居然跟男生單獨吃飯欸w', time: '18:26' },
+          { role: 'other', name: '匿名社群', avatar: '📸', text: '有男友還當什麼女僕啊？人設直接破滅欸www', time: '18:27' },
+          { role: 'me', name: '結衣ちゃん', avatar: '🎀', text: '……這只是我的休假日常而已，難道女僕不能有生活嗎？', time: '18:28' }
         ],
         choices: [
           {
-            text: "急著解釋，希望平息爭議",
-            fb: "妳花了很多力氣想澄清自己也有私生活，但匿名社群的惡意並不會因解釋就停止。這種被檢視與評價的感覺，讓妳更加疲憊。",
+            text: "急著發文解釋，希望平息爭議",
+            fb: "妳花費大量心力澄清，但網路惡意往往不會因解釋而止步，反而讓妳被監視的壓力感劇增。",
             stats: { energy: -24, privacy: -28, money: 0 }
           },
           {
-            text: "先保護自己，不回應偷拍與羞辱言論",
-            fb: "妳沒有讓自己被捲進更大的輿論漩渦。即使心裡仍然難受，但妳知道問題不在妳談戀愛，而在別人把女僕想像成不能有私人生活的角色。",
+            text: "先保護自己，不回應任何偷拍言論",
+            fb: "妳沒有讓自己捲入輿論漩渦。雖然心裡難受，但妳知道問題不在妳的生活，而在別人的過度投射。",
             stats: { energy: -8, privacy: +12, money: -4 }
           }
         ]
       },
       {
-        title: "顧客跑到學校附近",
+        title: "顧客出現在學校附近",
+        guestName: "越界顧客",
+        guestAvatar: "https://api.dicebear.com/7.x/pixel-art/svg?seed=Watcher",
         desc: [
           { role: 'other', name: '顧客', avatar: '👀', text: '我今天剛好去妳學校附近晃晃耶～', time: '15:10' },
-          { role: 'other', name: '顧客', avatar: '👀', text: '我還在附近繞了一圈呢，怎麼都沒有看到結衣醬呀？', time: '15:11' },
-          { role: 'me', name: '結衣ちゃん', avatar: '🎀', text: '欸…為什麼會跑到那裡去呢…有點讓人嚇到…', time: '15:12' }
+          { role: 'other', name: '顧客', avatar: '👀', text: '還繞了一圈都沒看到結衣醬，真可惜呀！', time: '15:11' },
+          { role: 'me', name: '結衣ちゃん', avatar: '🎀', text: '欸…為什麼會跑到那裡去呢…有點嚇到…', time: '15:12' }
         ],
         choices: [
           {
-            text: "裝沒事帶過，怕直接拒絕會惹怒對方",
-            fb: "妳勉強把不舒服吞下去，但對方越界的行為沒有因此消失。從這一刻起，學校不再只是日常場所，也變成一個可能被監看的空間。",
+            text: "裝沒事帶過，怕拒絕會惹怒對方",
+            fb: "妳勉強忍受了恐懼，但對方的越界行為可能變本加厲。生活圈從此蒙上一層「被監看」的陰影。",
             stats: { energy: -18, privacy: -35, money: +6 }
           },
           {
-            text: "停止透露個資，並明確表達這樣很不舒服",
-            fb: "妳把界線說清楚，也意識到看似平常的聊天內容，可能成為現實中被追蹤的線索。保護自己，並不是不近人情。",
+            text: "拒絕透露個資，並表示這樣很不舒服",
+            fb: "妳明確表達了不適。保護自己並不是不近人情，而是守住最後的安全底線。",
             stats: { energy: -6, privacy: +22, money: -6 }
           }
         ]
       },
       {
-        title: "工作時刻被騷擾",
+        title: "工作現場的言語騷擾",
+        guestName: "現場顧客",
+        guestAvatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Creepy",
         desc: [
-          { role: 'other', name: '顧客私訊', avatar: '🔔', text: '妳今天制服超可愛的欸♡ 私底下也會這樣穿給主人看嗎～？', time: '20:03' },
-          { role: 'other', name: '顧客私訊', avatar: '🔔', text: '那要不要賣原味襪子給我呀？我可以多給一點錢喔～嘿嘿', time: '20:04' },
-          { role: 'me', name: '結衣ちゃん', avatar: '🎀', text: '主人樣，這樣的話已經讓我有點不舒服了…可以請您停止嗎？', time: '20:05' }
+          { role: 'other', name: '現場顧客', avatar: '🔔', text: '妳制服超可愛的，私下也會穿這樣給主人看嗎？', time: '20:03' },
+          { role: 'other', name: '現場顧客', avatar: '🔔', text: '襪子可以賣給我嗎？我會付很多錢喔～嘿嘿', time: '20:04' },
+          { role: 'me', name: '結衣ちゃん', avatar: '🎀', text: '主人樣，這樣的話已經讓我有點不舒服了……', time: '20:05' }
         ],
         choices: [
           {
-            text: "先忍耐一下，怕現場氣氛更難看",
-            fb: "妳把不舒服壓下來了，但那份委屈沒有消失。當騷擾被包裝成『消費互動』，受傷的人往往還得先顧慮場面。",
+            text: "隱忍過去，怕現場氣氛變僵",
+            fb: "妳壓抑了情緒，但委屈感沉重地積壓在心頭。當騷擾被包裝成消費，受傷的總是被要求專業的人。",
             stats: { energy: -32, privacy: -24, money: +10 }
           },
           {
-            text: "立刻制止並請同事、店長協助處理",
-            fb: "妳沒有把越界行為當成小事，也讓現場同仁一起介入。即使制度未必能完全預防風險，但說出來，至少不是獨自承受。",
+            text: "立刻制止並請店內同事協助處理",
+            fb: "妳不選擇獨自承受，讓制度與同事介入。可愛不代表可以被隨意冒犯。",
             stats: { energy: -10, privacy: +14, money: -2 }
           }
         ]
@@ -707,10 +624,10 @@
       fb.classList.remove('hidden');
 
       if (isCorrect) {
-        fb.innerHTML = '<b>回答正確 ♡</b><br>女僕工作的核心並不是無止盡地討好，而是在提供陪伴與情緒價值的同時，也守住清楚的界線。可愛不該以犧牲自己為代價。';
+        fb.innerHTML = '<b>回答正確 ♡</b><br>女僕工作的核心是在提供價值時守住界線。可愛不該以犧牲自我為代價。';
         btn.classList.remove('hidden');
       } else {
-        fb.innerHTML = '<b>店長提醒：</b><br>這樣的想法很容易讓工作與私人生活混在一起。真正的專業，不是讓自己完全被消耗，而是知道哪些互動不該越界。';
+        fb.innerHTML = '<b>店長提醒：</b><br>這樣的想法容易讓你過度耗損。真正的專業是知道哪些互動不該越界。';
         btn.classList.add('hidden');
       }
     }
@@ -724,39 +641,28 @@
     function renderStep() {
       const data = gameData[curStep];
       document.getElementById('scene-title').innerText = data.title;
+      document.getElementById('guest-name').innerText = data.guestName;
+      document.getElementById('guest-avatar').src = data.guestAvatar;
+      document.getElementById('maid-avatar').src = `https://api.dicebear.com/7.x/avataaars/svg?seed=MaidYui${curStep}&top=longHair&hairColor=2c1b18&clothing=collar&clothingColor=3c444d`;
+
       const sceneDesc = document.getElementById('scene-desc');
       sceneDesc.innerHTML = '';
       data.desc.forEach(msg => {
         const row = document.createElement('div');
         row.className = `chat-row ${msg.role}`;
-
-        const avatar = document.createElement('div');
-        avatar.className = 'chat-avatar';
-        avatar.innerText = msg.avatar;
-
-        const bubble = document.createElement('div');
-        bubble.className = 'chat-bubble';
-        bubble.innerHTML = `<div class="chat-name">${msg.name}</div><div>${msg.text}</div><div class="chat-time">${msg.time}</div>`;
-
-        if (msg.role === 'me') {
-          row.appendChild(bubble);
-          row.appendChild(avatar);
-        } else {
-          row.appendChild(avatar);
-          row.appendChild(bubble);
-        }
-
+        
+        const content = `
+          ${msg.role === 'other' ? `<div class="chat-avatar">${msg.avatar}</div>` : ''}
+          <div class="chat-bubble">
+            <div class="chat-name">${msg.name}</div>
+            <div>${msg.text}</div>
+            <div class="chat-time">${msg.time}</div>
+          </div>
+          ${msg.role === 'me' ? `<div class="chat-avatar">🎀</div>` : ''}
+        `;
+        row.innerHTML = content;
         sceneDesc.appendChild(row);
       });
-      document.getElementById('maid-avatar').src = `https://api.dicebear.com/7.x/avataaars/svg?seed=Maid${curStep}&top=longHair&hairColor=2c1b18&clothing=collar&clothingColor=3c444d`;
-      document.getElementById('guest-avatar').src = curStep === 1
-        ? `https://api.dicebear.com/7.x/lorelei/svg?seed=Anon${curStep}`
-        : curStep === 2
-          ? `https://api.dicebear.com/7.x/bottts/svg?seed=Watcher${curStep}`
-          : `https://api.dicebear.com/7.x/pixel-art/svg?seed=Guest${curStep}`;
-
-      const guestNames = ['訊息通知', '匿名社群', '越界顧客', '騷擾現場'];
-      document.getElementById('guest-name').innerText = guestNames[curStep];
 
       const area = document.getElementById('choice-area');
       const feedbackArea = document.getElementById('feedback-area');
@@ -798,26 +704,29 @@
       let rank = '';
       let report = '';
       const passed = stats.privacy >= 60;
+      
+      const today = new Date();
+      document.getElementById('cert-date').innerText = `DATE : ${today.getFullYear()}.${(today.getMonth()+1).toString().padStart(2,'0')}.${today.getDate().toString().padStart(2,'0')}`;
 
       if (passed) {
         document.getElementById('cert-type-label').innerText = 'SWEET CERTIFICATE';
         document.getElementById('cert-title').innerText = '今日修行完成證';
         document.getElementById('cert-title').style.color = '#ff6f98';
         document.getElementById('cert-stamp').innerHTML = '<div class="stamp-pass">合格認定</div>';
-
+        
         if (stats.money >= 40) rank = '人氣系：高甜度接待員';
-        else if (stats.energy >= 75) rank = '安定系：溫柔守界者';
+        else if (stats.energy >= 70) rank = '安定系：溫柔守界者';
         else rank = '冷靜系：邊界保護達人';
 
-        report = '妳順利走過了一天。即使面對討好壓力、偷拍羞辱、窺探風險與騷擾場面，妳仍努力守住自己的界線。這份可愛，沒有建立在犧牲自己之上。';
+        report = '妳努力在討好壓力、窺探風險與騷擾場面中守住了界線。這份可愛，沒有建立在犧牲自己之上。';
       } else {
-        document.getElementById('cert-type-label').innerText = 'RETRAINING NOTICE';
-        document.getElementById('cert-title').innerText = '需要重新休息通知';
+        document.getElementById('cert-type-label').innerText = 'BREAK NOTICE';
+        document.getElementById('cert-title').innerText = '需要休息通知書';
         document.getElementById('cert-title').style.color = '#9aa0ab';
         document.getElementById('cert-stamp').innerHTML = '<div class="stamp-fail">未達標</div>';
 
         rank = '過度耗損的糖霜心情';
-        report = '這一天讓妳太累了。當妳一次次把不舒服吞下去，邊界也慢慢被侵蝕。妳需要的不是再更努力，而是被理解、被保護，還有重新休息的空間。';
+        report = '這一天讓妳太累了。邊界一點點被侵蝕，妳需要的不是更努力工作，而是好好的休息與被保護的空間。';
       }
 
       document.getElementById('cert-rank').innerText = rank;
@@ -826,7 +735,6 @@
       document.getElementById('bar-cert-money').style.width = stats.money + '%';
       document.getElementById('bar-cert-privacy').style.width = stats.privacy + '%';
       document.getElementById('end-report').innerText = report;
-      window.parent.postMessage({ type: 'game-complete', game: 2 }, '*');
     }
   </script>
 </body>
