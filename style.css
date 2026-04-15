@@ -173,7 +173,7 @@ body {
 }
 
 #intro-story .story-text {
-  background: linear-gradient(to bottom, #fff 0%, #fff 78%, #ffe9f0 100%);
+  background: #fff;
 }
 
 .game-section {
