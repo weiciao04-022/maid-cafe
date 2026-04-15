@@ -65,22 +65,75 @@ body {
   pointer-events: none;
 }
 
+.hero-title-box {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  width: min(92vw, 980px);
+  margin-inline: auto;
+  padding: clamp(0.8rem, 1.6vw, 1.2rem) clamp(1rem, 2vw, 1.6rem);
+  transform: translateX(clamp(18px, 4vw, 64px));
+  pointer-events: none;
+}
 
 .hero-kicker {
   margin: 0 0 0.8rem 0;
   font-size: clamp(0.85rem, 1.4vw, 1.2rem);
   letter-spacing: 0.18em;
   font-weight: 700;
-  color: #6a4a46;
+  color: #fff;
+  text-shadow:
+    -1px -1px 0 #6a4a46,
+    1px -1px 0 #6a4a46,
+    -1px 1px 0 #6a4a46,
+    1px 1px 0 #6a4a46,
+    0 -10px 18px rgba(255, 244, 220, 0.24),
+    10px 0 18px rgba(255, 244, 220, 0.2),
+    -10px 0 18px rgba(255, 244, 220, 0.2),
+    0 10px 18px rgba(255, 244, 220, 0.24),
+    0 0 10px rgba(255, 255, 255, 0.85),
+    0 0 18px rgba(255, 233, 199, 0.55),
+    0 0 30px rgba(255, 236, 187, 0.36);
+  animation: heroSparkle 3.4s ease-in-out infinite;
 }
 
 .hero-title-box h1 {
   margin: 0;
-  font-size: clamp(2.2rem, 5vw, 5rem);
+  font-size: clamp(1.8rem, 4.8vw, 4.2rem);
   line-height: 1.1;
   font-weight: 800;
-  color: #5b3f3d;
+  color: #fff;
+  text-shadow:
+    -1px -1px 0 #6a4a46,
+    1px -1px 0 #6a4a46,
+    -1px 1px 0 #6a4a46,
+    1px 1px 0 #6a4a46,
+    -2px 0 0 #6a4a46,
+    2px 0 0 #6a4a46,
+    0 -2px 0 #6a4a46,
+    0 2px 0 #6a4a46,
+    0 -16px 26px rgba(255, 243, 214, 0.28),
+    16px 0 26px rgba(255, 243, 214, 0.24),
+    -16px 0 26px rgba(255, 243, 214, 0.24),
+    0 16px 26px rgba(255, 243, 214, 0.28),
+    0 0 14px rgba(255, 255, 255, 0.9),
+    0 0 24px rgba(255, 230, 195, 0.62),
+    0 0 40px rgba(255, 236, 187, 0.42);
   text-wrap: balance;
+  animation: heroSparkle 3.4s ease-in-out infinite;
+}
+
+@keyframes heroSparkle {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.12);
+  }
 }
 
 .story-section {
@@ -288,13 +341,9 @@ button:hover {
     display: block;
   }
   .hero-title-box {
-    top: 50%;
-    left: 4%;
-    right: 4%;
-    transform: translateY(-50%);
-    max-width: none;
+    width: min(94vw, 640px);
     padding: 0.9rem 1rem;
-    border-radius: 18px;
+    transform: translateX(clamp(8px, 2.4vw, 22px));
   }
   .hero-kicker {
     font-size: 0.72rem;
