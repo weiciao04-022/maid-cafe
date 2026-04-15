@@ -51,13 +51,12 @@ document.querySelectorAll('.game-start-btn').forEach((btn) => {
 function createSparkle(e) {
   const sparkle = document.createElement('div');
   sparkle.className = 'sparkle';
-  sparkle.textContent = '✦';
+  sparkle.textContent = '✶';
   sparkle.style.left = `${e.clientX}px`;
   sparkle.style.top = `${e.clientY}px`;
   sparkle.style.width = `${10 + Math.random() * 12}px`;
   sparkle.style.height = sparkle.style.width;
   sparkle.style.animationDuration = `${900 + Math.random() * 500}ms`;
-  sparkle.style.transform = `translate(-50%, -50%) rotate(${Math.random() * 360}deg)`;
   document.body.appendChild(sparkle);
   setTimeout(() => {
     sparkle.remove();
