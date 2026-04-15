@@ -417,7 +417,7 @@
       <div id="screen-start" class="screen active text-center">
         <div class="mt-2 relative inline-block">
           <div class="avatar-ring">
-            <img id="start-maid-avatar" src="../pic/game2maiddd.png" onerror="handleMaidAvatarError(this)" class="w-[120px] h-[120px] rounded-full bg-white object-cover" alt="maid avatar" />
+            <img src="../pic/game2maiddd.png" class="w-[120px] h-[120px] rounded-full bg-white object-cover" alt="maid avatar" />
           </div>
           <div class="profile-badge">新人メイド</div>
         </div>
@@ -453,7 +453,7 @@
       <div id="screen-game" class="screen p-0">
         <div class="top-visual">
           <div class="text-center z-10">
-            <div class="avatar-ring p-1"><img id="maid-avatar" class="w-16 h-16 rounded-full bg-white object-cover" src="../pic/game2maiddd.png" onerror="handleMaidAvatarError(this)" alt="maid" /></div>
+            <div class="avatar-ring p-1"><img id="maid-avatar" class="w-16 h-16 rounded-full bg-white object-cover" src="../pic/game2maiddd.png" alt="maid" /></div>
             <div class="name-chip maid-chip">結衣ちゃん</div>
           </div>
           <div class="vs-bubble">VS</div>
@@ -613,8 +613,6 @@
     let curStep = 0;
     let stats = { energy: 100, privacy: 100, money: 10 };
 
-    setMaidAvatar(document.getElementById('start-maid-avatar'));
-
     function showScreen(id) {
       document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
       document.getElementById(id).classList.add('active');
@@ -640,28 +638,12 @@
       renderStep();
     }
 
-    const maidAvatarCandidates = ['../pic/game2maiddd.png', '../pic/game2maiddd.png', '../pic/game2maiddd.png'];
-
-    function setMaidAvatar(imgElement) {
-      if (!imgElement) return;
-      imgElement.dataset.avatarIdx = '0';
-      imgElement.src = maidAvatarCandidates[0];
-    }
-
-    function handleMaidAvatarError(imgElement) {
-      const current = Number(imgElement.dataset.avatarIdx || '0');
-      const next = current + 1;
-      if (next >= maidAvatarCandidates.length) return;
-      imgElement.dataset.avatarIdx = String(next);
-      imgElement.src = maidAvatarCandidates[next];
-    }
-
     function renderStep() {
       const data = gameData[curStep];
       document.getElementById('scene-title').innerText = data.title;
       document.getElementById('guest-name').innerText = data.guestName;
       document.getElementById('guest-avatar').src = data.guestAvatar;
-      setMaidAvatar(document.getElementById('maid-avatar'));
+      document.getElementById('maid-avatar').src = '../pic/game2maiddd.png';
 
       const sceneDesc = document.getElementById('scene-desc');
       sceneDesc.innerHTML = '';
