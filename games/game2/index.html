@@ -1,1 +1,833 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>メイド修行ノート｜女僕的甜系日常體驗</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Kiwi+Maru:wght@400;500&family=Kosugi+Maru&family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
 
+    :root {
+      --pink-main: #ff8fb1;
+      --pink-soft: #ffd6e3;
+      --pink-deep: #ff6f98;
+      --cream: #fffaf6;
+      --lavender: #e7dcff;
+      --mint: #d9fff2;
+      --brown: #6f5960;
+      --rose-shadow: rgba(255, 143, 177, 0.24);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Noto Sans TC', 'Kosugi Maru', sans-serif;
+      color: var(--brown);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.95) 0 18px, transparent 19px),
+        radial-gradient(circle at 85% 12%, rgba(255,214,227,0.9) 0 20px, transparent 21px),
+        radial-gradient(circle at 78% 78%, rgba(231,220,255,0.8) 0 24px, transparent 25px),
+        linear-gradient(180deg, #fff7fb 0%, #fff2f6 45%, #fffaf8 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      background-image:
+        radial-gradient(rgba(255,255,255,0.9) 1.3px, transparent 1.3px),
+        radial-gradient(rgba(255,214,227,0.6) 1px, transparent 1px);
+      background-size: 26px 26px, 18px 18px;
+      background-position: 0 0, 9px 9px;
+      opacity: 0.55;
+    }
+
+    body::after {
+      background:
+        linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.35) 49%, rgba(255,255,255,0.35) 51%, transparent 52%);
+      background-size: 22px 22px;
+      opacity: 0.15;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 430px;
+    }
+
+    .floating {
+      position: absolute;
+      font-size: 28px;
+      opacity: 0.8;
+      animation: bob 3s ease-in-out infinite;
+      pointer-events: none;
+      filter: drop-shadow(0 4px 8px rgba(255,255,255,0.7));
+    }
+
+    .floating.one { top: -18px; left: 8px; }
+    .floating.two { top: 42px; right: -6px; animation-delay: 0.8s; }
+    .floating.three { bottom: 14px; right: -10px; animation-delay: 1.6s; }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-9px) rotate(4deg); }
+    }
+
+    .status-panel {
+      display: none;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .status-card {
+      background: rgba(255,255,255,0.82);
+      border: 1.5px solid rgba(255, 214, 227, 0.9);
+      border-radius: 20px;
+      padding: 10px 8px;
+      box-shadow: 0 8px 20px rgba(255, 143, 177, 0.08);
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .status-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 900;
+      margin-bottom: 5px;
+      letter-spacing: 0.08em;
+    }
+
+    .bar-wrap {
+      height: 8px;
+      background: #f3f3f3;
+      border-radius: 999px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
+    }
+
+    .bar {
+      height: 100%;
+      border-radius: 999px;
+      transition: width .5s ease;
+      background-image: linear-gradient(90deg, rgba(255,255,255,0.15), rgba(255,255,255,0.4));
+    }
+
+    .game-shell {
+      position: relative;
+      overflow: hidden;
+      border-radius: 42px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,248,251,0.98));
+      border: 4px solid white;
+      box-shadow:
+        0 18px 45px var(--rose-shadow),
+        0 0 0 2px rgba(255, 143, 177, 0.28),
+        inset 0 0 0 10px rgba(255, 240, 245, 0.88);
+    }
+
+    .game-shell::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: 34px;
+      border: 2px dashed rgba(255, 143, 177, 0.35);
+      pointer-events: none;
+    }
+
+    .ribbon {
+      display: inline-block;
+      padding: 6px 14px;
+      background: linear-gradient(180deg, #ffe3ee, #ffd1e0);
+      color: var(--pink-deep);
+      font-size: 10px;
+      font-weight: 900;
+      border-radius: 999px;
+      box-shadow: 0 4px 0 #ffc0d2;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .screen {
+      display: none;
+      padding: 34px 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .screen.active { display: block; }
+
+    .jp-title {
+      font-family: 'Kiwi Maru', 'Kosugi Maru', serif;
+      color: var(--pink-deep);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+    }
+
+    .main-btn {
+      width: 100%;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(180deg, #ff97b7 0%, #ff7099 100%);
+      color: white;
+      font-weight: 900;
+      border-radius: 999px;
+      padding: 18px 18px;
+      font-size: 17px;
+      box-shadow: 0 7px 0 #d9547f, 0 14px 24px rgba(255, 112, 153, 0.25);
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .main-btn:hover { transform: translateY(-2px); }
+    .main-btn:active { transform: translateY(3px); box-shadow: 0 3px 0 #d9547f; }
+
+    .choice-btn {
+      width: 100%;
+      border: 2px solid #ffc6d9;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #fffefe, #fff6fa);
+      color: #8a6671;
+      padding: 14px 16px;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.65;
+      cursor: pointer;
+      box-shadow: 0 6px 0 #ffe3ec;
+      transition: all .2s ease;
+      text-align: left;
+      position: relative;
+    }
+
+    .choice-btn::after {
+      content: "✦";
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #ff8fb1;
+      font-size: 12px;
+    }
+
+    .choice-btn:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(180deg, #fff1f7, #ffe0eb);
+      border-color: #ff97b7;
+    }
+
+    .profile-badge {
+      position: absolute;
+      right: 0;
+      bottom: -6px;
+      background: linear-gradient(180deg, #ff7da4, #ff5a8a);
+      color: white;
+      font-size: 10px;
+      font-weight: 900;
+      border-radius: 999px;
+      padding: 6px 12px;
+      box-shadow: 0 6px 12px rgba(255, 90, 138, 0.25);
+    }
+
+    .avatar-ring {
+      padding: 8px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fff, #ffeef5);
+      box-shadow: 0 10px 24px rgba(255, 143, 177, 0.18);
+      border: 4px solid #fff6f9;
+      display: inline-block;
+    }
+
+    .soft-box {
+      background: linear-gradient(180deg, rgba(255,248,251,0.95), rgba(255,240,245,0.95));
+      border: 1.5px solid #ffd7e4;
+      border-radius: 24px;
+      padding: 14px 16px;
+      font-size: 12px;
+      line-height: 1.8;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+    }
+
+    .chat-shell {
+      background: linear-gradient(180deg, #fff8fb, #fff0f5);
+      border: 1.5px solid #ffd7e4;
+      border-radius: 24px;
+      padding: 14px 12px;
+      display: grid;
+      gap: 10px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+
+    .chat-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+    }
+
+    .chat-row.me {
+      justify-content: flex-end;
+    }
+
+    .chat-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fff, #ffeaf2);
+      border: 2px solid #ffd7e4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(255, 143, 177, 0.12);
+    }
+
+    .chat-bubble {
+      max-width: 78%;
+      padding: 10px 13px;
+      border-radius: 18px;
+      font-size: 12px;
+      line-height: 1.7;
+      position: relative;
+      box-shadow: 0 6px 14px rgba(255, 143, 177, 0.08);
+    }
+
+    .chat-row.other .chat-bubble {
+      background: white;
+      border: 1.5px solid #ffd6e5;
+      color: #7a626c;
+      border-bottom-left-radius: 8px;
+    }
+
+    .chat-row.me .chat-bubble {
+      background: linear-gradient(180deg, #ff95b6, #ff7da4);
+      color: white;
+      border: 1.5px solid #ff87ac;
+      border-bottom-right-radius: 8px;
+    }
+
+    .chat-name {
+      font-size: 10px;
+      font-weight: 900;
+      margin-bottom: 4px;
+      opacity: 0.75;
+      letter-spacing: 0.04em;
+    }
+
+    .chat-time {
+      font-size: 9px;
+      margin-top: 4px;
+      opacity: 0.6;
+      text-align: right;
+    }
+
+    .feedback-box {
+      background: linear-gradient(180deg, #fff0f6, #ffe2eb);
+      color: #895564;
+      border: 2px dashed #ffb5ca;
+      border-radius: 24px;
+      padding: 15px;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .tiny-note {
+      font-size: 11px;
+      line-height: 1.8;
+      color: #9d8790;
+    }
+
+    .top-visual {
+      min-height: 185px;
+      background:
+        radial-gradient(circle at 25% 22%, rgba(255,255,255,0.96) 0 18px, transparent 19px),
+        radial-gradient(circle at 80% 28%, rgba(255,255,255,0.72) 0 22px, transparent 23px),
+        linear-gradient(180deg, #ffeef5 0%, #ffe0ec 100%);
+      border-bottom: 4px solid #ffe2ec;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .top-visual::after {
+      content: "♥ ♥ ✦ ♥";
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 143, 177, 0.5);
+      font-size: 12px;
+      letter-spacing: 0.5em;
+      font-weight: 900;
+    }
+
+    .vs-bubble {
+      width: 52px;
+      height: 52px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #fff, #fff0f5);
+      border: 4px solid #ffdce8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ff7fa7;
+      font-size: 11px;
+      font-weight: 900;
+      box-shadow: 0 8px 18px rgba(255, 143, 177, 0.16);
+    }
+
+    .name-chip {
+      display: inline-block;
+      margin-top: 8px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 10px;
+      font-weight: 900;
+      color: white;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    }
+
+    .maid-chip { background: linear-gradient(180deg, #ff83a7, #ff5d8d); }
+    .guest-chip { background: linear-gradient(180deg, #a897b2, #84748d); }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 20px;
+      font-weight: 900;
+      color: #7d636b;
+      margin-bottom: 10px;
+    }
+
+    .cert-box {
+      padding: 6px;
+      border-radius: 34px;
+      background: linear-gradient(180deg, #fff, #fff0f6);
+      border: 3px solid #ffd5e4;
+      box-shadow: 0 18px 40px rgba(255, 143, 177, 0.16);
+    }
+
+    .cert-inner {
+      border-radius: 28px;
+      padding: 30px 24px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,0.95), transparent 52%),
+        linear-gradient(180deg, #fffefd, #fff7fb 60%, #fff0f4);
+      border: 2px dashed #ffc4d7;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cert-inner::before {
+      content: "✦ ✿ ribbon lace ✿ ✦";
+      position: absolute;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 143, 177, 0.25);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      white-space: nowrap;
+    }
+
+    .stamp-pass,
+    .stamp-fail {
+      display: inline-block;
+      padding: 7px 14px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 900;
+      transform: rotate(-10deg);
+    }
+
+    .stamp-pass {
+      color: #e65286;
+      border: 4px double #e65286;
+      background: rgba(230, 82, 134, 0.06);
+    }
+
+    .stamp-fail {
+      color: #9b9ca8;
+      border: 4px double #9b9ca8;
+      background: rgba(155, 156, 168, 0.05);
+    }
+
+    .replay-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      color: #ff6f98;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .center { text-align: center; }
+    .grid-gap { display: grid; gap: 12px; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="floating one">🎀</div>
+    <div class="floating two">✨</div>
+    <div class="floating three">♡</div>
+
+    <div id="status-panel" class="status-panel">
+      <div class="status-card">
+        <span class="status-label" style="color:#ff7fa7;">💗 萌感耐力</span>
+        <div class="bar-wrap"><div id="bar-energy" class="bar" style="width:100%; background-color:#ff7fa7;"></div></div>
+      </div>
+      <div class="status-card">
+        <span class="status-label" style="color:#67b6e7;">🛡 秘密結界</span>
+        <div class="bar-wrap"><div id="bar-privacy" class="bar" style="width:100%; background-color:#67b6e7;"></div></div>
+      </div>
+      <div class="status-card">
+        <span class="status-label" style="color:#f2b84b;">🍰 甜點收入</span>
+        <div class="bar-wrap"><div id="bar-money" class="bar" style="width:10%; background-color:#f2b84b;"></div></div>
+      </div>
+    </div>
+
+    <div class="game-shell">
+      <div id="screen-start" class="screen active center">
+        <div style="position:relative; display:inline-block; margin-top:8px;">
+          <div class="avatar-ring">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=SakuraMaid&top=longHair&accessories=round&hairColor=2c1b18&clothing=collar&clothingColor=3c444d" style="width:124px; height:124px; border-radius:999px; background:white;" alt="maid avatar" />
+          </div>
+          <div class="profile-badge">しんじんメイド</div>
+        </div>
+
+        <div style="margin-top:22px; display:grid; gap:10px;">
+          <div class="ribbon">Maid Diary</div>
+          <h1 class="jp-title" style="font-size:34px;">メイド修行ノート<br>甜系女僕的一日試煉</h1>
+          <p class="tiny-note" style="padding:0 16px;">
+            在夢幻可愛的女僕世界裡，妳要面對的不只是服務與笑容，
+            還有訊息壓力、隱私邊界、偷拍凝視與工作騷擾。試著走完這一天，看看妳是否還能守住自己。
+          </p>
+        </div>
+
+        <div style="margin-top:26px; display:grid; gap:10px;">
+          <button class="main-btn" onclick="showScreen('screen-quiz')">開始今日出勤 ♡</button>
+          <div style="font-size:11px; color:#b599a3; font-weight:700;">ようこそ、お帰りなさいませ ♡</div>
+        </div>
+      </div>
+
+      <div id="screen-quiz" class="screen center">
+        <div class="ribbon">Entry Check</div>
+        <h2 class="jp-title" style="font-size:24px; margin-top:16px; color:#7d636b;">在成為女僕之前，<br>妳認為最重要的是什麼？</h2>
+        <div class="grid-gap" style="margin-top:20px;">
+          <button class="choice-btn" onclick="handleQuiz(false)">只要看起來可愛就好，其他都不重要</button>
+          <button class="choice-btn" onclick="handleQuiz(true)">提供情緒陪伴，同時守住專業與界線</button>
+          <button class="choice-btn" onclick="handleQuiz(false)">為了留住客人，下班也該持續陪伴互動</button>
+        </div>
+        <div id="quiz-feedback" class="feedback-box hidden" style="margin-top:16px;"></div>
+        <button id="btn-start-game" class="main-btn hidden" style="margin-top:18px; font-size:14px;" onclick="startGame()">換上制服，開始今天的體驗</button>
+      </div>
+
+      <div id="screen-game" class="screen" style="padding:0;">
+        <div class="top-visual">
+          <div class="center" style="z-index:1;">
+            <div class="avatar-ring" style="padding:6px;"><img id="maid-avatar" style="width:84px; height:84px; border-radius:999px; background:white;" alt="maid" /></div>
+            <div class="name-chip maid-chip">結衣ちゃん</div>
+          </div>
+          <div class="vs-bubble">VS</div>
+          <div class="center" style="z-index:1; opacity:0.92;">
+            <div class="avatar-ring" style="padding:6px;"><img id="guest-avatar" style="width:84px; height:84px; border-radius:999px; background:white;" alt="guest" /></div>
+            <div id="guest-name" class="name-chip guest-chip">主人樣</div>
+          </div>
+        </div>
+
+        <div style="padding:26px 24px 28px; display:grid; gap:14px;">
+          <div class="section-title"><span>📣</span><span id="scene-title"></span></div>
+          <div id="scene-desc" class="chat-shell"></div>
+          <div id="choice-area" class="grid-gap"></div>
+          <div id="feedback-area" class="hidden" style="display:grid; gap:14px;">
+            <div id="feedback-text" class="feedback-box"></div>
+            <button class="main-btn" style="font-size:13px; padding:15px;" onclick="nextStep()">進入下一段日常</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="screen-end" class="screen center" style="background:linear-gradient(180deg, #fffefd, #fff4f8);">
+        <div class="cert-box">
+          <div class="cert-inner">
+            <div id="cert-type-label" style="font-size:10px; color:#f2a6be; font-weight:900; letter-spacing:0.28em;">SWEET CERTIFICATE</div>
+            <h2 id="cert-title" class="jp-title" style="font-size:28px; margin-top:18px; color:#ff6f98;">今日修行完成證</h2>
+
+            <div style="margin-top:24px; padding:22px 0; border-top:1px solid #ffe1ec; border-bottom:1px solid #ffe1ec; display:grid; gap:16px;">
+              <p class="tiny-note" style="text-align:center; margin:0;">依據妳今日在女僕日常中的應對方式，<br>系統將從「情緒耗損」「隱私邊界」「收益壓力」三項進行判定。</p>
+              <div style="background:linear-gradient(180deg, #fff2f7, #ffe5ee); border:1.5px solid #ffd3e1; border-radius:22px; padding:14px 12px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);">
+                <div id="cert-rank" style="font-size:19px; font-weight:900; color:#e05284;">載入中...</div>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px; text-align:left; padding:0 4px;">
+                <div>
+                  <div style="display:flex; justify-content:space-between; font-size:10px; font-weight:900; color:#efb13d; margin-bottom:5px;"><span>甜點收益</span><span id="cert-money">0</span></div>
+                  <div class="bar-wrap" style="height:6px;"><div id="bar-cert-money" class="bar" style="width:0%; background-color:#efb13d;"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex; justify-content:space-between; font-size:10px; font-weight:900; color:#67b6e7; margin-bottom:5px;"><span>秘密結界</span><span id="cert-privacy">0%</span></div>
+                  <div class="bar-wrap" style="height:6px;"><div id="bar-cert-privacy" class="bar" style="width:0%; background-color:#67b6e7;"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:22px; display:flex; justify-content:space-between; align-items:end; gap:10px;">
+              <div style="text-align:left; font-size:8px; color:#ccb6bf; font-weight:800; line-height:1.6;">
+                <div>MAID-LIFE-SIM-RECORD</div>
+                <div>AUTH ID : SWEET-ROOM-042</div>
+                <div>DATE : 2026.04.13</div>
+              </div>
+              <div id="cert-stamp"></div>
+            </div>
+          </div>
+        </div>
+
+        <p id="end-report" class="tiny-note" style="margin-top:18px; padding:0 8px;"></p>
+        <button class="replay-btn" onclick="location.reload()">RESTART YOUR MAID DAY</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const gameData = [
+      {
+        title: "下班後還要回訊息",
+        desc: [
+          { role: 'other', name: '熟客主人', avatar: '📱', text: '結衣醬～妳下班了嗎？人家今天有點低落，想被妳安慰一下可以嗎…？', time: '22:41' },
+          { role: 'other', name: '熟客主人', avatar: '📱', text: '妳剛剛在店裡真的好溫柔…我現在還在想著妳呢♡', time: '22:42' },
+          { role: 'me', name: '結衣ちゃん', avatar: '🎀', text: '主人樣～我剛下班，正準備回家休息了呢…(小聲)♡', time: '22:43' },
+          { role: 'other', name: '熟客主人', avatar: '📱', text: '可是人家還想延續今天的感覺…結衣醬可以再多陪我一下下嗎？', time: '22:44' }
+        ],
+        choices: [
+          {
+            text: "先回訊息，怕對方失望或不再來店裡",
+            fb: "妳暫時維持了顧客的好感，也保住了熟客關係，但自己的休息時間被一點一點吃掉。工作看似結束，情緒勞動卻還在繼續。",
+            stats: { energy: -22, privacy: -18, money: +24 }
+          },
+          {
+            text: "禮貌告知下班後需要休息，先不繼續回覆",
+            fb: "妳守住了私人時間，也讓對方知道可愛的服務並不等於 24 小時待命。雖然可能少了一點討好，但妳保住了喘息空間。",
+            stats: { energy: +6, privacy: +16, money: -8 }
+          }
+        ]
+      },
+      {
+        title: "和男友約會被偷拍",
+        desc: [
+          { role: 'other', name: '匿名社群貼文', avatar: '📸', text: '欸這不是那個女僕店的結衣嗎？居然跟男生單獨吃飯欸w', time: '18:26' },
+          { role: 'other', name: '匿名社群貼文', avatar: '📸', text: '有男友還當什麼女僕啊？人設直接破滅欸www', time: '18:27' },
+          { role: 'me', name: '結衣ちゃん', avatar: '🎀', text: '……這只是我的休假日常而已，ご主人様也會休息的吧…？', time: '18:28' }
+        ],
+        choices: [
+          {
+            text: "急著解釋，希望平息爭議",
+            fb: "妳花了很多力氣想澄清自己也有私生活，但匿名社群的惡意並不會因解釋就停止。這種被檢視與評價的感覺，讓妳更加疲憊。",
+            stats: { energy: -24, privacy: -28, money: 0 }
+          },
+          {
+            text: "先保護自己，不回應偷拍與羞辱言論",
+            fb: "妳沒有讓自己被捲進更大的輿論漩渦。即使心裡仍然難受，但妳知道問題不在妳談戀愛，而在別人把女僕想像成不能有私人生活的角色。",
+            stats: { energy: -8, privacy: +12, money: -4 }
+          }
+        ]
+      },
+      {
+        title: "顧客跑到學校附近",
+        desc: [
+          { role: 'other', name: '顧客', avatar: '👀', text: '我今天剛好去妳學校附近晃晃耶～', time: '15:10' },
+          { role: 'other', name: '顧客', avatar: '👀', text: '我還在附近繞了一圈呢，怎麼都沒有看到結衣醬呀？', time: '15:11' },
+          { role: 'me', name: '結衣ちゃん', avatar: '🎀', text: '欸…為什麼會跑到那裡去呢…有點讓人嚇到…', time: '15:12' }
+        ],
+        choices: [
+          {
+            text: "裝沒事帶過，怕直接拒絕會惹怒對方",
+            fb: "妳勉強把不舒服吞下去，但對方越界的行為沒有因此消失。從這一刻起，學校不再只是日常場所，也變成一個可能被監看的空間。",
+            stats: { energy: -18, privacy: -35, money: +6 }
+          },
+          {
+            text: "停止透露個資，並明確表達這樣很不舒服",
+            fb: "妳把界線說清楚，也意識到看似平常的聊天內容，可能成為現實中被追蹤的線索。保護自己，並不是不近人情。",
+            stats: { energy: -6, privacy: +22, money: -6 }
+          }
+        ]
+      },
+      {
+        title: "工作時刻被騷擾",
+        desc: [
+          { role: 'other', name: '顧客私訊', avatar: '🔔', text: '妳今天制服超可愛的欸♡ 私底下也會這樣穿給主人看嗎～？', time: '20:03' },
+          { role: 'other', name: '顧客私訊', avatar: '🔔', text: '那要不要賣原味襪子給我呀？我可以多給一點錢喔～嘿嘿', time: '20:04' },
+          { role: 'me', name: '結衣ちゃん', avatar: '🎀', text: '主人樣，這樣的話已經讓我有點不舒服了…可以請您停止嗎？', time: '20:05' }
+        ],
+        choices: [
+          {
+            text: "先忍耐一下，怕現場氣氛更難看",
+            fb: "妳把不舒服壓下來了，但那份委屈沒有消失。當騷擾被包裝成『消費互動』，受傷的人往往還得先顧慮場面。",
+            stats: { energy: -32, privacy: -24, money: +10 }
+          },
+          {
+            text: "立刻制止並請同事、店長協助處理",
+            fb: "妳沒有把越界行為當成小事，也讓現場同仁一起介入。即使制度未必能完全預防風險，但說出來，至少不是獨自承受。",
+            stats: { energy: -10, privacy: +14, money: -2 }
+          }
+        ]
+      }
+    ];
+
+    let curStep = 0;
+    let stats = { energy: 100, privacy: 100, money: 10 };
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function handleQuiz(isCorrect) {
+      const fb = document.getElementById('quiz-feedback');
+      const btn = document.getElementById('btn-start-game');
+      fb.classList.remove('hidden');
+
+      if (isCorrect) {
+        fb.innerHTML = '<b>回答正確 ♡</b><br>女僕工作的核心並不是無止盡地討好，而是在提供陪伴與情緒價值的同時，也守住清楚的界線。可愛不該以犧牲自己為代價。';
+        btn.classList.remove('hidden');
+      } else {
+        fb.innerHTML = '<b>店長提醒：</b><br>這樣的想法很容易讓工作與私人生活混在一起。真正的專業，不是讓自己完全被消耗，而是知道哪些互動不該越界。';
+        btn.classList.add('hidden');
+      }
+    }
+
+    function startGame() {
+      document.getElementById('status-panel').style.display = 'grid';
+      showScreen('screen-game');
+      renderStep();
+    }
+
+    function renderStep() {
+      const data = gameData[curStep];
+      document.getElementById('scene-title').innerText = data.title;
+      const sceneDesc = document.getElementById('scene-desc');
+      sceneDesc.innerHTML = '';
+      data.desc.forEach(msg => {
+        const row = document.createElement('div');
+        row.className = `chat-row ${msg.role}`;
+
+        const avatar = document.createElement('div');
+        avatar.className = 'chat-avatar';
+        avatar.innerText = msg.avatar;
+
+        const bubble = document.createElement('div');
+        bubble.className = 'chat-bubble';
+        bubble.innerHTML = `<div class="chat-name">${msg.name}</div><div>${msg.text}</div><div class="chat-time">${msg.time}</div>`;
+
+        if (msg.role === 'me') {
+          row.appendChild(bubble);
+          row.appendChild(avatar);
+        } else {
+          row.appendChild(avatar);
+          row.appendChild(bubble);
+        }
+
+        sceneDesc.appendChild(row);
+      });
+      document.getElementById('maid-avatar').src = `https://api.dicebear.com/7.x/avataaars/svg?seed=Maid${curStep}&top=longHair&hairColor=2c1b18&clothing=collar&clothingColor=3c444d`;
+      document.getElementById('guest-avatar').src = curStep === 1
+        ? `https://api.dicebear.com/7.x/lorelei/svg?seed=Anon${curStep}`
+        : curStep === 2
+          ? `https://api.dicebear.com/7.x/bottts/svg?seed=Watcher${curStep}`
+          : `https://api.dicebear.com/7.x/pixel-art/svg?seed=Guest${curStep}`;
+
+      const guestNames = ['訊息通知', '匿名社群', '越界顧客', '騷擾現場'];
+      document.getElementById('guest-name').innerText = guestNames[curStep];
+
+      const area = document.getElementById('choice-area');
+      const feedbackArea = document.getElementById('feedback-area');
+      area.innerHTML = '';
+      feedbackArea.classList.add('hidden');
+
+      data.choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.className = 'choice-btn';
+        btn.innerText = choice.text;
+        btn.onclick = () => {
+          document.getElementById('feedback-text').innerText = choice.fb;
+          feedbackArea.classList.remove('hidden');
+          area.innerHTML = '';
+          updateStats(choice.stats);
+        };
+        area.appendChild(btn);
+      });
+    }
+
+    function updateStats(delta) {
+      stats.energy = Math.max(0, Math.min(100, stats.energy + delta.energy));
+      stats.privacy = Math.max(0, Math.min(100, stats.privacy + delta.privacy));
+      stats.money = Math.max(0, Math.min(100, stats.money + delta.money));
+
+      document.getElementById('bar-energy').style.width = stats.energy + '%';
+      document.getElementById('bar-privacy').style.width = stats.privacy + '%';
+      document.getElementById('bar-money').style.width = stats.money + '%';
+    }
+
+    function nextStep() {
+      curStep++;
+      if (curStep < gameData.length) renderStep();
+      else showEnding();
+    }
+
+    function showEnding() {
+      showScreen('screen-end');
+      let rank = '';
+      let report = '';
+      const passed = stats.privacy >= 60;
+
+      if (passed) {
+        document.getElementById('cert-type-label').innerText = 'SWEET CERTIFICATE';
+        document.getElementById('cert-title').innerText = '今日修行完成證';
+        document.getElementById('cert-title').style.color = '#ff6f98';
+        document.getElementById('cert-stamp').innerHTML = '<div class="stamp-pass">合格認定</div>';
+
+        if (stats.money >= 40) rank = '人氣系：高甜度接待員';
+        else if (stats.energy >= 75) rank = '安定系：溫柔守界者';
+        else rank = '冷靜系：邊界保護達人';
+
+        report = '妳順利走過了一天。即使面對討好壓力、偷拍羞辱、窺探風險與騷擾場面，妳仍努力守住自己的界線。這份可愛，沒有建立在犧牲自己之上。';
+      } else {
+        document.getElementById('cert-type-label').innerText = 'RETRAINING NOTICE';
+        document.getElementById('cert-title').innerText = '需要重新休息通知';
+        document.getElementById('cert-title').style.color = '#9aa0ab';
+        document.getElementById('cert-stamp').innerHTML = '<div class="stamp-fail">未達標</div>';
+
+        rank = '過度耗損的糖霜心情';
+        report = '這一天讓妳太累了。當妳一次次把不舒服吞下去，邊界也慢慢被侵蝕。妳需要的不是再更努力，而是被理解、被保護，還有重新休息的空間。';
+      }
+
+      document.getElementById('cert-rank').innerText = rank;
+      document.getElementById('cert-money').innerText = stats.money * 100 + ' JPY';
+      document.getElementById('cert-privacy').innerText = stats.privacy + '%';
+      document.getElementById('bar-cert-money').style.width = stats.money + '%';
+      document.getElementById('bar-cert-privacy').style.width = stats.privacy + '%';
+      document.getElementById('end-report').innerText = report;
+      window.parent.postMessage({ type: 'game-complete', game: 2 }, '*');
+    }
+  </script>
+</body>
+</html>
