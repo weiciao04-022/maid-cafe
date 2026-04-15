@@ -108,7 +108,11 @@
         /* 桌機版位置微調 */
         @media (min-width: 1024px) {
             #ev-shoulder { left: -10%; transform: scale(0.8); }
-            #ev-hand { left: 110%; transform: scale(0.8); }
+            #ev-hand {
+                left: auto;
+                right: max(8px, 2vw);
+                transform: scale(0.8);
+            }
             #ev-hip { left: 0%; transform: scale(0.8); }
             
             .evidence-scene.revealed {
