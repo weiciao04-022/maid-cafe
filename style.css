@@ -68,7 +68,7 @@ body {
 .hero-title-box {
   position: absolute;
   top: 50%;
-  left: 52%;
+  left: auto;
   right: 4%;
   transform: translateY(-50%);
   z-index: 2;
@@ -79,7 +79,8 @@ body {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   box-shadow: 0 8px 30px rgba(160, 110, 120, 0.12);
-  max-width: min(92%, 900px);
+  width: min(44vw, 620px);
+  max-width: 92%;
 }
 .hero-kicker {
   margin: 0 0 0.8rem 0;
@@ -102,12 +103,14 @@ body {
   display: flex;
   align-items: flex-start;
   width: 100%;
+  min-height: 120vh;
   border-top: 1px solid var(--line);
 }
 .story-section.reverse {
   flex-direction: row-reverse;
 }
 .story-image {
+  flex: 0 0 33.333%;
   width: 33.333%;
   position: sticky;
   top: 0;
@@ -126,6 +129,7 @@ body {
 }
 
 .story-text {
+  flex: 0 0 66.667%;
   width: 66.667%;
   padding: 3rem 2.6rem;
   background: #fff;
@@ -260,14 +264,18 @@ button:hover {
 
 .sparkle {
   position: fixed;
-  width: 16px;
-  height: 16px;
+  width: 22px;
+  height: 22px;
   pointer-events: none;
-  background:
-    radial-gradient(circle, rgba(255, 255, 255, 0.95) 0 22%, rgba(255,255,255,0) 25%),
-    conic-gradient(from 0deg, rgba(255,180,214,.95), rgba(255,255,255,.95), rgba(255,170,205,.95), rgba(255,255,255,.95), rgba(255,180,214,.95));
-  clip-path: polygon(50% 0, 62% 36%, 100% 50%, 62% 64%, 50% 100%, 38% 64%, 0 50%, 38% 36%);
-  filter: drop-shadow(0 0 8px rgba(255, 190, 225, 0.9));
+  color: #fff;
+  text-shadow:
+    0 0 6px rgba(255, 255, 255, 0.95),
+    0 0 12px rgba(255, 188, 224, 0.95),
+    0 0 18px rgba(255, 146, 205, 0.9);
+  font-size: 20px;
+  line-height: 1;
+  display: grid;
+  place-items: center;
   animation: sparkleFade 1100ms ease-out forwards;
   z-index: 9999;
 }
