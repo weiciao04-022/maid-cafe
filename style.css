@@ -14,7 +14,7 @@ body {
   line-height: 1.88;
   letter-spacing: 0.01em;
   overflow-x: hidden;
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='white' stroke='%23885566' stroke-width='1.3' d='M3 2l8.6 17.8 2.4-6.7 6.8-2.4z'/%3E%3C/svg%3E") 2 2, auto;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M12 21s-7.2-4.5-9.4-8.3C.8 9.6 2.4 6 5.9 6c2.2 0 3.6 1.2 4.4 2.4C11.1 7.2 12.5 6 14.7 6c3.5 0 5.1 3.6 3.3 6.7C15.8 16.5 12 21 12 21z'/%3E%3C/svg%3E") 10 10, auto;
 }
 
 .read-progress {
@@ -67,8 +67,10 @@ body {
 
 .hero-title-box {
   position: absolute;
-  top: 7%;
-  left: 4%;
+  top: 50%;
+  left: 52%;
+  right: 4%;
+  transform: translateY(-50%);
   z-index: 2;
   color: #5f4340;
   padding: 1rem 1.4rem;
@@ -97,17 +99,21 @@ body {
 }
 
 .story-section {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: stretch;
+  display: flex;
+  align-items: flex-start;
   width: 100%;
   border-top: 1px solid var(--line);
 }
-.story-section.reverse .story-image {
-  order: 2;
+.story-section.reverse {
+  flex-direction: row-reverse;
 }
-.story-section.reverse .story-text {
-  order: 1;
+.story-image {
+  width: 33.333%;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .story-image img {
@@ -115,10 +121,13 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: translateY(0);
+  will-change: transform;
 }
 
 .story-text {
-  padding: 3rem 2.4rem;
+  width: 66.667%;
+  padding: 3rem 2.6rem;
   background: #fff;
   display: flex;
   align-items: center;
@@ -128,7 +137,7 @@ body {
 .story-text-inner {
   width: min(560px, 72%);
   margin: 0 auto;
-  padding: 48px 0;
+  padding: 96px 0;
 }
 .story-text-inner h2 {
   margin: 0 0 1rem;
@@ -141,6 +150,10 @@ body {
   line-height: 2;
   margin: 0 0 1.4em;
   color: var(--ink-soft);
+}
+
+#intro-story .story-text {
+  background: linear-gradient(to bottom, #fff 0%, #fff 78%, #ffe9f0 100%);
 }
 
 .game-section {
@@ -247,18 +260,21 @@ button:hover {
 
 .sparkle {
   position: fixed;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
+  width: 16px;
+  height: 16px;
   pointer-events: none;
-  background: radial-gradient(circle, rgba(255, 141, 196, 0.95) 0%, rgba(255, 141, 196, 0.35) 58%, rgba(255, 141, 196, 0) 100%);
-  filter: blur(.35px);
-  animation: sparkleFade 700ms ease-out forwards;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.95) 0 22%, rgba(255,255,255,0) 25%),
+    conic-gradient(from 0deg, rgba(255,180,214,.95), rgba(255,255,255,.95), rgba(255,170,205,.95), rgba(255,255,255,.95), rgba(255,180,214,.95));
+  clip-path: polygon(50% 0, 62% 36%, 100% 50%, 62% 64%, 50% 100%, 38% 64%, 0 50%, 38% 36%);
+  filter: drop-shadow(0 0 8px rgba(255, 190, 225, 0.9));
+  animation: sparkleFade 1100ms ease-out forwards;
   z-index: 9999;
 }
 @keyframes sparkleFade {
-  0% { opacity: 1; transform: translate(-50%, -50%) scale(.8); }
-  100% { opacity: 0; transform: translate(-50%, -50%) scale(2.2); }
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(.65) rotate(0deg); }
+  65% { opacity: .9; transform: translate(-50%, -50%) scale(1.25) rotate(120deg); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.9) rotate(240deg); }
 }
 
 @media (max-width: 1024px) {
@@ -279,9 +295,10 @@ button:hover {
     display: block;
   }
   .hero-title-box {
-    top: 4%;
+    top: 50%;
     left: 4%;
     right: 4%;
+    transform: translateY(-50%);
     max-width: none;
     padding: 0.9rem 1rem;
     border-radius: 18px;
@@ -306,6 +323,9 @@ button:hover {
   .story-image {
     order: 1;
     width: 100%;
+    position: relative;
+    top: auto;
+    height: auto;
   }
 
   .story-text {
@@ -317,7 +337,7 @@ button:hover {
   .story-image img {
     width: 100%;
     height: auto;
-    aspect-ratio: auto;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
     display: block;
   }

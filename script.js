@@ -1,5 +1,5 @@
 const progress = document.querySelector('#progress');
-const hero = document.querySelector('.hero');
+const storyImages = document.querySelectorAll('.story-image img');
 
 function updateProgress() {
   const h = document.documentElement.scrollHeight - window.innerHeight;
@@ -7,26 +7,20 @@ function updateProgress() {
   progress.style.width = `${Math.max(0, Math.min(100, p))}%`;
 }
 
-const parallaxPanels = document.querySelectorAll('.parallax-panel');
-
 function updateParallax() {
   if (window.innerWidth <= 768) {
-    if (hero) hero.style.setProperty('--hero-offset', '0px');
+    storyImages.forEach((img) => {
+      img.style.transform = 'translateY(0)';
+    });
     return;
   }
 
-  if (hero) {
-    const heroRect = hero.getBoundingClientRect();
-    const heroOffset = Math.max(-20, Math.min(20, heroRect.top * -0.08));
-    hero.style.setProperty('--hero-offset', `${heroOffset}px`);
-  }
-
-  const scrollY = window.scrollY;
-  parallaxPanels.forEach(panel => {
-    const speed = parseFloat(panel.dataset.speed || 0.15);
-    const rect = panel.getBoundingClientRect();
-    const offset = (rect.top + window.scrollY - scrollY) * speed;
-    panel.style.transform = `translateY(${offset * -0.08}px)`;
+  storyImages.forEach((img) => {
+    const section = img.closest('.story-section');
+    if (!section) return;
+    const rect = section.getBoundingClientRect();
+    const offset = Math.max(-28, Math.min(28, rect.top * -0.06));
+    img.style.transform = `translateY(${offset}px) scale(1.04)`;
   });
 }
 
@@ -59,10 +53,13 @@ function createSparkle(e) {
   sparkle.className = 'sparkle';
   sparkle.style.left = `${e.clientX}px`;
   sparkle.style.top = `${e.clientY}px`;
+  sparkle.style.width = `${10 + Math.random() * 12}px`;
+  sparkle.style.height = sparkle.style.width;
+  sparkle.style.animationDuration = `${900 + Math.random() * 500}ms`;
   document.body.appendChild(sparkle);
   setTimeout(() => {
     sparkle.remove();
-  }, 700);
+  }, 1500);
 }
 
 if (window.innerWidth > 768) {
