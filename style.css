@@ -366,6 +366,10 @@ button:hover {
   .game-frame {
     height: max(760px, calc(100svh - (var(--game-safe-y) * 2)));
   }
+  #game-section-1 .game-frame {
+    touch-action: manipulation;
+    pointer-events: auto;
+  }
   .game-overlay {
     justify-content: center;
     align-items: center;
