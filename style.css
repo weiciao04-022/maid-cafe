@@ -35,11 +35,16 @@ body {
 .hero {
   position: relative;
   width: 100%;
-  min-height: clamp(560px, 96vh, 860px);
-  background-image: url("pic/background01.png");
-  background-size: contain;
-  background-position: left calc(50% + var(--hero-offset, 0px));
-  background-repeat: no-repeat;
+  min-height: 0;
+  background: none;
+}
+.hero-media {
+  width: 100%;
+}
+.hero-media img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 .hero::after {
   content: "";
@@ -252,19 +257,16 @@ button:hover {
   background-image: none !important;
 }
 .section-risk .story-media-inner {
-  background-image: url("pic/04.png");
+  background-image: url("pic/03.png");
 }
 .section-workplace .story-media-inner {
-  background-image: url("pic/05.png");
+  background-image: url("pic/04.png");
 }
 .section-ending .story-media-inner {
-  background-image: url("pic/06.png");
+  background-image: url("pic/05.png");
 }
 
 @media (max-width: 1024px) {
-  .hero {
-    background-position: 38% calc(50% + var(--hero-offset, 0px));
-  }
   .hero-content { left: clamp(36vw, 46vw, 52vw); }
   .split-copy-inner { width: min(520px, 78%); padding: 72px 0; }
 }
@@ -272,10 +274,7 @@ button:hover {
 @media (max-width: 768px) {
   body { cursor: auto; }
   .hero {
-    background-position: 38% top;
-    background-size: cover;
-    min-height: 68vh;
-    aspect-ratio: auto;
+    min-height: 0;
   }
   .hero-content {
     position: absolute;
