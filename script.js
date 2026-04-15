@@ -1,5 +1,8 @@
 const progress = document.querySelector('#progress');
 const storyImages = document.querySelectorAll('.story-image img');
+let lastSparkleAt = 0;
+let lastSparkleX = 0;
+let lastSparkleY = 0;
 
 function updateProgress() {
   const h = document.documentElement.scrollHeight - window.innerHeight;
@@ -49,6 +52,18 @@ document.querySelectorAll('.game-start-btn').forEach((btn) => {
 });
 
 function createSparkle(e) {
+  const now = performance.now();
+  const dx = e.clientX - lastSparkleX;
+  const dy = e.clientY - lastSparkleY;
+  const distance = Math.hypot(dx, dy);
+
+  if ((now - lastSparkleAt) < 70 || distance < 18) {
+    return;
+  }
+  lastSparkleAt = now;
+  lastSparkleX = e.clientX;
+  lastSparkleY = e.clientY;
+
   const sparkle = document.createElement('div');
   sparkle.className = 'sparkle';
   sparkle.textContent = '✶';
