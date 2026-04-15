@@ -3,427 +3,393 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>夢幻邊界：魔法可愛加強版</title>
+    <title>Maiden Border: The Guard's Manual</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;900&family=Zen+Maru+Gothic:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;900&family=Zen+Maru+Gothic:wght@700;900&family=Kiwi+Maru:wght@500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --sweet-pink: #ffb7c5;
-            --hot-pink: #ff6b8b;
-            --soft-purple: #f3e8ff;
-            --magic-yellow: #fff3b0;
+            --maid-pink: #ff85a2;
+            --cream-white: #fffcf2;
         }
 
-        /* 動態流動背景 */
         body {
-            font-family: 'Noto Sans TC', sans-serif;
-            background: linear-gradient(-45deg, #fff5f7, #f3e8ff, #ffe4e9, #fffcf2);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            font-family: 'Kiwi Maru', 'Noto Sans TC', sans-serif;
+            background: #fff5f7;
+            background-image: radial-gradient(#ffdae0 2px, transparent 2px);
+            background-size: 30px 30px;
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
             margin: 0;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* 頂部蕾絲裝飾 */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 20px;
-            background-image: radial-gradient(circle at 10px -5px, transparent 12px, white 13px);
-            background-size: 20px 20px;
-            z-index: 100;
         }
 
         .title-font { font-family: 'Zen Maru Gothic', sans-serif; }
 
-        /* 漂浮元素動畫 */
-        .floating-item {
-            position: fixed;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.6;
-            animation: floatUp var(--dur) linear infinite;
-            filter: drop-shadow(0 0 5px white);
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(110vh) rotate(0deg) scale(0.5); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(-10vh) rotate(360deg) scale(1.2); opacity: 0; }
-        }
-
-        /* 容器與面板 */
-        .cloud-panel {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border: 6px solid white;
-            border-radius: 4rem;
-            box-shadow:
-                0 20px 50px rgba(255, 107, 139, 0.2),
-                inset 0 0 20px rgba(255, 255, 255, 0.5);
-            position: relative;
-            z-index: 10;
-        }
-
-        /* 打字機效果 */
-        .typing::after {
-            content: '✨';
-            animation: blink 0.8s infinite;
-            color: var(--hot-pink);
-            margin-left: 4px;
-        }
-
-        @keyframes blink { 50% { opacity: 0; } }
-
-        /* 按鈕視覺 */
-        .candy-btn {
-            background: linear-gradient(135deg, #ffffff 0%, #fff0f3 100%);
-            border: 2px solid #ffdae0;
-            border-radius: 2rem;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 6px 0 #ffdae0;
-        }
-
-        .candy-btn:hover {
-            transform: scale(1.03) rotate(1deg);
-            border-color: var(--hot-pink);
-            box-shadow: 0 8px 15px rgba(255, 107, 139, 0.2);
-        }
-
-        .main-action-btn {
-            background: linear-gradient(135deg, #ffb7c5 0%, #ff6b8b 100%);
-            color: white;
-            box-shadow: 0 6px 0 #e65a78, 0 10px 20px rgba(230, 90, 120, 0.3);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .portrait-frame {
+        /* 規則卡片 */
+        .rule-card {
             background: white;
-            border: 5px solid #ffe4e9;
-            border-radius: 3rem;
-            box-shadow: 0 10px 25px rgba(255, 182, 197, 0.4);
-            position: relative;
+            border: 4px solid #ffb3c1;
+            border-radius: 1.5rem;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .rule-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 133, 162, 0.2);
         }
 
-        .portrait-frame::after {
-            content: "♥";
-            position: absolute;
-            bottom: -10px;
-            right: -10px;
-            background: var(--hot-pink);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+        .rule-img-container {
+            width: 100%;
+            height: 160px;
+            background: #ffeef2;
+            border-bottom: 2px dashed #ffb3c1;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            border: 3px solid white;
+            position: relative;
+            overflow: hidden;
+        }
+        .rule-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        /* 音量開關 */
-        #audio-status {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 12px 24px;
-            border-radius: 50px;
-            border: 3px solid var(--sweet-pink);
-            font-weight: 900;
-            color: var(--hot-pink);
-            cursor: pointer;
-            z-index: 100;
-            box-shadow: 0 10px 20px rgba(255, 107, 139, 0.1);
+        /* 遊戲 UI */
+        .maid-card {
+            background: white;
+            border: 8px double #ff85a2;
+            border-radius: 2.5rem;
+            box-shadow: 0 15px 0 #ffb3c1;
+        }
+
+        .speech-bubble {
+            background: #fff0f3;
+            border-radius: 2rem;
+            border: 3px solid #ffdae0;
+            position: relative;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #ffb3c1;
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: left;
             transition: all 0.2s;
+            color: #ff4d6d;
+            font-weight: bold;
+            width: 100%;
+        }
+        .option-btn:hover {
+            background: #fff0f3;
+            transform: translateX(5px);
         }
 
-        #audio-status:hover { transform: scale(1.1); }
+        .moe-bar-container {
+            background: #ffeef2;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .moe-bar-fill {
+            background: #ff85a2;
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .rule-note {
+            background: #fff9fa;
+            border: 1px solid #ffdae0;
+            border-radius: 1rem;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="audio-status" onclick="toggleAudio()">🪄 靜音中</div>
-
-    <!-- 自動生成的背景元素會放在這裡 -->
-    <div id="bg-elements"></div>
-
-    <div id="start-screen" class="z-50 text-center px-6 max-w-xl">
-        <div class="inline-block relative">
-            <div class="text-8xl mb-6 drop-shadow-lg">🍰</div>
-            <div class="absolute -top-4 -right-4 text-4xl animate-bounce">✨</div>
-        </div>
-        <h1 class="title-font text-6xl md:text-7xl font-black mb-2 text-pink-400 drop-shadow-[0_4px_0_white]">
-            夢幻邊界
-        </h1>
-        <p class="text-pink-300 font-bold tracking-[0.3em] text-sm mb-10 opacity-80">MAIDEN HEART RECHOICE</p>
-        <div class="bg-white/40 backdrop-blur-md p-8 rounded-[3rem] border-4 border-white mb-10 shadow-xl">
-            <p class="text-pink-600/90 leading-relaxed font-bold text-lg">
-                「歡迎回來，店長。」<br>
-                這裡的每一份微笑都需要溫柔的守護。<br>
-                請用勇氣畫下那道純淨的魔法邊界。
-            </p>
-        </div>
-        <button onclick="startGame()" class="main-action-btn px-16 py-5 rounded-full font-black text-2xl transition-all active:translate-y-2 hover:scale-110">
-            開始執勤 ➔
+    <!-- 1. 標題畫面 -->
+    <div id="start-screen" class="min-h-screen flex flex-col items-center justify-center text-center px-6 fade-in">
+        <div class="text-9xl mb-4 animate-bounce">🎀</div>
+        <h1 class="title-font text-6xl font-black text-pink-500 mb-2 tracking-tighter">夢幻邊界</h1>
+        <p class="text-pink-300 font-bold mb-10 text-xl">～守護女僕計畫～</p>
+        <button onclick="showRules()" class="bg-pink-500 hover:bg-pink-600 text-white px-12 py-5 rounded-full font-black text-2xl shadow-[0_8px_0_#d14d6b] transition-all active:translate-y-1">
+            進入執勤準備
         </button>
     </div>
 
-    <main id="game-ui" class="hidden w-full max-w-5xl p-4 md:p-6 flex flex-col items-center">
-        <div class="cloud-panel w-full p-8 md:p-12 flex flex-col md:flex-row gap-10">
-            <div class="w-full md:w-1/3 flex flex-col items-center">
-                <div class="portrait-frame w-48 h-48 flex items-center justify-center text-8xl mb-8 bg-pink-50/50">
-                    <span id="portrait">☕</span>
-                </div>
-                <h2 id="char-name" class="text-3xl font-black title-font text-pink-500 mb-2">---</h2>
-                <span class="px-6 py-1.5 rounded-full bg-pink-100 text-pink-400 text-sm font-black uppercase tracking-[0.2em] mb-10">Special Maid</span>
-
-                <div class="w-full space-y-4">
-                    <div class="flex justify-between items-end text-pink-400 font-black text-sm">
-                        <span class="flex items-center gap-1"><span class="text-lg">💖</span> 守護能量</span>
-                        <span id="score-num" class="text-2xl title-font">0</span>
+    <!-- 2. 規則宣導畫面 -->
+    <div id="rules-screen" class="hidden min-h-screen py-12 px-6 fade-in">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="title-font text-4xl font-black text-pink-500 mb-8 text-center">📜 守護者準則 (行前宣導)</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <!-- 規則 1 -->
+                <div class="rule-card">
+                    <div class="rule-img-container">
+                        <img src="https://raw.githubusercontent.com/shuang0414/-/2f348d84ab1a7bba922ac132de328634e628fb81/Gemini_Generated_Image_9tb8xc9tb8xc9tb8.png" alt="尊重隱私">
+                        <div class="absolute bottom-2 right-2 bg-white/80 px-2 py-1 rounded text-xs text-pink-500 font-bold">🏡 隱私</div>
                     </div>
-                    <div class="h-5 bg-pink-50 rounded-full border-2 border-white overflow-hidden shadow-inner">
-                        <div id="progress-bar" class="h-full bg-gradient-to-r from-pink-200 to-pink-500 transition-all duration-1000 shadow-sm" style="width: 0%"></div>
+                    <div class="p-4">
+                        <h3 class="font-black text-pink-600 mb-1">尊重隱私</h3>
+                        <p class="text-xs text-pink-400 leading-relaxed">請勿在店門口徘徊等待，或私自跟蹤下班後的天使。</p>
+                    </div>
+                </div>
+
+                <!-- 規則 2 -->
+                <div class="rule-card">
+                    <div class="rule-img-container">
+                        <img src="https://raw.githubusercontent.com/shuang0414/-/2f348d84ab1a7bba922ac132de328634e628fb81/Gemini_Generated_Image_gsmrkdgsmrkdgsmr.png" alt="嚴禁觸摸">
+                        <div class="absolute bottom-2 right-2 bg-white/80 px-2 py-1 rounded text-xs text-pink-500 font-bold">🚫 觸摸</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-black text-pink-600 mb-1">嚴禁觸摸</h3>
+                        <p class="text-xs text-pink-400 leading-relaxed">嚴禁碰觸天使的身體、頭髮、甚至服裝配件。</p>
+                    </div>
+                </div>
+
+                <!-- 規則 3 -->
+                <div class="rule-card">
+                    <div class="rule-img-container">
+                        <img src="https://raw.githubusercontent.com/shuang0414/-/2f348d84ab1a7bba922ac132de328634e628fb81/Gemini_Generated_Image_g7aalcg7aalcg7aa.png" alt="肖像保護">
+                        <div class="absolute bottom-2 right-2 bg-white/80 px-2 py-1 rounded text-xs text-pink-500 font-bold">📸 肖像</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-black text-pink-600 mb-1">肖像保護</h3>
+                        <p class="text-xs text-pink-400 leading-relaxed">未經許可禁止拍照錄音錄影，請珍惜當下的互動。</p>
+                    </div>
+                </div>
+
+                <!-- 規則 4 -->
+                <div class="rule-card">
+                    <div class="rule-img-container">
+                        <img src="https://raw.githubusercontent.com/shuang0414/-/2f348d84ab1a7bba922ac132de328634e628fb81/Gemini_Generated_Image_4eftuw4eftuw4eft.png" alt="純粹互動">
+                        <div class="absolute bottom-2 right-2 bg-white/80 px-2 py-1 rounded text-xs text-pink-500 font-bold">☕ 互動</div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-black text-pink-600 mb-1">純粹互動</h3>
+                        <p class="text-xs text-pink-400 leading-relaxed">嚴禁詢問私訊方式，或提出店外私人約會要求。</p>
                     </div>
                 </div>
             </div>
 
-            <div class="flex-1 flex flex-col">
-                <div class="bg-white/50 rounded-[3rem] p-8 md:p-10 flex-1 border-4 border-white mb-8 shadow-sm relative overflow-hidden">
-                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-pink-100 to-transparent"></div>
-                    <p id="main-text" class="text-xl md:text-2xl text-pink-900/70 font-bold leading-relaxed mb-6"></p>
-                    <div id="feedback-area" class="hidden animate-pulse p-6 rounded-3xl bg-pink-50/80 border-2 border-pink-100 text-pink-600 font-bold italic text-base"></div>
+            <div class="text-center">
+                <button onclick="startGame()" class="bg-pink-400 hover:bg-pink-500 text-white px-10 py-4 rounded-full font-black text-xl shadow-lg transition-all active:scale-95">
+                    我已了解準則，開始實戰考核
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. 實戰遊戲 UI -->
+    <main id="game-ui" class="hidden min-h-screen w-full flex items-center justify-center p-4 fade-in">
+        <div class="maid-card w-full max-w-5xl p-6 md:p-10 flex flex-col md:flex-row gap-8">
+            <!-- 左側狀態 -->
+            <div class="w-full md:w-72 flex flex-col items-center border-b-4 md:border-b-0 md:border-r-4 border-pink-100 border-dashed pb-8 md:pb-0 md:pr-8">
+                <div id="portrait-container" class="w-32 h-32 rounded-full bg-pink-100 mb-4 flex items-center justify-center text-6xl shadow-inner">
+                    <span id="portrait">💂</span>
                 </div>
-                <div id="options-box" class="grid grid-cols-1 gap-4"></div>
+                <h2 id="char-name" class="text-2xl font-black text-pink-500 mb-1">區域巡邏中</h2>
+                <div class="w-full mt-6 space-y-2">
+                    <div class="flex justify-between text-pink-400 font-black text-xs">
+                        <span>秩序守護度</span>
+                        <span id="score-num">0</span>
+                    </div>
+                    <div class="moe-bar-container">
+                        <div id="progress-bar" class="moe-bar-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右側對話與實戰 -->
+            <div class="flex-1 flex flex-col">
+                <div class="speech-bubble p-6 mb-4 min-h-[120px] flex items-center shadow-sm">
+                    <p id="main-text" class="text-lg text-pink-800 font-bold leading-relaxed"></p>
+                </div>
+
+                <div id="rule-explanation" class="hidden rule-note p-4 mb-4 fade-in">
+                    <div class="flex items-start gap-3">
+                        <span class="text-2xl">📖</span>
+                        <div>
+                            <p class="text-pink-600 font-black text-sm mb-1">【守護者手冊解釋】</p>
+                            <p id="rule-text" class="text-pink-500 text-sm italic"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="options-box" class="flex flex-col gap-3"></div>
             </div>
         </div>
     </main>
 
     <script>
-        // --- 魔法背景生成器 ---
-        function createDeco() {
-            const container = document.getElementById('bg-elements');
-            const items = ['🌸', '✨', '🎵', '🎀', '🍬', '⭐', '🎈', '☁️'];
-            const count = 20;
-
-            for (let i = 0; i < count; i++) {
-                const el = document.createElement('div');
-                el.className = 'floating-item';
-                el.innerText = items[Math.floor(Math.random() * items.length)];
-                el.style.left = Math.random() * 100 + 'vw';
-                el.style.fontSize = (Math.random() * 20 + 20) + 'px';
-                el.style.setProperty('--dur', (Math.random() * 10 + 10) + 's');
-                el.style.animationDelay = (Math.random() * 10) + 's';
-                container.appendChild(el);
-            }
-        }
-        createDeco();
-
-        // --- 魔法音效引擎 ---
-        let audioCtx = null;
-        let isMuted = true;
-        let bgmNoteIndex = 0;
-        const scale = [523.25, 587.33, 659.25, 783.99, 880.00, 1046.50];
-
-        function initAudio() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-
-        function playSound(freq, dur, type = 'sine', vol = 0.05) {
-            if (isMuted || !audioCtx) return;
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = type;
-            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + dur);
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            osc.stop(audioCtx.currentTime + dur);
-        }
-
-        function playBGM() {
-            if (isMuted) return;
-            const notes = [0, 4, 2, 5, 4, 2, 4, 0];
-            const freq = scale[notes[bgmNoteIndex % notes.length]];
-            playSound(freq, 0.6, 'sine', 0.02);
-            if (bgmNoteIndex % 4 === 0) playSound(scale[0]/2, 1.2, 'triangle', 0.01);
-            bgmNoteIndex++;
-            setTimeout(playBGM, 400);
-        }
-
-        function toggleAudio() {
-            initAudio();
-            isMuted = !isMuted;
-            document.getElementById('audio-status').innerText = isMuted ? "🪄 靜音中" : "✨ 魔法奏鳴";
-            if (!isMuted) playBGM();
-        }
-
-        // --- 遊戲邏輯 ---
-        const story = [
+        const scenes = [
             {
-                name: "女僕 夢夢",
-                portrait: "🎀",
-                text: "「店長...那位常客一直在問我明天休假要去哪，他說他買了很貴的音樂盒想當面給我...我該怎麼辦？」",
+                text: "妳正在巡邏，發現一位客人已經在店門口徘徊了半個多小時，每當有女僕下班走出來，他就會刻意湊近觀察。",
                 options: [
-                    { t: "溫柔地告訴客人：店外私會是禁忌哦❤", points: 10, feedback: "【守護成功】妳用可愛的方式劃清了界限，女僕感到非常安心！" },
-                    { t: "幫她收下禮物，但不提供任何行程資訊。", points: 5, feedback: "【緩衝應對】雖然禮物收下了，但至少保護了隱私。" },
-                    { t: "這也是種人氣表現，就稍微聊一下吧？", points: -10, feedback: "【危險訊號】一旦開啟了私下聯絡，魔法的界線就開始模糊了..." }
+                    { 
+                        t: "上前禮貌提醒，告知請勿在門口留連影響女僕隱私與通行。", 
+                        points: 10, 
+                        rule: "正確！根據準則：應尊重天使隱私，嚴禁在店門口等待進出或私自攀談。妳的介入保護了她們的空間。" 
+                    },
+                    { 
+                        t: "「他在外面是他的自由，只要沒進店騷擾就沒關係。」", 
+                        points: -5, 
+                        rule: "不妥。準則明確禁止在門口逗留，這會造成天使極大的心理壓力，守護者應主動排除風險。" 
+                    }
                 ]
             },
             {
-                name: "女僕 夢夢",
-                portrait: "🎀",
-                text: "「有客人說如果我不給他私人 LINE，他就不點最貴的特調了...但我真的很怕他...」",
+                text: "桌邊服務時，客人突然伸手想摸女僕頭上的貓耳髮箍，還說：「這材質看起來很好摸，我確認一下。」",
                 options: [
-                    { t: "「這違反了魔法契約，請向店長申請官方帳號吧！」", points: 10, feedback: "【制度盾牌】將問題轉向規則，讓夢夢不需要獨自面對壓力。" },
-                    { t: "「可以用店內的留言板交流哦～」", points: 6, feedback: "【轉移目標】提供了一個安全且透明的互動管道。" },
-                    { t: "「就先加吧，店業績也很重要的。」", points: -15, feedback: "【崩潰邊緣】妳將夢夢推向了恐懼，這不是愛，是消耗。" }
+                    { 
+                        t: "迅速擋下並告知：「主人請自重，天使身上的配件也是嚴禁觸碰的。」", 
+                        points: 10, 
+                        rule: "做得好！準則規定：嚴禁觸摸天使身體或任何服裝配件。這是絕對不可跨越的紅線。" 
+                    },
+                    { 
+                        t: "「只是摸配件而已，只要沒碰到身體就先口頭警告就好。」", 
+                        points: -10, 
+                        rule: "錯誤。服裝配件也是身體界線的一部分，任何未經許可的觸碰皆屬違規。" 
+                    }
                 ]
             },
             {
-                name: "女僕 蕾娜",
-                portrait: "🌙",
-                text: "蕾娜最近變得很憂鬱，她覺得自己如果不隨時回覆客人的訊息，就是個不稱職的女僕。她已經分不清自己是誰了。",
+                text: "一名熟客私下塞了一張紙條給女僕，上面寫著：「明晚下班有空嗎？我知道一間很棒的餐酒館。」",
                 options: [
-                    { t: "「蕾娜，脫下制服後的妳，只屬於妳自己。」", points: 10, feedback: "【靈魂覺醒】妳提醒了她角色與自我的平衡，蕾娜流下了寬心的淚水。" },
-                    { t: "「多休息幾天，等心情好了再回來營業吧。」", points: 4, feedback: "【暫時止痛】休息能讓身體復原，但心理邊界仍需加強。" },
-                    { t: "「這是資深者的責任，忍耐一下就過去了。」", points: -10, feedback: "【情緒壓榨】這句話成為了壓垮她的最後一根稻草。" }
+                    { 
+                        t: "收回紙條並提醒客人：店內嚴禁私下約會，如有需要請透過官方平台互動。", 
+                        points: 10, 
+                        rule: "專業！準則禁止詢問私下聯絡方式或提出私人約會。保護天使不被私下騷擾是妳的責任。" 
+                    },
+                    { 
+                        t: "「那是客人的好意，讓女僕自己決定要不要回覆吧。」", 
+                        points: -15, 
+                        rule: "嚴重錯誤。女僕受僱於此，妳有責任替她擋掉不合規的私下要求，而非讓她獨自面對。" 
+                    }
+                ]
+            },
+            {
+                text: "妳注意到一位客人偷偷將手機架在胸前口袋，鏡頭正對著正在跳舞的女僕。",
+                options: [
+                    { 
+                        t: "立即上前制止，並請客人刪除未經許可的錄影檔案。", 
+                        points: 10, 
+                        rule: "正解！準則規定：未經許可禁止拍照、錄音、錄影。這種隱藏式側拍嚴重侵犯肖像權與工作安全。" 
+                    },
+                    { 
+                        t: "「只要他沒開閃光燈，不要打斷演出，等表演結束再勸導。」", 
+                        points: -10, 
+                        rule: "危險！偷拍一旦上傳網路將難以收回，必須第一時間制止以守護天使的肖像安全。" 
+                    }
+                ]
+            },
+            {
+                text: "客人在聊天時，不斷套話詢問女僕：「妳在哪間大學讀書啊？」或「妳平常都搭哪條捷運回家？」",
+                options: [
+                    { 
+                        t: "介入對話並委婉化解：「主人，這裡的天使都來自夢幻邊界，我們不討論現實世界的位置唷！」", 
+                        points: 10, 
+                        rule: "優秀。尊重隱私包含不刺探個人背景。這類問題往往是跟蹤騷擾的前兆，必須及時轉移話題。" 
+                    },
+                    { 
+                        t: "「這只是普通的社交聊天，不用太大驚小怪。」", 
+                        points: -10, 
+                        rule: "疏忽。刺探生活範圍已踩到隱私底線，守護者若不提醒，會讓女僕陷入回答與不回答的兩難困境。" 
+                    }
+                ]
+            },
+            {
+                text: "客人因為想點的限定拍立得售罄，對女僕發脾氣說：「我大老遠跑來還花這麼多錢，妳不給我私下補拍我就不走！」",
+                options: [
+                    { 
+                        t: "站在女僕身前，冷靜告知：「規則是為了每位主人公平而設，請尊重店內規範，不可為難天使。」", 
+                        points: 10, 
+                        rule: "非常正確！這是典型的情緒勒索。守護者必須成為堅強的護盾，不能因為客人的壓力而讓天使違反準則。" 
+                    },
+                    { 
+                        t: "「為了安撫客人的情緒，悄悄通融一次應該沒關係吧？」", 
+                        points: -20, 
+                        rule: "大忌！通融一次就會有第二次，這不僅違反純粹互動準則，更會破壞店內的秩序與天使對妳的信任。" 
+                    }
                 ]
             }
         ];
 
-        let currentIdx = 0;
-        let score = 0;
-        let isTyping = false;
+        let currentIdx = 0, score = 0;
+
+        function showRules() {
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('rules-screen').classList.remove('hidden');
+            window.scrollTo(0,0);
+        }
 
         function startGame() {
-            initAudio();
-            if(isMuted) toggleAudio();
-            document.getElementById('start-screen').classList.add('hidden');
-            const ui = document.getElementById('game-ui');
-            ui.classList.remove('hidden');
-            ui.classList.add('scene-fade');
+            document.getElementById('rules-screen').classList.add('hidden');
+            document.getElementById('game-ui').classList.remove('hidden');
             loadScene();
         }
 
-        async function typeText(elId, text) {
-            isTyping = true;
-            const el = document.getElementById(elId);
-            el.innerHTML = "";
-            el.classList.add('typing');
-            for (let char of text) {
-                el.innerHTML += char;
-                playSound(900 + Math.random()*100, 0.06, 'sine', 0.01);
-                await new Promise(r => setTimeout(r, 45));
-            }
-            el.classList.remove('typing');
-            isTyping = false;
-        }
-
-        async function loadScene() {
-            if (currentIdx >= story.length) {
-                showEnding();
-                return;
-            }
-            const data = story[currentIdx];
-            document.getElementById('char-name').innerText = data.name;
-            document.getElementById('portrait').innerText = data.portrait;
-            document.getElementById('feedback-area').classList.add('hidden');
+        function loadScene() {
+            if (currentIdx >= scenes.length) { showEnding(); return; }
+            const data = scenes[currentIdx];
+            document.getElementById('rule-explanation').classList.add('hidden');
             document.getElementById('options-box').innerHTML = "";
-            await typeText('main-text', data.text);
+            document.getElementById('main-text').innerText = data.text;
+            
             data.options.forEach((opt) => {
                 const btn = document.createElement('button');
-                btn.className = "candy-btn p-5 text-left font-bold text-pink-700 active:translate-y-1";
-                btn.innerText = opt.t;
+                btn.className = "option-btn shadow-sm";
+                btn.innerText = "✦ " + opt.t;
                 btn.onclick = () => selectOption(opt);
                 document.getElementById('options-box').appendChild(btn);
             });
         }
 
-        async function selectOption(opt) {
-            if (isTyping) return;
-
-            if (opt.points > 0) {
-                playSound(523.25, 0.1);
-                setTimeout(() => playSound(659.25, 0.1), 100);
-                setTimeout(() => playSound(880, 0.3), 200);
-            } else {
-                playSound(200, 0.6, 'sawtooth', 0.02);
-            }
-
+        function selectOption(opt) {
             score += opt.points;
-            updateUI();
+            const displayScore = Math.max(0, score);
+            document.getElementById('score-num').innerText = displayScore;
+            // 總分 60
+            document.getElementById('progress-bar').style.width = Math.min(100, (displayScore/60)*100) + "%";
+            
             document.getElementById('options-box').innerHTML = "";
-            const fb = document.getElementById('feedback-area');
-            fb.classList.remove('hidden');
-            fb.innerText = opt.feedback;
+            document.getElementById('rule-text').innerText = opt.rule;
+            document.getElementById('rule-explanation').classList.remove('hidden');
+
             const nextBtn = document.createElement('button');
-            nextBtn.className = "main-action-btn mt-6 w-full py-4 rounded-full font-black text-xl";
-            nextBtn.innerText = currentIdx === story.length - 1 ? "查看最後評價 ✨" : "下一個情境 ➔";
-            nextBtn.onclick = () => {
-                currentIdx++;
-                loadScene();
-            };
+            nextBtn.className = "w-full py-4 mt-4 bg-pink-500 text-white rounded-full font-black shadow-lg hover:bg-pink-600 transition-all";
+            nextBtn.innerText = currentIdx === scenes.length - 1 ? "查看最終評價" : "繼續下一個情境";
+            nextBtn.onclick = () => { currentIdx++; loadScene(); };
             document.getElementById('options-box').appendChild(nextBtn);
         }
 
-        function updateUI() {
-            document.getElementById('score-num').innerText = score;
-            const percentage = Math.max(0, Math.min(100, (score / 30) * 100));
-            document.getElementById('progress-bar').style.width = percentage + "%";
-        }
+        function showEnding() {
+            let rank = "";
+            let emoji = "";
+            if (score >= 55) { rank = "傳說級守護騎士"; emoji = "🛡️✨"; }
+            else if (score >= 40) { rank = "正式邊界衛兵"; emoji = "⚔️"; }
+            else { rank = "見習執勤員"; emoji = "📝"; }
 
-        async function showEnding() {
-            document.getElementById('feedback-area').classList.add('hidden');
-            document.getElementById('options-box').innerHTML = "";
-            let title, content, portrait;
-
-            if (score >= 25) {
-                title = "完美守護者：永恆的夢幻園";
-                portrait = "🏰";
-                content = "店長，妳證明了真誠的服務與嚴謹的界線可以共存。這家店成了女僕們最自豪的歸宿，笑容在這裡是發自肺腑的。這就是最完美的夢幻邊界！";
-                for(let i=0; i<8; i++) {
-                    setTimeout(() => playSound(scale[i%6]*2, 0.3), i*100);
-                }
-            } else if (score >= 10) {
-                title = "普通店長：曖昧的咖啡香";
-                portrait = "☕";
-                content = "店鋪營運平穩，但也帶著一絲疲憊。雖然沒有崩塌，但店長妳知道某些女僕的笑容背後藏著忍耐。或許，妳可以再多守護她們一點。";
-                playSound(scale[2], 0.8);
-            } else {
-                title = "失格店長：破滅的泡泡";
-                portrait = "🥀";
-                content = "當界線消失，魔法也隨之破滅。女孩們一個個離去，原本溫暖的地方變得冷冰冰。沒有尊重的愛，只是另一種形式的傷害。";
-                playSound(80, 1.5, 'sawtooth');
-            }
-
-            document.getElementById('char-name').innerText = title;
-            document.getElementById('portrait').innerText = portrait;
-            await typeText('main-text', content);
-            const restartBtn = document.createElement('button');
-            restartBtn.className = "main-action-btn mt-8 w-full py-5 rounded-full font-black text-xl";
-            restartBtn.innerText = "重新點燃魔法 ↺";
-            restartBtn.onclick = () => location.reload();
-            document.getElementById('options-box').appendChild(restartBtn);
-            window.parent.postMessage({ type: 'game-complete', game: 1 }, '*');
+            document.getElementById('portrait').innerText = score >= 55 ? "👑" : (score >= 40 ? "🏅" : "⚠️");
+            document.getElementById('main-text').innerHTML = `
+                <div class="text-center w-full">
+                    <p class="text-2xl font-black text-pink-600 mb-2">考核結束！</p>
+                    <p class="text-xl text-pink-500 mb-4">妳獲得了「${rank}」稱號 ${emoji}</p>
+                    <p class="text-base text-pink-800 font-medium">
+                        ${score >= 55 ? "妳的反應完美無缺，所有的天使都能在妳的守護下安心綻放笑容！" : "妳具備基本的守護意識，但在面對高壓情境時仍需更加堅定，不要被客人的情緒左右。"}
+                    </p>
+                </div>
+            `;
+            document.getElementById('rule-explanation').classList.add('hidden');
+            document.getElementById('options-box').innerHTML = `<button onclick="location.reload()" class="w-full py-4 bg-pink-500 text-white rounded-full font-black shadow-lg">重新自我精進</button>`;
         }
     </script>
 </body>
